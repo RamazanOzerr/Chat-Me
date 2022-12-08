@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     FloatingActionButton fad;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,9 +32,6 @@ public class MainActivity extends AppCompatActivity {
         setNavigationButtonActivity();
         contacts();
 
-
-
-
     }
 
     public void contacts(){
@@ -40,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //TODO contacts ın olduğu activity veya fragment açılacak
+                startActivity(new Intent(MainActivity.this, ContactsActivity.class));
+
             }
         });
     }
@@ -51,7 +52,9 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 if(item.getItemId() == R.id.page1){
-                    replaceFragments(new ChatFragment());
+//                    replaceFragments(new ChatFragment());
+                    startActivity(new Intent(getApplicationContext(),PrivateChatActivity.class));
+
                 }else if(item.getItemId() == R.id.page2){
                     replaceFragments(new ProfileFragment());
                 }else if(item.getItemId() == R.id.page3){

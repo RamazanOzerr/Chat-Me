@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login"
+    android:background="@drawable/login2"
     android:orientation="vertical"
     tools:context=".LoginActivity">
 
@@ -93,7 +93,7 @@
         android:layout_marginBottom="120dp"
         android:text="Forget the password?"
         android:clickable="true"
-        android:textColor="@color/white"
+        android:textColor="#131313"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/signIntextView"
         app:layout_constraintStart_toStartOf="@+id/signIntextView" />

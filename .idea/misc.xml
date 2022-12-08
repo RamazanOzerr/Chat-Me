@@ -8,10 +8,15 @@
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/activity_contacts.xml" value="0.253125" />
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/activity_login.xml" value="0.253125" />
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/activity_main.xml" value="0.253125" />
+        <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/activity_private_chat.xml" value="0.22735507246376813" />
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/activity_register.xml" value="0.253125" />
+        <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/border_file.xml" value="0.253125" />
+        <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/custom_item_layout.xml" value="0.253125" />
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/fragment_chat.xml" value="0.253125" />
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/fragment_profile.xml" value="0.253125" />
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/fragment_settings.xml" value="0.253125" />
+        <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/recycler_view_row.xml" value="0.253125" />
+        <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/row_layout.xml" value="0.11197916666666667" />
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.253125" />
       </map>
     </option>
