@@ -3,9 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/drawable-v24/ic_baseline_arrow_back_24.xml" value="0.1985" />
+        <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/drawable-v24/ic_baseline_arrow_forward_24.xml" value="0.1985" />
+        <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/drawable-v24/messagebackgroun.xml" value="0.1985" />
+        <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/drawable-v24/recieverchatdrawble.xml" value="0.1985" />
+        <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/drawable-v24/senderchatdrawable.xml" value="0.1985" />
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1745" />
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/activity_chat.xml" value="0.253125" />
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/activity_contacts.xml" value="0.253125" />
+        <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/activity_demo.xml" value="0.253125" />
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/activity_login.xml" value="0.253125" />
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/activity_main.xml" value="0.253125" />
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/activity_private_chat.xml" value="0.22735507246376813" />
@@ -15,6 +21,8 @@
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/fragment_chat.xml" value="0.253125" />
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/fragment_profile.xml" value="0.253125" />
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/fragment_settings.xml" value="0.253125" />
+        <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/message_receive_layout.xml" value="0.253125" />
+        <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/message_send_layout.xml" value="0.253125" />
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/recycler_view_row.xml" value="0.253125" />
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/layout/row_layout.xml" value="0.11197916666666667" />
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.253125" />

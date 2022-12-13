@@ -60,22 +60,6 @@ public class MainActivity extends AppCompatActivity {
                 }else if(item.getItemId() == R.id.page3){
                     replaceFragments(new SettingsFragment());
                 }
-
-
-//                switch (item.getItemId()){
-//                    case R.id.page1:
-////                        startActivity(new Intent(getApplicationContext(), ContactsActivity.class));
-//                        replaceFragments(new ChatFragment());
-//                    case R.id.page2:
-//                        // TODO profile fragment başlatcaz, ayrıca üsttekini de düzeltcez
-//                        replaceFragments(new ProfileFragment());
-//                    case R.id.page3:
-//                        // TODO settings fragment başlatcaz
-//                        replaceFragments(new SettingsFragment());
-//                    case R.id.page4:
-//                        // TODO settings fragment başlatcaz
-//                        replaceFragments(new ChatFragment());
-//                }
                 return false;
             }
         });

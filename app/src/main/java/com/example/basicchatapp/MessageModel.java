@@ -86,4 +86,18 @@ public class MessageModel {
     public void setSeen(Boolean seen) {
         this.seen = seen;
     }
+
+    @Override
+    public String toString() {
+        return "MessageModel{" +
+                "userID='" + userID + '\'' +
+                ", otherID='" + otherID + '\'' +
+                ", textType='" + textType + '\'' +
+                ", date='" + date + '\'' +
+                ", message='" + message + '\'' +
+                ", from='" + from + '\'' +
+                ", seen=" + seen +
+                ", messageModelList=" + messageModelList +
+                '}';
+    }
 }
