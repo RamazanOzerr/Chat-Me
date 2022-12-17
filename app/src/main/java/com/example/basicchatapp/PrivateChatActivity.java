@@ -177,39 +177,60 @@ public class PrivateChatActivity extends AppCompatActivity {
         String messageID = messageIDList.get(0);
 
         reference = FirebaseDatabase.getInstance().getReference("Messages");
-        reference.child(userID).child(otherID).child(messageID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                MessageModel messages = snapshot.getValue(MessageModel.class);
+                String text = snapshot.child(messageID).child(userID).child(otherID).getValue().toString();
+                textUserName.setText(text);
+            }
 
-                if (task.isSuccessful()){
-
-                    if (task.getResult().exists()){
-
-                        Toast.makeText(getApplicationContext(),"Successfully Read",Toast.LENGTH_SHORT).show();
-                        DataSnapshot dataSnapshot = task.getResult();
-                        String from = String.valueOf(dataSnapshot.child("from").getValue());
-                        String seen = String.valueOf(dataSnapshot.child("seen").getValue());
-                        String text = String.valueOf(dataSnapshot.child("text").getValue());
-                        String time = String.valueOf(dataSnapshot.child("time").getValue());
-                        String type = String.valueOf(dataSnapshot.child("type").getValue());
-//
-                        textUserName.setText(text);
-
-
-                    }else {
-
-                        Toast.makeText(getApplicationContext(),"User Doesn't Exist",Toast.LENGTH_SHORT).show();
-
-                    }
-
-
-                }else {
-
-                    Toast.makeText(getApplicationContext(),"Failed to read",Toast.LENGTH_SHORT).show();
-                }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+//        reference.child(userID).child(otherID).child(messageID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DataSnapshot> task) {
+//
+//                if (task.isSuccessful()){
+//
+//                    if (task.getResult().exists()){
+//
+//                        Toast.makeText(getApplicationContext(),"Successfully Read",Toast.LENGTH_SHORT).show();
+//                        DataSnapshot dataSnapshot = task.getResult();
+//                        String from = String.valueOf(dataSnapshot.child("from").getValue());
+//                        String seen = String.valueOf(dataSnapshot.child("seen").getValue());
+//                        String text = String.valueOf(dataSnapshot.child("text").getValue());
+//                        String time = String.valueOf(dataSnapshot.child("time").getValue());
+//                        String type = String.valueOf(dataSnapshot.child("type").getValue());
+////
+//                        textUserName.setText(text);
+//                        MessageAdapter messageAdapter = new MessageAdapter(getApplicationContext(),messagesArrayList);
+//                        messageAdapter.notifyDataSetChanged();
+//
+//                        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getApplicationContext());
+//                        linearLayoutManager.setStackFromEnd(true);
+//                        mmessagerecyclerview.setLayoutManager(linearLayoutManager);
+//                        messageAdapter=new MessageAdapter(getApplicationContext(),messagesArrayList);
+//                        mmessagerecyclerview.setAdapter(messageAdapter);
+//
+//
+//                    }else {
+//
+//                        Toast.makeText(getApplicationContext(),"User Doesn't Exist",Toast.LENGTH_SHORT).show();
+//
+//                    }
+//
+//
+//                }else {
+//
+//                    Toast.makeText(getApplicationContext(),"Failed to read",Toast.LENGTH_SHORT).show();
+//                }
+//
+//            }
+//        });
 
 
     }

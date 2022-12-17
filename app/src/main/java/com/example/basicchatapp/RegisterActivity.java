@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -18,8 +19,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -28,6 +33,10 @@ public class RegisterActivity extends AppCompatActivity {
     TextView loginText;
     FirebaseAuth firebaseAuth;
     ProgressBar progressBar2;
+
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +99,32 @@ public class RegisterActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if(task.isSuccessful()) {
-                            Toast.makeText(RegisterActivity.this, "Logged in Successfully",Toast.LENGTH_SHORT).show();
-                            openLogin();
+
+                            firebaseDatabase = FirebaseDatabase.getInstance();
+                            if(firebaseAuth.getUid() == null){
+                                Toast.makeText(getApplicationContext(),"NULL ÇIKTI OÇ",Toast.LENGTH_SHORT).show();
+                            }else{
+                                databaseReference = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getUid());
+                                Map map = new HashMap();
+                                map.put("name","null");
+                                map.put("username","null");
+                                map.put("photo","null");
+                                map.put("bio","null");
+
+                                databaseReference.setValue(map);
+
+                                Toast.makeText(RegisterActivity.this, "Logged in Successfully",Toast.LENGTH_SHORT).show();
+                                openLogin();
+                            }
+
+
+//
+//                            Intent intent = new Intent(getApplicationContext(),UserProfileDesign.class);
+//
+//
+//                            startActivity(intent);
+//
+
                         }
                         else {
                             Toast.makeText(RegisterActivity.this, "Error!" + task.getException().getMessage(), Toast.LENGTH_LONG).show();

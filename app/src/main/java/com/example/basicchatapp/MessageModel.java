@@ -1,12 +1,13 @@
 package com.example.basicchatapp;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MessageModel {
 
     String userID, otherID, textType, date, message, from;
     Boolean seen;
-    List<MessageModel> messageModelList;
+    List<MessageModel> messageList;
 
     public MessageModel(){}
 
@@ -19,7 +20,8 @@ public class MessageModel {
         this.date = date;
         this.message = message;
         this.seen = seen;
-        this.messageModelList = messageModelList;
+        this.messageList = messageModelList;
+//        messageModelList = new ArrayList<>();
         this.from = from;
     }
 
@@ -32,11 +34,11 @@ public class MessageModel {
     }
 
     public List<MessageModel> getMessageModelList() {
-        return messageModelList;
+        return messageList;
     }
 
     public void setMessageModelList(List<MessageModel> messageModelList) {
-        this.messageModelList = messageModelList;
+        this.messageList = messageModelList;
     }
 
     public String getUserID() {
@@ -97,7 +99,7 @@ public class MessageModel {
                 ", message='" + message + '\'' +
                 ", from='" + from + '\'' +
                 ", seen=" + seen +
-                ", messageModelList=" + messageModelList +
+                ", messageModelList=" + messageList +
                 '}';
     }
 }

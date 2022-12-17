@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/login1"
+    tools:context=".ProfileFragment">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profile_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/fatihterim"
+        app:civ_border_width="2dp"
+        app:civ_border_color="#C6FF00"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="30dp"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/profile_image"
+        app:layout_constraintEnd_toEndOf="@id/profile_image"
+        app:layout_constraintTop_toBottomOf="@id/profile_image"
+        android:enabled="false"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="IMPARATOR FATIH TERIM"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:id="@+id/name"
+        android:textSize="22sp"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        app:layout_constraintStart_toStartOf="@id/name"
+        app:layout_constraintEnd_toEndOf="@id/name"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        android:layout_marginTop="20dp"
+        android:text="LastBirdFucker"
+        android:id="@+id/user_name"
+        android:enabled="false"
+        android:textColorHint="@color/black"
+        android:layout_height="wrap_content"/>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        app:layout_constraintStart_toStartOf="@id/user_name"
+        app:layout_constraintEnd_toEndOf="@id/user_name"
+        app:layout_constraintTop_toBottomOf="@id/user_name"
+        android:layout_marginTop="20dp"
+        android:text="about me"
+        android:minHeight="100dp"
+        android:maxHeight="300dp"
+        android:lines="5"
+        android:id="@+id/about_me"
+        android:enabled="false"
+        android:textColorHint="@color/black"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/about_me"
+        app:layout_constraintEnd_toEndOf="@+id/about_me"
+        app:layout_constraintTop_toBottomOf="@+id/about_me"
+        android:text="SET CHANGES"
+        android:background="@color/white"
+        android:backgroundTint="@color/white"
+        android:layout_marginTop="20dp"
+        android:id="@+id/setBtn"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

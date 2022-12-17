@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, ContactsActivity.class));
 
             }
+
+
         });
     }
 
@@ -56,9 +58,12 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(),PrivateChatActivity.class));
 
                 }else if(item.getItemId() == R.id.page2){
-                    replaceFragments(new ProfileFragment());
+//                    replaceFragments(new ProfileFragment());
+                    replaceFragments(new MainScreenFragment());
                 }else if(item.getItemId() == R.id.page3){
-                    replaceFragments(new SettingsFragment());
+//                    replaceFragments(new SettingsFragment());
+                    startActivity(new Intent(MainActivity.this, UserProfileDesign.class));
+
                 }
                 return false;
             }

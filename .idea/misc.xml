@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/hp/Desktop/Android STudio Projects/android-chat-app/app/src/main/res/layout/activity_register.xml" value="0.253125" />
+        <entry key="..\:/Users/hp/Desktop/Android STudio Projects/android-chat-app/app/src/main/res/layout/activity_user_profile_design.xml" value="0.253125" />
+        <entry key="..\:/Users/hp/Desktop/Android STudio Projects/android-chat-app/app/src/main/res/layout/fragment_main_screen.xml" value="0.1" />
+        <entry key="..\:/Users/hp/Desktop/Android STudio Projects/android-chat-app/app/src/main/res/layout/fragment_profile.xml" value="0.253125" />
+        <entry key="..\:/Users/hp/Desktop/Android STudio Projects/android-chat-app/app/src/main/res/layout/user_layout.xml" value="0.2" />
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/drawable-v24/ic_baseline_arrow_back_24.xml" value="0.1985" />
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/drawable-v24/ic_baseline_arrow_forward_24.xml" value="0.1985" />
         <entry key="..\:/Users/hp/basicchatapp/app/src/main/res/drawable-v24/messagebackgroun.xml" value="0.1985" />
