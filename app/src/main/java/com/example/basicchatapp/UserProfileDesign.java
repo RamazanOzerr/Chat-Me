@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -67,25 +68,6 @@ public class UserProfileDesign extends AppCompatActivity {
         user_name.setEnabled(true);
         about_me.setEnabled(true);
 
-        name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-        user_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-        about_me.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
 
         // it opens gallery to pick a pic
         profile_image.setOnClickListener(new View.OnClickListener() {
@@ -101,16 +83,15 @@ public class UserProfileDesign extends AppCompatActivity {
         setBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                photoID = profile_image.getId();
                 firebaseDatabase = FirebaseDatabase.getInstance();
                 databaseReference = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getUid());
+
                 Map map = new HashMap();
                 map.put("name",name.getText().toString());
                 map.put("username",user_name.getText().toString());
-//                map.put("photo","null");
                 map.put("bio",about_me.getText().toString());
 
-                databaseReference.setValue(map);
+                databaseReference.updateChildren(map);
             }
         });
 
@@ -120,7 +101,7 @@ public class UserProfileDesign extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                Profile user1 = snapshot.getValue(Profile.class);
+//                Profile user1 = snapshot.getValue(Profile.class);
                 String bio = snapshot.child(firebaseAuth.getUid()).child("bio").getValue().toString();
                 String namee = snapshot.child(firebaseAuth.getUid()).child("name").getValue().toString();
                 String photoPath = snapshot.child(firebaseAuth.getUid()).child("photo").getValue().toString();
@@ -132,10 +113,10 @@ public class UserProfileDesign extends AppCompatActivity {
 //                profile_image.setImageResource(photoID);
                 about_me.setText(bio);
 
-                StorageReference httpsReference = firebaseStorage.getReferenceFromUrl("gs://chatapp-c5610.appspot.com/53591942324.jpg");
                 if(!photoPath.equals("null")){
-                    Toast.makeText(getApplicationContext(),"if e girdi",Toast.LENGTH_LONG).show();
-                    Picasso.get().load(user1.getImage()).into(profile_image);
+                    Toast.makeText(getApplicationContext(),String.valueOf(photoPath),Toast.LENGTH_LONG).show();
+                    Picasso.get().load(photoPath).into(profile_image);
+//                      profile_image.setImageURI(Uri.parse(photoPath));
 
 //                    Picasso.get().load(String.valueOf(httpsReference)).into(profile_image);
 //                    Glide.with(getApplicationContext()).load(httpsReference).into(profile_image);
@@ -167,35 +148,83 @@ public class UserProfileDesign extends AppCompatActivity {
 
         // this is where given the file name, if you don't set unique names for each file, it'll
         // overwrite on the prev one
-        StorageReference reference = storageReference.child("Pictures").child(RandomString.getSaltString() + ".jpg");
-        reference.putFile(selectedImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(getApplicationContext(),
-                            "picture has been successfully updated",Toast.LENGTH_LONG).show();
 
+//        StorageReference reference = storageReference.child("Pictures").child(RandomString.getSaltString() + ".jpg");
+//        reference.putFile(selectedImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+//                if(task.isSuccessful()){
+//
+//                    firebaseDatabase = FirebaseDatabase.getInstance();
+//                    databaseReference = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getUid());
+//                    Map map = new HashMap();
+//                    map.put("name",name.getText().toString());
+//                    map.put("username",user_name.getText().toString());
+//                    map.put("photo",reference.getDownloadUrl().toString());
+////                    map.put("photo",selectedImage);
+//                    map.put("bio",about_me.getText().toString());
+//
+//                    databaseReference.setValue(map);
+//
+//                    Toast.makeText(getApplicationContext(),
+//                            "picture has been successfully updated",Toast.LENGTH_LONG).show();
+//
+//                }else{
+//                    Toast.makeText(getApplicationContext(),
+//                            "picture has not been updated",Toast.LENGTH_LONG).show();
+//                }
+//            }
+//        });
+
+
+        name = findViewById(R.id.name);
+        user_name = findViewById(R.id.user_name);
+        about_me = findViewById(R.id.about_me);
+        final StorageReference ref = storageReference.child("Pictures").child(RandomString.getSaltString() + ".jpg");
+        UploadTask uploadTask = ref.putFile(selectedImage);
+
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+
+                // Continue with the task to get the download URL
+                return ref.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
                     firebaseDatabase = FirebaseDatabase.getInstance();
                     databaseReference = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getUid());
                     Map map = new HashMap();
                     map.put("name",name.getText().toString());
                     map.put("username",user_name.getText().toString());
-                    map.put("photo",task.getResult().getUploadSessionUri().toString());
+                    map.put("photo",downloadUri.toString());
 //                    map.put("photo",selectedImage);
                     map.put("bio",about_me.getText().toString());
 
                     databaseReference.setValue(map);
 
-
-                }else{
                     Toast.makeText(getApplicationContext(),
-                            "picture has not been updated",Toast.LENGTH_LONG).show();
+                            "picture has been successfully updated",Toast.LENGTH_LONG).show();
+//
+//
+                } else {
+                    // Handle failures
+                    // ...
                 }
             }
         });
 
+
+
+        // onDataChange methodu yüzünden buranın çalışma süresi uzun olmuyor.
         profile_image.setImageURI(selectedImage);
-//        Picasso.get().load(selectedImage).into(profile_image);
+//        Picasso.get().load(reference.getDownloadUrl().toString()).into(profile_image);
         }
     }
 

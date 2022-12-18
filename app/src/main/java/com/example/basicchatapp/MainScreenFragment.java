@@ -13,11 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.basicchatapp.Adapters.UserAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
@@ -31,6 +34,8 @@ public class MainScreenFragment extends Fragment {
     RecyclerView userListRecyclerView;
     View view;
     UserAdapter userAdapter;
+    FirebaseAuth auth;
+    FirebaseUser user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,6 +58,8 @@ public class MainScreenFragment extends Fragment {
         userListRecyclerView.setLayoutManager(mng);
         userAdapter = new UserAdapter(userKeyList,getActivity(),getContext());
         userListRecyclerView.setAdapter(userAdapter);
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
     }
 
@@ -60,8 +67,26 @@ public class MainScreenFragment extends Fragment {
         reference.child("Users").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                userKeyList.add(snapshot.getKey());
-                userAdapter.notifyDataSetChanged();
+
+                reference.child("Users").child(snapshot.getKey()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Profile user1 = snapshot.getValue(Profile.class);
+
+                        if(!user1.getUsername().equals("null") && !snapshot.getKey().equals(user.getUid())){
+                            userKeyList.add(snapshot.getKey());
+                            userAdapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+
 
             }
 

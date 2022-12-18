@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -56,14 +57,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull UserAdapter.ViewHolder holder, int position) {
 
 //        holder.nameUser.setText(userKeyList.get(position).toString());
+
         reference.child("Users").child(userKeyList.get(position).toString()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Profile profile = snapshot.getValue(Profile.class);
-                if(!profile.getUsername().equals("null")){
+//                Picasso.get().load(profile.getImage()).into(holder.imageView);
+                holder.nameUser.setText(profile.getUsername());
+
+//                if(profile.getImage() == 0){
 //                    Picasso.get().load(profile.getImage()).into(holder.imageView);
-                    holder.nameUser.setText(profile.getUsername());
-                }
+//                }
+
+
             }
 
             @Override
@@ -71,6 +77,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
             }
         });
+
+
+
 
     }
 
