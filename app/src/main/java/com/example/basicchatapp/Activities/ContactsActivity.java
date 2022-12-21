@@ -1,10 +1,14 @@
-package com.example.basicchatapp;
+package com.example.basicchatapp.Activities;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.basicchatapp.Utils.Profile;
+import com.example.basicchatapp.R;
+import com.example.basicchatapp.Utils.RecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

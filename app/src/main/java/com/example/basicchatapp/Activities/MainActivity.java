@@ -1,17 +1,18 @@
-package com.example.basicchatapp;
+package com.example.basicchatapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.basicchatapp.Fragments.MainScreenFragment;
+import com.example.basicchatapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         setNavigationButtonActivity();
         contacts();
+        replaceFragments(new MainScreenFragment());
 
     }
 
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if(item.getItemId() == R.id.page1){
 //                    replaceFragments(new ChatFragment());
-                    startActivity(new Intent(getApplicationContext(),PrivateChatActivity.class));
+                    startActivity(new Intent(getApplicationContext(), PrivateChatActivity.class));
 
                 }else if(item.getItemId() == R.id.page2){
 //                    replaceFragments(new ProfileFragment());

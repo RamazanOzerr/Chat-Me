@@ -1,5 +1,6 @@
-package com.example.basicchatapp;
+package com.example.basicchatapp.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,10 +10,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.basicchatapp.Adapters.UserAdapter;
+import com.example.basicchatapp.Activities.PrivateChatActivity;
+import com.example.basicchatapp.Activities.UserProfileDesign;
+import com.example.basicchatapp.Utils.Profile;
+import com.example.basicchatapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -21,7 +26,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +49,25 @@ public class MainScreenFragment extends Fragment {
         define();
         getUsers();
 
+//        userListRecyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+//            @Override
+//            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+////                startActivity(new Intent(getContext(), UserProfileDesign.class));
+//
+//                return false;
+//            }
+//
+//            @Override
+//            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+//
+//            }
+//
+//            @Override
+//            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+//
+//            }
+//        });
+
         return view;
     }
 
@@ -54,6 +77,7 @@ public class MainScreenFragment extends Fragment {
         reference = firebaseDatabase.getReference();
         userKeyList = new ArrayList<>();
         userListRecyclerView = view.findViewById(R.id.userListRecyclerView);
+        // alttaki snapCount değişkeni bir satırda kaç tane görüntülenmesini istediğimizi belirler
         RecyclerView.LayoutManager mng = new GridLayoutManager(getContext(),2);
         userListRecyclerView.setLayoutManager(mng);
         userAdapter = new UserAdapter(userKeyList,getActivity(),getContext());

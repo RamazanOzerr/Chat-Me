@@ -1,4 +1,4 @@
-package com.example.basicchatapp;
+package com.example.basicchatapp.Utils;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Picasso;
+import com.example.basicchatapp.R;
 
 import java.util.List;
 

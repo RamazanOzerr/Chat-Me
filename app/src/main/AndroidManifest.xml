@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BasicChatApp">
         <activity
-            android:name=".UserProfileDesign"
+            android:name=".Activities.UserProfileDesign"
             android:exported="true"
             android:theme="@style/Theme.BasicChatApp.NoActionBar"
         />
@@ -25,15 +25,15 @@
             android:theme="@style/Theme.BasicChatApp.NoActionBar"
             />
         <activity
-            android:name=".PrivateChatActivity"
+            android:name=".Activities.PrivateChatActivity"
             android:exported="true"
             android:theme="@style/Theme.BasicChatApp.NoActionBar" />
         <activity
-            android:name=".ContactsActivity"
+            android:name=".Activities.ContactsActivity"
             android:exported="true"
             android:theme="@style/Theme.BasicChatApp.NoActionBar" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".Activities.RegisterActivity"
             android:exported="true"
             android:theme="@style/Theme.BasicChatApp.NoActionBar">
             <intent-filter>
@@ -43,12 +43,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activities.LoginActivity"
             android:exported="true"
             android:label="@string/title_activity_login"
             android:theme="@style/Theme.BasicChatApp.NoActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.BasicChatApp.NoActionBar" />
     </application>

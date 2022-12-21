@@ -1,4 +1,4 @@
-package com.example.basicchatapp;
+package com.example.basicchatapp.Utils;
 
 public class Profile {
 

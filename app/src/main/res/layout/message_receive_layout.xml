@@ -21,7 +21,7 @@
             android:paddingRight="40dp"
             android:paddingBottom="7dp"
             android:paddingTop="7dp"
-            android:id="@+id/sendermessage">
+            android:id="@+id/receivermessage">
 
         </TextView>
 
