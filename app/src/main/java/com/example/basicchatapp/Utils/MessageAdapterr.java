@@ -74,6 +74,8 @@ public class MessageAdapterr extends RecyclerView.Adapter<MessageAdapterr.ViewHo
         @Override
         public void onBindViewHolder (@NonNull MessageAdapterr.ViewHolder holder,int position){
             holder.messageText.setText(messageModelList.get(position).getText());
+            holder.time.setText(messageModelList.get(position).getTime());
+
         }
 
         @Override
@@ -96,13 +98,16 @@ public class MessageAdapterr extends RecyclerView.Adapter<MessageAdapterr.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView messageText;
+        TextView time;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             if(state == true){
                 messageText = itemView.findViewById(R.id.sendermessage);
+                time = itemView.findViewById(R.id.timeofmessage);
             }else{
                 messageText = itemView.findViewById(R.id.receivermessage);
+                time = itemView.findViewById(R.id.timeofmessage);
             }
         }
     }

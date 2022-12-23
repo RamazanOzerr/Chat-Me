@@ -111,22 +111,8 @@ public class UserProfileDesign extends AppCompatActivity {
                 about_me.setText(bio);
 
                 if(!photoPath.equals("null")){
-                    Toast.makeText(getApplicationContext(),String.valueOf(photoPath),Toast.LENGTH_LONG).show();
                     Picasso.get().load(photoPath).into(profile_image);
-//                      profile_image.setImageURI(Uri.parse(photoPath));
-
-//                    Picasso.get().load(String.valueOf(httpsReference)).into(profile_image);
-//                    Glide.with(getApplicationContext()).load(httpsReference).into(profile_image);
                 }
-
-                //TODO storage den resmi çekip yükleme işlemini yap
-
-//                StorageReference pathReference = storageReference.child("images/stars.jpg");
-//
-//                StorageReference gsReference = firebaseStorage.getReferenceFromUrl("gs://bucket/images/stars.jpg");
-
-
-
             }
 
             @Override
@@ -141,38 +127,6 @@ public class UserProfileDesign extends AppCompatActivity {
         super.onActivityResult(requestCode,resultCode, data);
     if(resultCode == RESULT_OK && data != null){
         Uri selectedImage = data.getData();
-
-
-        // this is where given the file name, if you don't set unique names for each file, it'll
-        // overwrite on the prev one
-
-//        StorageReference reference = storageReference.child("Pictures").child(RandomString.getSaltString() + ".jpg");
-//        reference.putFile(selectedImage).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-//                if(task.isSuccessful()){
-//
-//                    firebaseDatabase = FirebaseDatabase.getInstance();
-//                    databaseReference = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getUid());
-//                    Map map = new HashMap();
-//                    map.put("name",name.getText().toString());
-//                    map.put("username",user_name.getText().toString());
-//                    map.put("photo",reference.getDownloadUrl().toString());
-////                    map.put("photo",selectedImage);
-//                    map.put("bio",about_me.getText().toString());
-//
-//                    databaseReference.setValue(map);
-//
-//                    Toast.makeText(getApplicationContext(),
-//                            "picture has been successfully updated",Toast.LENGTH_LONG).show();
-//
-//                }else{
-//                    Toast.makeText(getApplicationContext(),
-//                            "picture has not been updated",Toast.LENGTH_LONG).show();
-//                }
-//            }
-//        });
-
 
         name = findViewById(R.id.name);
         user_name = findViewById(R.id.user_name);
@@ -220,7 +174,7 @@ public class UserProfileDesign extends AppCompatActivity {
 
 
         // onDataChange methodu yüzünden buranın çalışma süresi uzun olmuyor.
-        profile_image.setImageURI(selectedImage);
+//        profile_image.setImageURI(selectedImage);
 //        Picasso.get().load(reference.getDownloadUrl().toString()).into(profile_image);
         }
     }

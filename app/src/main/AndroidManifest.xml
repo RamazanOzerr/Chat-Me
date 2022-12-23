@@ -4,8 +4,7 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -15,15 +14,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BasicChatApp">
         <activity
+            android:name=".Activities.Demo"
+            android:exported="true" />
+        <activity
+            android:name=".Activities.RegisterProfileDesign"
+            android:exported="false" />
+        <activity
             android:name=".Activities.UserProfileDesign"
             android:exported="true"
-            android:theme="@style/Theme.BasicChatApp.NoActionBar"
-        />
+            android:theme="@style/Theme.BasicChatApp.NoActionBar" />
         <activity
             android:name=".demo"
             android:exported="true"
-            android:theme="@style/Theme.BasicChatApp.NoActionBar"
-            />
+            android:theme="@style/Theme.BasicChatApp.NoActionBar" />
         <activity
             android:name=".Activities.PrivateChatActivity"
             android:exported="true"

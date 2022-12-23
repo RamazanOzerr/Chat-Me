@@ -30,9 +30,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/timeofmessage"
             android:textSize="10sp"
-            android:layout_toRightOf="@id/sendermessage"
+            android:layout_toRightOf="@id/receivermessage"
             android:layout_marginLeft="-40dp"
-            android:layout_alignBottom="@id/sendermessage"
+            android:layout_alignBottom="@id/receivermessage"
             android:text="20:09"
             android:padding="7dp"
             android:textColor="#434343" />

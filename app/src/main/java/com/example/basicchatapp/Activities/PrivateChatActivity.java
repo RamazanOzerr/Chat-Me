@@ -4,10 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -53,6 +60,8 @@ public class PrivateChatActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     FirebaseUser firebaseUser;
     FirebaseAuth auth;
+
+    MediaPlayer mediaPlayer;
 
     List<String> messageIDList;
 
@@ -137,10 +146,15 @@ public class PrivateChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //TODO send message
-                sendMessage(firebaseUser.getUid(),userKey,"text",getDate(),false,editTextMessage.getText().toString());
+                String text = editTextMessage.getText().toString();
+                if(text.equals("")){
+                    Toast.makeText(getApplicationContext(),"MESAJ GIR ONCE YARRAAM",Toast.LENGTH_LONG).show();
+                }else{
+                    sendMessage(firebaseUser.getUid(),userKey,"text",getDate(),false, text);
 //                getMessages(firebaseUser.getUid(),"demo");
 //                readData(firebaseUser.getUid(),"demo");
-                editTextMessage.setText("");
+                    editTextMessage.setText("");
+                }
 
             }
         });
@@ -157,13 +171,19 @@ public class PrivateChatActivity extends AppCompatActivity {
 //    }
 
     // TODO bunu şu an kullanmıyoruz, ama belki sonra kullanılabilir
-    public String getDate(){
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy MM:mm:ss");
-        Date today = Calendar.getInstance().getTime();
-        String reportDate = df.format(today);
-        return reportDate;
-    }
+//    public String getDate(){
+//        DateFormat df = new SimpleDateFormat("MM/dd/yyyy MM:mm:ss");
 
+//        String reportDate = df.format(today);
+//        return reportDate;
+//    }
+
+
+    public String getDate(){
+        SimpleDateFormat sdf = new SimpleDateFormat("'Date\n'dd-MM-yyyy '\n\nand\n\nTime\n'HH:mm:ss z");
+        String currentDateAndTime = sdf.format(new Date());
+        return currentDateAndTime;
+    }
 
 
     public void setUserInfo(String userKey){
@@ -176,8 +196,6 @@ public class PrivateChatActivity extends AppCompatActivity {
                 textUserName.setText(profile.getName());
                 String photoPath = snapshot.child("photo").getValue().toString();
                 Picasso.get().load(photoPath).into(image);
-                Toast.makeText(getApplicationContext(),photoPath,Toast.LENGTH_LONG).show();
-//                Glide.with(getApplicationContext()).load(photoPath).into(image);
 
             }
 
@@ -210,33 +228,13 @@ public class PrivateChatActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         // looks like we can leave here empty for now
+
+                        sendNotification("hahaha mesaj gönderdim hahah:  "+message);
                     }
                 });
             }
         });
     }
-
-    // TODO hocanınkine alternatif kendi methodumuzu yazmaya çalıştık, ama bu method işe yaramaz
-    // TODO şimdilik dursun, sonra silicez
-
-    public void getMessage(String userKey){
-        reference.child("Messages").child(userKey).child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String text = snapshot.child("-NJo0ud3_l6vPX7YqOUU").child("text").getValue().toString();
-                MessageModel messageModel = new MessageModel(userKey, false, text, null, null);
-                messageModelList.add(messageModel);
-                messageAdapter.notifyDataSetChanged();
-                keyList.add(snapshot.getKey());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
 
     // userKey değeri bizim other user ımızın id si
     public void loadMessage(String userKey){
@@ -244,12 +242,9 @@ public class PrivateChatActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 MessageModel messageModel = snapshot.getValue(MessageModel.class);
-                System.out.println(snapshot.getChildren());
-                System.out.println("model: " + messageModel.toString());
                 messageModelList.add(messageModel);
                 messageAdapter.notifyDataSetChanged();
                 keyList.add(snapshot.getKey());
-                System.out.println(keyList);
             }
 
             @Override
@@ -275,7 +270,47 @@ public class PrivateChatActivity extends AppCompatActivity {
     }
 
 
+    // contentText e önce username i, sonrasında da message ı gircez
+    // username+": "+ message gibi
+    public void sendNotification(String contentText){
+        // Create an explicit intent for an Activity in your app
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "have no clue what it is")
+                .setSmallIcon(R.drawable.iconnotif)
+                .setContentTitle("New message")
+                .setContentText(contentText)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+
+// notificationId is a unique int for each notification that you must define
+        notificationManager.notify(1, builder.build()); // notificationID ye 1 verdik
+
+        mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.notif);
+        mediaPlayer.start();
+    }
+//
+//    private void createNotificationChannel() {
+//        // Create the NotificationChannel, but only on API 26+ because
+//        // the NotificationChannel class is new and not in the support library
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            CharSequence name = getString(R.string.channel_name);
+//            String description = getString(R.string.channel_description);
+//            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+//            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+//            channel.setDescription(description);
+//            // Register the channel with the system; you can't change the importance
+//            // or other notification behaviors after this
+//            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+//            notificationManager.createNotificationChannel(channel);
+//        }
+//    }
 
 
     // dunno if we can handle it with this method here tho
