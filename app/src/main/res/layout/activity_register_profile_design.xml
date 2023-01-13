@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/bckgrnd"
+    android:background="#E8DDEC"
     tools:context=".Activities.UserProfileDesign">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -14,7 +14,7 @@
         android:layout_height="150dp"
         android:src="@drawable/fatihterim"
         app:civ_border_width="2dp"
-        app:civ_border_color="#C6FF00"
+        app:civ_border_color="#D500F9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

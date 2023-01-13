@@ -78,7 +78,7 @@ public class MainScreenFragment extends Fragment {
         userKeyList = new ArrayList<>();
         userListRecyclerView = view.findViewById(R.id.userListRecyclerView);
         // alttaki snapCount değişkeni bir satırda kaç tane görüntülenmesini istediğimizi belirler
-        RecyclerView.LayoutManager mng = new GridLayoutManager(getContext(),2);
+        RecyclerView.LayoutManager mng = new GridLayoutManager(getContext(),1);
         userListRecyclerView.setLayoutManager(mng);
         userAdapter = new UserAdapter(userKeyList,getActivity(),getContext());
         userListRecyclerView.setAdapter(userAdapter);

@@ -9,18 +9,18 @@
         android:id="@+id/page2"
         android:enabled="true"
         android:icon="@drawable/profile"
-        android:title="profile"/>
+        android:title="users"/>
 
     <item
         android:id="@+id/page3"
         android:enabled="true"
         android:icon="@drawable/settings"
-        android:title="settings"/>
-
+        android:title="profile"/>
     <item
         android:id="@+id/page4"
         android:enabled="true"
         android:icon="@drawable/threedot"
         android:title=""/>
+
 
 </menu>

@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +56,7 @@ public class PrivateChatActivity extends AppCompatActivity {
     EditText editTextMessage;
     TextView textUserName, demoText;
     ImageButton btnSend;
+    ScrollView scrollView;
 
     DatabaseReference reference;
     FirebaseDatabase firebaseDatabase;
@@ -91,6 +93,7 @@ public class PrivateChatActivity extends AppCompatActivity {
         messageAdapter = new MessageAdapterr(keyList, PrivateChatActivity.this, getApplicationContext(), messageModelList);
         chatRecyView.setAdapter(messageAdapter);
 
+        scrollView = findViewById(R.id.scrollView);
 
         msendmessagecardview = findViewById(R.id.carviewofsendmessage);
         mtoolbarofspecificchat=findViewById(R.id.toolbarofspecificchat);
@@ -230,6 +233,8 @@ public class PrivateChatActivity extends AppCompatActivity {
                         // looks like we can leave here empty for now
 
                         sendNotification("hahaha mesaj gönderdim hahah:  "+message);
+                        scrollView.fullScroll(scrollView.FOCUS_DOWN);
+
                     }
                 });
             }
@@ -245,6 +250,8 @@ public class PrivateChatActivity extends AppCompatActivity {
                 messageModelList.add(messageModel);
                 messageAdapter.notifyDataSetChanged();
                 keyList.add(snapshot.getKey());
+//                mmessagerecyclerview.smoothScrollToPosition(mmessagerecyclerview.getAdapter().getItemCount());
+//                scrollView.fullScroll(scrollView.FOCUS_DOWN);
             }
 
             @Override

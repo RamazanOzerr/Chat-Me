@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/bckgrnd"
+    android:background="#E8DDEC"
     tools:context=".Activities.UserProfileDesign">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -12,10 +12,9 @@
         android:id="@+id/profile_image"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/fatihterim"
+        android:src="@drawable/img_1"
         app:civ_border_width="2dp"
-        app:civ_border_color="#C6FF00"
-
+        app:civ_border_color="#D500F9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -33,10 +32,10 @@
         android:layout_marginRight="40dp"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="IMPARATOR FATIH TERIM"
-        android:textColorHint="@color/black"
-        android:textColor="@color/black"
+        android:text="name"
+        android:textColorHint="#D500F9"
         android:textStyle="bold"
+        android:textColor="#D500F9"
         android:id="@+id/name"
         android:textSize="22sp"
         />
@@ -47,10 +46,12 @@
         app:layout_constraintEnd_toEndOf="@id/name"
         app:layout_constraintTop_toBottomOf="@id/name"
         android:layout_marginTop="20dp"
-        android:text="LastBirdFucker"
+        android:text="username"
         android:id="@+id/user_name"
         android:enabled="false"
-        android:textColorHint="@color/black"
+        android:textColorHint="#D500F9"
+        android:textStyle="italic"
+        android:textColor="#D500F9"
         android:layout_height="wrap_content"/>
 
 
@@ -66,20 +67,20 @@
         android:lines="5"
         android:id="@+id/about_me"
         android:enabled="false"
-        android:textColorHint="@color/black"
+        android:textColorHint="#D500F9"
+        android:textStyle="italic"
+        android:textColor="#D500F9"
         android:layout_height="wrap_content"/>
 
     <Button
+        android:id="@+id/setBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/about_me"
-        app:layout_constraintEnd_toEndOf="@+id/about_me"
-        app:layout_constraintTop_toBottomOf="@+id/about_me"
-        android:text="SET CHANGES"
-        android:background="@color/white"
-        android:backgroundTint="@color/white"
         android:layout_marginTop="20dp"
-        android:id="@+id/setBtn"
-        />
+        android:backgroundTint="#D500F9"
+        android:text="SET CHANGES"
+        app:layout_constraintEnd_toEndOf="@+id/about_me"
+        app:layout_constraintStart_toStartOf="@+id/about_me"
+        app:layout_constraintTop_toBottomOf="@+id/about_me" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

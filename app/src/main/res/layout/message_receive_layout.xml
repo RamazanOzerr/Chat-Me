@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="50dp"
-        android:background="#2FCADC"
+        android:background="@color/white"
         android:id="@+id/layoutformessage">
 
         <TextView

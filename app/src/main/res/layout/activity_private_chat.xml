@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/telegram"
+    android:background="#E8DDEC"
     >
 
 
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_marginTop="0dp"
-        android:background="#00405d"
+        android:background="#DC68EF"
         android:id="@+id/toolbarofspecificchat">
 
         <RelativeLayout
@@ -79,16 +79,23 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerviewofspecific"
+
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/editTextMessage"
-        android:layout_below="@id/toolbarofspecificchat"
-        android:padding="5dp">
+        android:layout_below="@id/toolbarofspecificchat">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerviewofspecific"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp">
 
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </ScrollView>
 
     <EditText
         android:layout_width="match_parent"
@@ -115,7 +122,7 @@
         android:layout_toRightOf="@id/editTextMessage"
         android:layout_marginLeft="-50dp"
         android:layout_marginBottom="5dp"
-        android:backgroundTint="#00405d"
+        android:backgroundTint="#DC68EF"
         android:layout_alignParentBottom="true"
         app:cardCornerRadius="45dp">
 
