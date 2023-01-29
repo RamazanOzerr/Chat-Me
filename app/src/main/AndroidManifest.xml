@@ -24,9 +24,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.Demo"
-            android:exported="true" />
-        <activity
             android:name=".Activities.RegisterProfileDesign"
             android:exported="false" />
         <activity
@@ -34,15 +31,7 @@
             android:exported="true"
             android:theme="@style/Theme.BasicChatApp.NoActionBar" />
         <activity
-            android:name=".demo"
-            android:exported="true"
-            android:theme="@style/Theme.BasicChatApp.NoActionBar" />
-        <activity
             android:name=".Activities.PrivateChatActivity"
-            android:exported="true"
-            android:theme="@style/Theme.BasicChatApp.NoActionBar" />
-        <activity
-            android:name=".Activities.ContactsActivity"
             android:exported="true"
             android:theme="@style/Theme.BasicChatApp.NoActionBar" />
         <activity

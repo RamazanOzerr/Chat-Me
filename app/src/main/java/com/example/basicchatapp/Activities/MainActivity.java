@@ -23,7 +23,6 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
-    FloatingActionButton fad;
     FirebaseAuth firebaseAuth;
 
     @Override
@@ -32,26 +31,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-        fad = findViewById(R.id.floating_action_button);
         firebaseAuth = FirebaseAuth.getInstance();
 
         setNavigationButtonActivity();
-        contacts();
         replaceFragments(new MainScreenFragment());
 
-    }
-
-    public void contacts(){
-        fad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO contacts ın olduğu activity veya fragment açılacak
-                startActivity(new Intent(MainActivity.this, ContactsActivity.class));
-
-            }
-
-
-        });
     }
 
     //TODO has not finished yet

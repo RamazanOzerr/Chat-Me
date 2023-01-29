@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="62dp"
         android:textColor="#D500F9"
-        android:text="Don't have an account? Sign In"
+        android:text="Don't have an account? Sign Up"
         app:layout_constraintEnd_toEndOf="@+id/loginButton"
         app:layout_constraintStart_toStartOf="@+id/loginButton"
         app:layout_constraintTop_toTopOf="@+id/loginButton" />

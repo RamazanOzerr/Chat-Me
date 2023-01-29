@@ -115,14 +115,6 @@ public class PrivateChatActivity extends AppCompatActivity {
 
         messageIDList = new ArrayList<>();
 
-//        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
-//        linearLayoutManager.setStackFromEnd(true);
-//        mmessagerecyclerview.setLayoutManager(linearLayoutManager);
-//        //TODO ALTTAKI SATIRI HATA GITSIN DIYE YORUM SATIRINA ALDIK, ONU DUZELT
-//        // HATA CIKMA SEBEBI, MESSAGE ADAPTER IN ICINE USER ADAPTER SINIFINI KOPYALAMIS OLMAMIZ
-////        messageAdapter=new MessageAdapter(getApplicationContext(),messagesArrayList);
-//        mmessagerecyclerview.setAdapter(messageAdapter);
-
         setSupportActionBar(mtoolbarofspecificchat);
         mtoolbarofspecificchat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,7 +224,7 @@ public class PrivateChatActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         // looks like we can leave here empty for now
 
-                        sendNotification("hahaha mesaj gönderdim hahah:  "+message);
+//                        sendNotification("hahaha mesaj gönderdim hahah:  "+message);
                         scrollView.fullScroll(scrollView.FOCUS_DOWN);
 
                     }

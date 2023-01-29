@@ -14,13 +14,13 @@
     <item
         android:id="@+id/page3"
         android:enabled="true"
-        android:icon="@drawable/settings"
+        android:icon="@drawable/img_1"
         android:title="profile"/>
     <item
         android:id="@+id/page4"
         android:enabled="true"
         android:icon="@drawable/threedot"
-        android:title=""/>
+        android:title="log out"/>
 
 
 </menu>
