@@ -18,6 +18,7 @@ import com.example.basicchatapp.Activities.PrivateChatActivity;
 import com.example.basicchatapp.Activities.UserProfileDesign;
 import com.example.basicchatapp.Utils.Profile;
 import com.example.basicchatapp.R;
+import com.example.basicchatapp.Utils.UserAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
