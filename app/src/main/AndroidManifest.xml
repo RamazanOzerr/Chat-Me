@@ -10,9 +10,13 @@
         android:allowBackup="true"
         android:icon="@drawable/newlogin2"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/newlogin2"
         android:supportsRtl="true"
         android:theme="@style/Theme.BasicChatApp">
+        <activity
+            android:name=".Activities.UserProfileActivity"
+            android:exported="false"
+            android:theme="@style/Theme.BasicChatApp.NoActionBar"/>
         <activity
             android:name=".Activities.SplashScreen"
             android:exported="true"
@@ -24,9 +28,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.RegisterProfileDesign"
-            android:exported="false" />
-        <activity
             android:name=".Activities.UserProfileDesign"
             android:exported="true"
             android:theme="@style/Theme.BasicChatApp.NoActionBar" />
@@ -37,7 +38,7 @@
         <activity
             android:name=".Activities.RegisterActivity"
             android:exported="true"
-            android:theme="@style/Theme.BasicChatApp.NoActionBar"></activity>
+            android:theme="@style/Theme.BasicChatApp.NoActionBar" />
         <activity
             android:name=".Activities.LoginActivity"
             android:exported="true"

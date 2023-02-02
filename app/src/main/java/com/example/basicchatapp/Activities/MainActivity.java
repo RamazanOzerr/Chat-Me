@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.basicchatapp.Fragments.MainScreenFragment;
+import com.example.basicchatapp.Fragments.RecentChatsFragment;
 import com.example.basicchatapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 if(item.getItemId() == R.id.page1){
 //                    replaceFragments(new ChatFragment());
 //                    startActivity(new Intent(getApplicationContext(), PrivateChatActivity.class));
+                    replaceFragments(new RecentChatsFragment());
                     Toast.makeText(getApplicationContext(),"HOP HEMŞEHRİM BU KISIM ÇALIŞMIYOR DAHA",Toast.LENGTH_LONG).show();
                 }else if(item.getItemId() == R.id.page2){
 //                    replaceFragments(new ProfileFragment());

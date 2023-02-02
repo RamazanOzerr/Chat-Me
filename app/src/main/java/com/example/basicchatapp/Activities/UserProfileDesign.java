@@ -107,9 +107,9 @@ public class UserProfileDesign extends AppCompatActivity {
 
                 user_name.setText(username);
                 name.setText(namee);
-//                profile_image.setImageResource(photoID);
                 about_me.setText(bio);
 
+                // halihazırda olan resmi yüklediğimiz kısım
                 if(!photoPath.equals("null")){
                     Picasso.get().load(photoPath).into(profile_image);
                 }

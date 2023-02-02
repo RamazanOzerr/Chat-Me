@@ -154,25 +154,8 @@ public class PrivateChatActivity extends AppCompatActivity {
             }
         });
 
-
-
         loadMessage(userKey);
-//        getMessage(userKey);
     }
-
-//    public String getID(){
-//        String id = getIntent().getExtras().getString("id").toString();
-//        return id;
-//    }
-
-    // TODO bunu şu an kullanmıyoruz, ama belki sonra kullanılabilir
-//    public String getDate(){
-//        DateFormat df = new SimpleDateFormat("MM/dd/yyyy MM:mm:ss");
-
-//        String reportDate = df.format(today);
-//        return reportDate;
-//    }
-
 
     public String getDate(){
         SimpleDateFormat sdf = new SimpleDateFormat("'Date\n'dd-MM-yyyy '\n\nand\n\nTime\n'HH:mm:ss z");
@@ -243,7 +226,7 @@ public class PrivateChatActivity extends AppCompatActivity {
                 messageAdapter.notifyDataSetChanged();
                 keyList.add(snapshot.getKey());
 //                mmessagerecyclerview.smoothScrollToPosition(mmessagerecyclerview.getAdapter().getItemCount());
-//                scrollView.fullScroll(scrollView.FOCUS_DOWN);
+                scrollView.fullScroll(scrollView.FOCUS_DOWN);
             }
 
             @Override
@@ -294,147 +277,5 @@ public class PrivateChatActivity extends AppCompatActivity {
         mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.notif);
         mediaPlayer.start();
     }
-//
-//    private void createNotificationChannel() {
-//        // Create the NotificationChannel, but only on API 26+ because
-//        // the NotificationChannel class is new and not in the support library
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            CharSequence name = getString(R.string.channel_name);
-//            String description = getString(R.string.channel_description);
-//            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-//            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-//            channel.setDescription(description);
-//            // Register the channel with the system; you can't change the importance
-//            // or other notification behaviors after this
-//            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-//            notificationManager.createNotificationChannel(channel);
-//        }
-//    }
-
-
-    // dunno if we can handle it with this method here tho
-//    public void readData(String userID, String otherID){
-//
-////        String messageID = reference.child("Messages").child(userID).child(otherID).push().getKey();
-//        String messageID = messageIDList.get(0);
-//
-//        reference = FirebaseDatabase.getInstance().getReference("Messages");
-//        reference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-////                MessageModel messages = snapshot.getValue(MessageModel.class);
-//                String text = snapshot.child(messageID).child(userID).child(otherID).getValue().toString();
-//                textUserName.setText(text);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-////        reference.child(userID).child(otherID).child(messageID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-////            @Override
-////            public void onComplete(@NonNull Task<DataSnapshot> task) {
-////
-////                if (task.isSuccessful()){
-////
-////                    if (task.getResult().exists()){
-////
-////                        Toast.makeText(getApplicationContext(),"Successfully Read",Toast.LENGTH_SHORT).show();
-////                        DataSnapshot dataSnapshot = task.getResult();
-////                        String from = String.valueOf(dataSnapshot.child("from").getValue());
-////                        String seen = String.valueOf(dataSnapshot.child("seen").getValue());
-////                        String text = String.valueOf(dataSnapshot.child("text").getValue());
-////                        String time = String.valueOf(dataSnapshot.child("time").getValue());
-////                        String type = String.valueOf(dataSnapshot.child("type").getValue());
-//////
-////                        textUserName.setText(text);
-////                        MessageAdapter messageAdapter = new MessageAdapter(getApplicationContext(),messagesArrayList);
-////                        messageAdapter.notifyDataSetChanged();
-////
-////                        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getApplicationContext());
-////                        linearLayoutManager.setStackFromEnd(true);
-////                        mmessagerecyclerview.setLayoutManager(linearLayoutManager);
-////                        messageAdapter=new MessageAdapter(getApplicationContext(),messagesArrayList);
-////                        mmessagerecyclerview.setAdapter(messageAdapter);
-////
-////
-////                    }else {
-////
-////                        Toast.makeText(getApplicationContext(),"User Doesn't Exist",Toast.LENGTH_SHORT).show();
-////
-////                    }
-////
-////
-////                }else {
-////
-////                    Toast.makeText(getApplicationContext(),"Failed to read",Toast.LENGTH_SHORT).show();
-////                }
-////
-////            }
-////        });
-//
-//
-//    }
-
-
-
-//    StackOverFLow dan çaldık
-
-//    FirebaseDatabase.getInstance().getReference()
-//            .child("messages")
-//            .addListenerForSingleValueEvent(new ValueEventListener() {
-//        @Override
-//        public void onDataChange(DataSnapshot rootSnapshot) {
-//            if (rootSnapshot.exists()) {
-//                final Map<String, Map<String, String>> messageNameMap = new HashMap<>();
-//                for (DataSnapshot messageSnapshot : rootSnapshot.getChildren()) {
-//                    final String messageKey = messageSnapshot.getKey();
-//                    HashMap<String, String> nameMap = new HashMap<String, String>();
-//                    if (messageSnapshot.child("name").exists()) {
-//                        for (DataSnapshot nameSnapshot : messageSnapshot.child("name").getChildren()) {
-//                            final String nameKey = nameSnapshot.getKey();
-//                            final String nameValue = nameSnapshot.getValue(String.class);
-//                            nameMap.put(nameKey, nameValue);
-//                        }
-//                    }
-//                    if (!nameMap.isEmpty()) {
-//                        messageNameMap.put(messageKey, nameMap);
-//                    }
-//                }
-//
-//                if (!messageNameMap.isEmpty()) {
-//                    // Here messageNameMap contains your data as such
-//
-//                    // key: -Ko8bLawP4... val: Map Containing:
-//                    //                          key: -Ko8wk... val: Jonathan Smith
-//                    //                          key: -Ko8wk... val: Kapler Moe
-//                }
-//            }
-//        }
-//
-//        @Override
-//        public void onCancelled(DatabaseError databaseError) {
-//
-//        }
-//    });
-
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        messageAdapter.notifyDataSetChanged();
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        if(messageAdapter!=null)
-//        {
-//            messageAdapter.notifyDataSetChanged();
-//        }
-//    }
-
-
 
 }

@@ -76,8 +76,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 String photoPath = snapshot.child("photo").getValue().toString();
 //                Picasso.get().load(profile.getImage()).into(holder.imageView);
                 Picasso.get().load(photoPath).into(holder.imageView);
-                holder.nameUser.setText(profile.getUsername());
-
+                holder.nameUser.setText(profile.getName());
+                holder.bioUser.setText(profile.getBio());
 //                if(profile.getImage() == 0){
 //                    Picasso.get().load(profile.getImage()).into(holder.imageView);
 //                }
@@ -103,7 +103,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     // view ların tanımlanma işlemi
     public class ViewHolder extends  RecyclerView.ViewHolder{
 
-        TextView nameUser;
+        TextView nameUser, bioUser;
         CircleImageView imageView;
 
         ViewHolder(View itemView){
@@ -111,6 +111,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
             nameUser = itemView.findViewById(R.id.nameUser);
             imageView = itemView.findViewById(R.id.imageView);
+            bioUser = itemView.findViewById(R.id.bioUser);
 
         }
     }
