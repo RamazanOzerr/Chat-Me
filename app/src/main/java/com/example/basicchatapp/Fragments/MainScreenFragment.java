@@ -47,14 +47,14 @@ public class MainScreenFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_main_screen, container, false);
 
-        define();
+        init();
         getUsers();
 
         return view;
     }
 
 
-    public void define(){
+    public void init(){
         firebaseDatabase = FirebaseDatabase.getInstance();
         reference = firebaseDatabase.getReference();
         userKeyList = new ArrayList<>();

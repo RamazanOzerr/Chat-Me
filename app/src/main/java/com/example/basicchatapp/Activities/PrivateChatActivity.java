@@ -49,6 +49,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.sql.StatementEvent;
+
 public class PrivateChatActivity extends AppCompatActivity {
 
     ImageView backImage;
@@ -114,6 +116,9 @@ public class PrivateChatActivity extends AppCompatActivity {
 //        demoText = findViewById(R.id.demoText);
 
         messageIDList = new ArrayList<>();
+        Intent intent = getIntent();
+        String userKey = intent.getStringExtra("UserKey");
+        setUserInfo(userKey);
 
         setSupportActionBar(mtoolbarofspecificchat);
         mtoolbarofspecificchat.setOnClickListener(new View.OnClickListener() {
@@ -122,13 +127,13 @@ public class PrivateChatActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Toolbar is Clicked",Toast.LENGTH_SHORT).show();
                 //TODO şimdilik boş bıraktık ama buraya tıklandığında
                 // profil activity açılacak şekilde ayarlanabilir
+                getUserInfo(userKey);
+//                startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
 
             }
         });
 
-        Intent intent = getIntent();
-        String userKey = intent.getStringExtra("UserKey");
-        setUserInfo(userKey);
+
 
         backImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -251,6 +256,28 @@ public class PrivateChatActivity extends AppCompatActivity {
         });
     }
 
+    // UserProfileActivity ye göndermemiz gereken user info yu çekiyoruz db den
+    private void getUserInfo(String userKey){
+        reference.child("Users").child(userKey).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String photoPath = snapshot.child("photo").getValue().toString();
+                String name = snapshot.child("name").getValue().toString();
+                String bio = snapshot.child("bio").getValue().toString();
+                Intent intent1 = new Intent(getApplicationContext(),UserProfileActivity.class);
+                intent1.putExtra("photo",photoPath);
+                intent1.putExtra("name",name);
+                intent1.putExtra("bio",bio);
+                intent1.putExtra("UserKey",userKey);
+                startActivity(intent1);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
     // contentText e önce username i, sonrasında da message ı gircez
     // username+": "+ message gibi

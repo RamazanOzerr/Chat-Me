@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.basicchatapp.Activities.PrivateChatActivity;
 import com.example.basicchatapp.Activities.UserProfileActivity;
 import com.example.basicchatapp.R;
 import com.squareup.picasso.Picasso;
@@ -36,7 +37,6 @@ public class RecentChatsAdapter extends RecyclerView.Adapter<RecentChatsAdapter.
     @NonNull
     @Override
     public RecentChatsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(context).inflate(R.layout.recent_user_layout,parent,false);
 
         return new ViewHolder(view);
@@ -52,6 +52,7 @@ public class RecentChatsAdapter extends RecyclerView.Adapter<RecentChatsAdapter.
 
 //        if(recentChatsInfoList.get(position).getName().equals("")){
 //            holder.textLoser.setVisibility(View.VISIBLE);
+//
 //        }
 
         holder.recentImage.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +61,18 @@ public class RecentChatsAdapter extends RecyclerView.Adapter<RecentChatsAdapter.
                 Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
                 intent.putExtra("name",recentChatsInfoList.get(position).getName());
                 intent.putExtra("photo",recentChatsInfoList.get(position).getPhotoPath());
+                intent.putExtra("bio",recentChatsInfoList.get(position).getBio());
+                intent.putExtra("UserKey",recentChatsInfoList.get(position).getUserKey());
+                activity.startActivity(intent);
+            }
+        });
+
+
+        holder.recentnameUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), PrivateChatActivity.class);
+                intent.putExtra("UserKey",recentChatsInfoList.get(position).getUserKey());
                 activity.startActivity(intent);
             }
         });
@@ -71,7 +84,7 @@ public class RecentChatsAdapter extends RecyclerView.Adapter<RecentChatsAdapter.
         return recentChatsInfoList.size();
     }
 
-    public class ViewHolder extends  RecyclerView.ViewHolder{
+    public static class ViewHolder extends  RecyclerView.ViewHolder{
 
         TextView recentnameUser, textLoser;
         CircleImageView recentImage;

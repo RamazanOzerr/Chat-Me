@@ -13,8 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.basicchatapp.Fragments.FriendsFragment;
 import com.example.basicchatapp.Fragments.MainScreenFragment;
 import com.example.basicchatapp.Fragments.RecentChatsFragment;
+import com.example.basicchatapp.Fragments.RequestsFragment;
 import com.example.basicchatapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         setNavigationButtonActivity();
-        replaceFragments(new MainScreenFragment());
+        replaceFragments(new RecentChatsFragment());
 
     }
 
@@ -54,12 +56,14 @@ public class MainActivity extends AppCompatActivity {
 //                    replaceFragments(new ProfileFragment());
                     replaceFragments(new MainScreenFragment());
                 }else if(item.getItemId() == R.id.page3){
-//                    replaceFragments(new SettingsFragment());
-                    startActivity(new Intent(MainActivity.this, UserProfileDesign.class));
+                    replaceFragments(new FriendsFragment());
+//                    startActivity(new Intent(MainActivity.this, UserProfileDesign.class));
                 }else if(item.getItemId() == R.id.page4){
+                    replaceFragments(new RequestsFragment());
+                }
+                else if(item.getItemId() == R.id.page5){
                     firebaseAuth.signOut();
                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
-
                 }
                 return false;
             }

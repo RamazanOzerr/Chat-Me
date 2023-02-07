@@ -37,8 +37,6 @@ public class RecentChatsFragment extends Fragment {
 
     private MessageModel tempMm;
     private RecyclerView recentChatsRecyclerView;
-    private UserAdapter userAdapter;
-    private List<Profile> musers;
     FirebaseUser fuser;
     DatabaseReference reference;
     RecentChatsAdapter recentChatsAdapter;
@@ -58,7 +56,7 @@ public class RecentChatsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recent_chats, container, false);
 
         recentChatsRecyclerView = view.findViewById(R.id.recentChatsRecyclerView);
-        recentChatsRecyclerView.hasFixedSize();
+//        recentChatsRecyclerView.hasFixedSize();
         recentChatsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         userList = new ArrayList<>(); // kişinin konuştuğu kişilerin id lerinin listesi
@@ -112,7 +110,7 @@ public class RecentChatsFragment extends Fragment {
                     Profile profile = snapshot.child(id).getValue(Profile.class);
                     String photoPath = snapshot.child(id).child("photo").getValue().toString();
                     // kullanıcının foto ve isim bilgilerini alıp bir class yapısında depoladık
-                    RecentChats recentChats = new RecentChats(photoPath, profile.getName(),null,userList.size());
+                    RecentChats recentChats = new RecentChats(photoPath, profile.getName(),null,userList.size(),profile.getBio(), id);
 //                    getLastMessage();
 //                    recentChats.setText(tempMm.getText());
                     recentChatsInfoList.add(recentChats);

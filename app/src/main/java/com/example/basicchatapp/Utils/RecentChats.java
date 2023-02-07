@@ -6,13 +6,34 @@ public class RecentChats {
     private String name;
     private String text;
 
+    private String bio;
+    private String userKey;
+
     private int count;
 
-    public RecentChats(String photoPath, String name, String text, int count) {
+    public RecentChats(String photoPath, String name, String text, int count, String bio, String userKey) {
         this.photoPath = photoPath;
         this.name = name;
         this.text = text;
         this.count = count;
+        this.bio = bio;
+        this.userKey = userKey;
+    }
+
+    public String getUserKey() {
+        return userKey;
+    }
+
+    public void setUserKey(String userKey) {
+        this.userKey = userKey;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
     public int getCount() {

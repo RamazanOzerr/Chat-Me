@@ -39,7 +39,7 @@ public class SplashScreen extends AppCompatActivity {
                 finish();
 //                music.stop();
             }
-        },5000);
+        },2400);
     }
 
     private void startActivity(){

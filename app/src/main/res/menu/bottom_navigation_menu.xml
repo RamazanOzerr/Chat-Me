@@ -16,11 +16,17 @@
         android:enabled="true"
         android:icon="@drawable/profile"
         android:title="profile"/>
+
     <item
         android:id="@+id/page4"
         android:enabled="true"
-        android:icon="@drawable/logouttt"
+        android:icon="@drawable/requests5"
         android:title="log out"/>
 
+    <item
+        android:id="@+id/page5"
+        android:enabled="true"
+        android:icon="@drawable/logouttt"
+        android:title="log out"/>
 
 </menu>
