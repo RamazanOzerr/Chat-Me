@@ -7,12 +7,15 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.basicchatapp.Activities.PrivateChatActivity;
+import com.example.basicchatapp.Activities.UserProfileActivity;
 import com.example.basicchatapp.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,14 +24,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
     List<String> userKeyList;
+    List<String> userKeyListFull;
     Activity activity;
     Context context;
     FirebaseDatabase firebaseDatabase;
@@ -40,6 +45,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         this.context = context;
         firebaseDatabase = FirebaseDatabase.getInstance();
         reference = firebaseDatabase.getReference();
+
+        // userKeyList in copy sini oluşturduk
+        userKeyListFull = new ArrayList<>(userKeyList);
     }
 
     // layout tanımlaması yapılacak
@@ -62,10 +70,31 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                userKeyList.get(position);
-                Intent intent = new Intent(view.getContext(), PrivateChatActivity.class);
-                intent.putExtra("UserKey",userKeyList.get(position));
-                activity.startActivity(intent);
+
+                reference.child("Users").child(userKeyList.get(position)).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String name = snapshot.child("name").getValue().toString();
+                        String bio = snapshot.child("bio").getValue().toString();
+                        String photoID = snapshot.child("photo").getValue().toString();
+                        Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
+                        intent.putExtra("name",name);
+                        intent.putExtra("photo",photoID);
+                        intent.putExtra("bio",bio);
+                        intent.putExtra("UserKey",userKeyList.get(position));
+                        activity.startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+//                userKeyList.get(position);
+//                Intent intent = new Intent(view.getContext(), PrivateChatActivity.class);
+//                intent.putExtra("UserKey",userKeyList.get(position));
+//                activity.startActivity(intent);
             }
         });
 
@@ -115,4 +144,32 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
         }
     }
+
+//    @Override
+//    public Filter getFilter() {
+//        return userFilter;
+//    }
+//    private Filter userFilter = new Filter() {
+//        @Override
+//        protected FilterResults performFiltering(CharSequence charSequence) {
+//            List<String> filteredList = new ArrayList<>();
+//            if(charSequence == null || charSequence.length() == 0){
+//                filteredList.addAll(userKeyListFull);
+//            }else{
+//                String filterPattern = charSequence.toString().toLowerCase().trim();
+//
+//                for(String item : userKeyListFull){
+//                    //TODO BURADA BIZIM LISTEDEN USER NAME I CEKEBILMEMIZ LAZIM AMA BIZIM LISTE
+//                    // BUNA UYGUN DEGIL, O YUZDEN BUNU DEGISTIRMEK GEREKIYOR...
+//                }
+//            }
+//
+//            return null;
+//        }
+//
+//        @Override
+//        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+//
+//        }
+//    };
 }

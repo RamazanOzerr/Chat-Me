@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.basicchatapp.R;
+import com.example.basicchatapp.Utils.FriendsAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -84,9 +85,48 @@ public class UserProfileActivity extends AppCompatActivity {
         msgImagebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), PrivateChatActivity.class);
-                intent.putExtra("UserKey",userKey);
-                startActivity(intent);
+
+
+                reference.child("Requests").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.hasChild(userKey)){
+                            if(snapshot.child(userKey).child("isFriend").getValue().toString().equals("true")){
+                                Intent intent = new Intent(getApplicationContext(), PrivateChatActivity.class);
+                                intent.putExtra("UserKey",userKey);
+                                startActivity(intent);
+                            }
+                        }else{
+                            Toast.makeText(getApplicationContext(),"YOU GOTTA BE FRIENDS TO CHAT",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+//                reference.child("Requests").child(firebaseUser.getUid()).child(userKey).addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        if(snapshot.child("isFriend").getValue().toString().equals("true")){
+//                            Intent intent = new Intent(getApplicationContext(), PrivateChatActivity.class);
+//                            intent.putExtra("UserKey",userKey);
+//                            startActivity(intent);
+//                        }else{
+//                            Toast.makeText(getApplicationContext(),"YOU GOTTA BE FRIENDS TO CHAT",Toast.LENGTH_SHORT).show();
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
+
+
             }
         });
         likeImagebtn.setOnClickListener(new View.OnClickListener() {

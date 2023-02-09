@@ -67,6 +67,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
                holder.name_friends.setText(name);
                holder.bio_friends.setText(bio);
                Picasso.get().load(photoID).into(holder.imageViewfriends);
+
            }
 
            @Override

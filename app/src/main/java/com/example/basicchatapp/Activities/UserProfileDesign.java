@@ -3,6 +3,7 @@ package com.example.basicchatapp.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.basicchatapp.R;
@@ -39,7 +41,7 @@ public class UserProfileDesign extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     ImageView profile_image;
     EditText user_name, name, about_me;
-    Button setBtn;
+    Button setBtn, logOutBtn;
     int photoID;
 
     StorageReference storageReference;
@@ -51,6 +53,7 @@ public class UserProfileDesign extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile_design);
 
+        logOutBtn = findViewById(R.id.logOutBtn);
         profile_image = findViewById(R.id.profile_image);
         user_name = findViewById(R.id.user_name);
         name = findViewById(R.id.name);
@@ -61,10 +64,18 @@ public class UserProfileDesign extends AppCompatActivity {
         storageReference = firebaseStorage.getReference();
 
 
+
         name.setEnabled(true);
         user_name.setEnabled(true);
         about_me.setEnabled(true);
 
+        logOutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                firebaseAuth.signOut();
+                startActivity(new Intent(UserProfileDesign.this, LoginActivity.class));
+            }
+        });
 
         // it opens gallery to pick a pic
         profile_image.setOnClickListener(new View.OnClickListener() {

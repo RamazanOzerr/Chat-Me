@@ -83,4 +83,16 @@
         app:layout_constraintStart_toStartOf="@+id/about_me"
         app:layout_constraintTop_toBottomOf="@+id/about_me" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LOG OUT"
+        android:id="@+id/logOutBtn"
+        android:backgroundTint="#D500F9"
+        app:layout_constraintStart_toStartOf="@+id/setBtn"
+        app:layout_constraintEnd_toEndOf="@+id/setBtn"
+        app:layout_constraintTop_toBottomOf="@+id/setBtn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -91,8 +91,7 @@ public class PrivateChatActivity extends AppCompatActivity {
         chatRecyView = findViewById(R.id.recyclerviewofspecific);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),1);
         chatRecyView.setLayoutManager(layoutManager);
-        //TODO alttaki method için yeni constructor yazmamızı istedi, default oluşturduk, yeniden bak
-        messageAdapter = new MessageAdapterr(keyList, PrivateChatActivity.this, getApplicationContext(), messageModelList);
+        messageAdapter = new MessageAdapterr(keyList, PrivateChatActivity.this, PrivateChatActivity.this, messageModelList);
         chatRecyView.setAdapter(messageAdapter);
 
         scrollView = findViewById(R.id.scrollView);
@@ -125,8 +124,6 @@ public class PrivateChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"Toolbar is Clicked",Toast.LENGTH_SHORT).show();
-                //TODO şimdilik boş bıraktık ama buraya tıklandığında
-                // profil activity açılacak şekilde ayarlanabilir
                 getUserInfo(userKey);
 //                startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
 
@@ -148,7 +145,7 @@ public class PrivateChatActivity extends AppCompatActivity {
                 //TODO send message
                 String text = editTextMessage.getText().toString();
                 if(text.equals("")){
-                    Toast.makeText(getApplicationContext(),"MESAJ GIR ONCE YARRAAM",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"write a message first",Toast.LENGTH_LONG).show();
                 }else{
                     sendMessage(firebaseUser.getUid(),userKey,"text",getDate(),false, text);
 //                getMessages(firebaseUser.getUid(),"demo");
@@ -229,7 +226,7 @@ public class PrivateChatActivity extends AppCompatActivity {
                 MessageModel messageModel = snapshot.getValue(MessageModel.class);
                 messageModelList.add(messageModel);
                 messageAdapter.notifyDataSetChanged();
-                keyList.add(snapshot.getKey());
+                keyList.add(userKey);
 //                mmessagerecyclerview.smoothScrollToPosition(mmessagerecyclerview.getAdapter().getItemCount());
                 scrollView.fullScroll(scrollView.FOCUS_DOWN);
             }

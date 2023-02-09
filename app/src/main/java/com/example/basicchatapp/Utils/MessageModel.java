@@ -4,7 +4,7 @@ import java.util.List;
 
 public class MessageModel {
 
-    String type, time, text, from;
+    String type, time, text, from, otherUser;
     Boolean seen;
 
     public MessageModel(){}

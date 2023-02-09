@@ -3,22 +3,20 @@ package com.example.basicchatapp.Fragments;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.basicchatapp.R;
 import com.example.basicchatapp.Utils.MessageModel;
 import com.example.basicchatapp.Utils.Profile;
 import com.example.basicchatapp.Utils.RecentChats;
 import com.example.basicchatapp.Utils.RecentChatsAdapter;
-import com.example.basicchatapp.Utils.UserAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,9 +27,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class RecentChatsFragment extends Fragment {
 
@@ -50,6 +45,8 @@ public class RecentChatsFragment extends Fragment {
     }
 
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,6 +61,12 @@ public class RecentChatsFragment extends Fragment {
         getUserKeys();
 
         return view;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
     }
 
     private void getUserKeys(){
@@ -95,7 +98,6 @@ public class RecentChatsFragment extends Fragment {
     }
 
     private void getUserInfo(){
-//        List<Profile> temp = new ArrayList<>();  // database teki tüm user info yu tutacak geçici liste
 
         recentChatsInfoList = new ArrayList<>();
 
@@ -111,18 +113,11 @@ public class RecentChatsFragment extends Fragment {
                     String photoPath = snapshot.child(id).child("photo").getValue().toString();
                     // kullanıcının foto ve isim bilgilerini alıp bir class yapısında depoladık
                     RecentChats recentChats = new RecentChats(photoPath, profile.getName(),null,userList.size(),profile.getBio(), id);
-//                    getLastMessage();
-//                    recentChats.setText(tempMm.getText());
                     recentChatsInfoList.add(recentChats);
 
                     System.out.println(recentChats);
 
                 }
-
-//                getLastMessage();
-//                for(int i = 0; i<recentChatsInfoList.size();i++){
-//                    recentChatsInfoList.get(i).setText(textList.get(i));
-//                }
 
                 recentChatsAdapter = new RecentChatsAdapter(recentChatsInfoList, getActivity(), getContext());
                 recentChatsRecyclerView.setAdapter(recentChatsAdapter);
@@ -177,6 +172,8 @@ public class RecentChatsFragment extends Fragment {
             }
         });
     }
+
+
 
 
 
