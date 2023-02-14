@@ -159,7 +159,8 @@ public class MessageAdapterr extends RecyclerView.Adapter<MessageAdapterr.ViewHo
                         reference.child("Messages").child(firebaseUser.getUid()).child(otherUser).child(temp).removeValue(new DatabaseReference.CompletionListener() {
                             @Override
                             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                                reference.child("Messages").child(otherUser).child(firebaseUser.getUid()).child(temp).removeValue();
+//                                reference.child("Messages").child(otherUser).child(firebaseUser.getUid()).child(temp).removeValue();
+//                                notifyDataSetChanged();
                             }
                         });
                     }

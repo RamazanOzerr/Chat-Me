@@ -53,6 +53,7 @@ public class UserProfileActivity extends AppCompatActivity {
         String userKey = intent.getStringExtra("UserKey");
 
         init();
+        isAlreadyFriend(userKey);
         setUserInfo(username,photoPath,bio);
         setBtnFunctions(userKey);
         checkIfRequestAlreadySent(userKey);
@@ -132,6 +133,11 @@ public class UserProfileActivity extends AppCompatActivity {
         likeImagebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO
+//                if(!likeImagebtn.getDrawable == R.drawable.friends5){
+//                    sendLikeRequest(userKey);
+//                }
+
                 sendLikeRequest(userKey);
             }
         });
@@ -152,6 +158,7 @@ public class UserProfileActivity extends AppCompatActivity {
 //        });
     }
     private void sendLikeRequest(String userKey){
+
         Map map = new HashMap();
         map.put("isFriend","false");
         map.put("type","sent");
@@ -224,4 +231,25 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
+    private void isAlreadyFriend(String userKey){
+        reference.child("Requests").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    if(dataSnapshot.getKey().equals(userKey)){
+                        if(dataSnapshot.child("isFriend")
+                                .getValue().toString().equals("true")){
+                            likeImagebtn.setVisibility(View.GONE);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
 }

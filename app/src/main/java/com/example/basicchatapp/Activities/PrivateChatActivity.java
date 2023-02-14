@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.telecom.Call;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -28,6 +29,7 @@ import com.example.basicchatapp.R;
 import com.example.basicchatapp.Utils.MessageAdapterr;
 import com.example.basicchatapp.Utils.MessageModel;
 import com.example.basicchatapp.Utils.Profile;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,19 +39,18 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.text.DateFormat;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.sql.StatementEvent;
 
 public class PrivateChatActivity extends AppCompatActivity {
 
@@ -98,7 +99,7 @@ public class PrivateChatActivity extends AppCompatActivity {
 
         msendmessagecardview = findViewById(R.id.carviewofsendmessage);
         mtoolbarofspecificchat=findViewById(R.id.toolbarofspecificchat);
-//        mmessagerecyclerview=findViewById(R.id.recyclerviewofspecific);
+        mmessagerecyclerview=findViewById(R.id.recyclerviewofspecific);
         messagesArrayList=new ArrayList<>();
 
         image = findViewById(R.id.specificuserimageinimageview);
@@ -160,7 +161,8 @@ public class PrivateChatActivity extends AppCompatActivity {
     }
 
     public String getDate(){
-        SimpleDateFormat sdf = new SimpleDateFormat("'Date\n'dd-MM-yyyy '\n\nand\n\nTime\n'HH:mm:ss z");
+//        SimpleDateFormat sdf = new SimpleDateFormat("'Date\n'dd-MM-yyyy '\n\nand\n\nTime\n'HH:mm:ss z");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd-MM-yyyy");
         String currentDateAndTime = sdf.format(new Date());
         return currentDateAndTime;
     }
@@ -225,9 +227,11 @@ public class PrivateChatActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 MessageModel messageModel = snapshot.getValue(MessageModel.class);
                 messageModelList.add(messageModel);
+                System.out.println("sayi: "+messageModelList.size());
                 messageAdapter.notifyDataSetChanged();
                 keyList.add(userKey);
-//                mmessagerecyclerview.smoothScrollToPosition(mmessagerecyclerview.getAdapter().getItemCount());
+//                mmessagerecyclerview.smoothScrollToPosition(mmessagerecyclerview.getAdapter().getItemCount()+1);
+                mmessagerecyclerview.smoothScrollToPosition(messageModelList.size());
                 scrollView.fullScroll(scrollView.FOCUS_DOWN);
             }
 
@@ -251,6 +255,7 @@ public class PrivateChatActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
     // UserProfileActivity ye göndermemiz gereken user info yu çekiyoruz db den
@@ -276,30 +281,34 @@ public class PrivateChatActivity extends AppCompatActivity {
         });
     }
 
+
+
+
+
     // contentText e önce username i, sonrasında da message ı gircez
     // username+": "+ message gibi
-    public void sendNotification(String contentText){
-        // Create an explicit intent for an Activity in your app
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "have no clue what it is")
-                .setSmallIcon(R.drawable.iconnotif)
-                .setContentTitle("New message")
-                .setContentText(contentText)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                // Set the intent that will fire when the user taps the notification
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true);
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-
-// notificationId is a unique int for each notification that you must define
-        notificationManager.notify(1, builder.build()); // notificationID ye 1 verdik
-
-        mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.notif);
-        mediaPlayer.start();
-    }
+//    public void sendNotification(String contentText){
+//        // Create an explicit intent for an Activity in your app
+//        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
+//
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "have no clue what it is")
+//                .setSmallIcon(R.drawable.iconnotif)
+//                .setContentTitle("New message")
+//                .setContentText(contentText)
+//                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//                // Set the intent that will fire when the user taps the notification
+//                .setContentIntent(pendingIntent)
+//                .setAutoCancel(true);
+//
+//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+//
+//// notificationId is a unique int for each notification that you must define
+//        notificationManager.notify(1, builder.build()); // notificationID ye 1 verdik
+//
+//        mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.notif);
+//        mediaPlayer.start();
+//    }
 
 }

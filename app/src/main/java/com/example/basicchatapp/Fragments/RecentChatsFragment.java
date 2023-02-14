@@ -106,7 +106,6 @@ public class RecentChatsFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                 for(String id : userList){
                     System.out.println("id ler:"+id);
                     Profile profile = snapshot.child(id).getValue(Profile.class);
@@ -118,7 +117,6 @@ public class RecentChatsFragment extends Fragment {
                     System.out.println(recentChats);
 
                 }
-
                 recentChatsAdapter = new RecentChatsAdapter(recentChatsInfoList, getActivity(), getContext());
                 recentChatsRecyclerView.setAdapter(recentChatsAdapter);
 

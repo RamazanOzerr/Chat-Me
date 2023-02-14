@@ -107,13 +107,14 @@ public class RecentChatsAdapter extends RecyclerView.Adapter<RecentChatsAdapter.
                 return false;
             }
         });
-        holder.recentnameUser.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                createAlertDialog(recentChatsInfoList.get(position).getUserKey());
-                return false;
-            }
-        });
+
+//        holder.recentnameUser.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View view) {
+//                createAlertDialog(recentChatsInfoList.get(position).getUserKey());
+//                return false;
+//            }
+//        });
     }
 
 

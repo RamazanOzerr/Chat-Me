@@ -100,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                             firebaseDatabase = FirebaseDatabase.getInstance();
                             if(firebaseAuth.getUid() == null){
-                                Toast.makeText(getApplicationContext(),"NULL ÇIKTI OÇ",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(),"NULL ÇIKTI",Toast.LENGTH_SHORT).show();
                             }else{
                                 databaseReference = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getUid());
                                 Map map = new HashMap();
