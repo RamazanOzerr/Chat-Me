@@ -17,9 +17,12 @@
         app:civ_border_color="#D500F9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_user_profile_design"
         android:layout_marginTop="30dp"
         />
+
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar_user_profile_design"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -32,7 +35,7 @@
         android:layout_marginRight="40dp"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="name"
+        android:hint="name"
         android:textColorHint="#D500F9"
         android:textStyle="bold"
         android:textColor="#D500F9"
@@ -52,6 +55,7 @@
         android:textColorHint="#D500F9"
         android:textStyle="italic"
         android:textColor="#D500F9"
+        android:hint="username"
         android:layout_height="wrap_content"/>
 
 
@@ -61,7 +65,7 @@
         app:layout_constraintEnd_toEndOf="@id/user_name"
         app:layout_constraintTop_toBottomOf="@id/user_name"
         android:layout_marginTop="20dp"
-        android:text="about me"
+        android:hint="about me"
         android:minHeight="100dp"
         android:maxHeight="300dp"
         android:lines="5"

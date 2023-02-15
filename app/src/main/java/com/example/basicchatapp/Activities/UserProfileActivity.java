@@ -18,6 +18,7 @@ import com.example.basicchatapp.R;
 import com.example.basicchatapp.Utils.FriendsAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -40,6 +41,7 @@ public class UserProfileActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
     DatabaseReference reference;
     Boolean sent;
+    MaterialToolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,10 @@ public class UserProfileActivity extends AppCompatActivity {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();  // curr user
         reference = FirebaseDatabase.getInstance().getReference();  // ref to reach db
         sent = false;
+        toolbar = findViewById(R.id.toolbar_user_profile_screen);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("PROFILE");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void setUserInfo(String username, String photoPath, String bio){

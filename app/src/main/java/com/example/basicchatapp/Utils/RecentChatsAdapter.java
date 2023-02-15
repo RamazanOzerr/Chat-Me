@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.basicchatapp.Activities.PrivateChatActivity;
@@ -91,7 +92,7 @@ public class RecentChatsAdapter extends RecyclerView.Adapter<RecentChatsAdapter.
         });
 
 
-        holder.recentnameUser.setOnClickListener(new View.OnClickListener() {
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), PrivateChatActivity.class);
@@ -127,6 +128,7 @@ public class RecentChatsAdapter extends RecyclerView.Adapter<RecentChatsAdapter.
 
         TextView recentnameUser, textLoser;
         CircleImageView recentImage;
+        CardView cardView;
 
         ViewHolder(View itemView){
             super(itemView);
@@ -134,6 +136,7 @@ public class RecentChatsAdapter extends RecyclerView.Adapter<RecentChatsAdapter.
             recentnameUser = itemView.findViewById(R.id.recentnameUser);
             recentImage = itemView.findViewById(R.id.recentChatImage);
             textLoser = itemView.findViewById(R.id.textLoser);
+            cardView = itemView.findViewById(R.id.cardview_recent);
 
         }
     }

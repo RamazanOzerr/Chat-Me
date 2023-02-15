@@ -10,8 +10,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.basicchatapp.Activities.PrivateChatActivity;
 import com.example.basicchatapp.Activities.UserProfileActivity;
 import com.example.basicchatapp.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -76,6 +78,15 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
            }
        });
 
+       holder.cardview_friends.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               Intent intent = new Intent(view.getContext(), PrivateChatActivity.class);
+               intent.putExtra("UserKey",friendsIDlist.get(position));
+               activity.startActivity(intent);
+           }
+       });
+
        holder.imageViewfriends.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
@@ -116,6 +127,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
 
         TextView name_friends, bio_friends;
         CircleImageView imageViewfriends;
+        CardView cardview_friends;
 
         ViewHolder(View itemView){
             super(itemView);
@@ -123,6 +135,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
             name_friends = itemView.findViewById(R.id.name_friends);
             imageViewfriends = itemView.findViewById(R.id.imageViewfriends);
             bio_friends = itemView.findViewById(R.id.bio_friends);
+            cardview_friends = itemView.findViewById(R.id.cardview_friends);
 
         }
     }

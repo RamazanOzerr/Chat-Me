@@ -6,6 +6,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview_recent"
+        android:layout_width="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
+        android:background="@drawable/shape"
+        app:cardBackgroundColor="@color/white"
+        app:cardMaxElevation="5dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        >
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,7 +40,6 @@
             android:textSize="20dp"
             android:textStyle="italic"
             android:textColor="#D500F9"
-            android:layout_marginTop="20dp"
             />
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -36,11 +49,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/contacts"
-            android:layout_margin="20dp"
 
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

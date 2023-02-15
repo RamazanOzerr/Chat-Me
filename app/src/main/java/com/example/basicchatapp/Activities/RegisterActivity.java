@@ -111,7 +111,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                                 databaseReference.setValue(map);
 
-                                Toast.makeText(RegisterActivity.this, "Logged in Successfully",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this, "Signed up Successfully",Toast.LENGTH_SHORT).show();
                                 openLogin();
                             }
 

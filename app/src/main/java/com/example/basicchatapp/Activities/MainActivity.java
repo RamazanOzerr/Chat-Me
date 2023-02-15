@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,17 +23,25 @@ import com.example.basicchatapp.Fragments.MainScreenFragment;
 import com.example.basicchatapp.Fragments.RecentChatsFragment;
 import com.example.basicchatapp.Fragments.RequestsFragment;
 import com.example.basicchatapp.R;
+import com.example.basicchatapp.Utils.CustomViewPager;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
     FirebaseAuth firebaseAuth;
+    ViewPager viewPager;
+    //Tablayoutu fragment içine tanımlattık
+    TabLayout tabLayout;
+    CustomViewPager customViewPager;
+    Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +51,26 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         firebaseAuth = FirebaseAuth.getInstance();
 
-        setNavigationButtonActivity();
-        replaceFragments(new RecentChatsFragment());
+        viewPager = findViewById(R.id.viewpager_message);
+        tabLayout = findViewById(R.id.tablayout);
+        toolbar = findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("CHATHUB");
+
+
+        customViewPager = new CustomViewPager(getSupportFragmentManager());
+        customViewPager.addFragment(new RecentChatsFragment(),"Chats");
+        customViewPager.addFragment(new MainScreenFragment(),"Users");
+        customViewPager.addFragment(new FriendsFragment(),"Friends");
+        customViewPager.addFragment(new RequestsFragment(),"Requests");
+
+        viewPager.setAdapter(customViewPager);
+
+        tabLayout.setupWithViewPager(viewPager);
+
+//        setNavigationButtonActivity();
+//        replaceFragments(new RecentChatsFragment());
     }
 
     //TODO has not finished yet
@@ -87,5 +114,30 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.top_app_bar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.search:
+                Toast.makeText(getApplicationContext(),"CLICKED SEARCH",Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.profile:
+                startActivity(new Intent(getApplicationContext(),UserProfileDesign.class));
+                return true;
+            case R.id.log_out:
+                firebaseAuth.signOut();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 }

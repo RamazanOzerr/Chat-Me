@@ -124,7 +124,7 @@ public class PrivateChatActivity extends AppCompatActivity {
         mtoolbarofspecificchat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"Toolbar is Clicked",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),"Toolbar is Clicked",Toast.LENGTH_SHORT).show();
                 getUserInfo(userKey);
 //                startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
 

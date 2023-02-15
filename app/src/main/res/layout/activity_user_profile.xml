@@ -7,6 +7,10 @@
     android:background="#E8DDEC"
     tools:context=".Activities.UserProfileActivity">
 
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar_user_profile_screen"/>
+
+
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/p_image"
@@ -17,7 +21,7 @@
         app:civ_border_color="#D500F9"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_user_profile_screen"
         android:layout_marginTop="30dp"
         />
 

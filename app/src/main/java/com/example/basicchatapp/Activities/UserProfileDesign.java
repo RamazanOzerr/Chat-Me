@@ -20,6 +20,7 @@ import com.example.basicchatapp.Utils.RandomString;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,6 +47,7 @@ public class UserProfileDesign extends AppCompatActivity {
 
     StorageReference storageReference;
     FirebaseStorage firebaseStorage;
+    MaterialToolbar toolbar;
 
 
     @Override
@@ -63,7 +65,10 @@ public class UserProfileDesign extends AppCompatActivity {
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
 
-
+        toolbar = findViewById(R.id.toolbar_user_profile_design);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("PROFILE");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         name.setEnabled(true);
         user_name.setEnabled(true);

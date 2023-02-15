@@ -6,12 +6,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
+        android:id="@+id/cardview_users"
+        android:layout_width="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
-        android:background="@drawable/shape"/>
+        android:background="@drawable/shape"
+        app:cardBackgroundColor="@color/white"
+        app:cardMaxElevation="5dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -29,10 +35,10 @@
             app:layout_constraintStart_toEndOf="@id/imageView"
             app:layout_constraintTop_toTopOf="parent"
             android:text="name of the user"
+            app:layout_constraintBottom_toTopOf="@+id/bioUser"
             android:textSize="20dp"
             android:textStyle="bold|italic"
             android:textColor="#D500F9"
-            android:layout_marginTop="20dp"
             />
 
         <TextView
@@ -56,11 +62,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/contacts"
-            android:layout_margin="20dp"
-
+            app:civ_border_width="2dp"
+            app:civ_border_color="#D500F9"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

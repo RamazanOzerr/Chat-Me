@@ -12,6 +12,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.basicchatapp.Activities.PrivateChatActivity;
@@ -66,6 +67,38 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
 //        holder.nameUser.setText(userKeyList.get(position).toString());
+
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                reference.child("Users").child(userKeyList.get(position)).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String name = snapshot.child("name").getValue().toString();
+                        String bio = snapshot.child("bio").getValue().toString();
+                        String photoID = snapshot.child("photo").getValue().toString();
+                        Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
+                        intent.putExtra("name",name);
+                        intent.putExtra("photo",photoID);
+                        intent.putExtra("bio",bio);
+                        intent.putExtra("UserKey",userKeyList.get(position));
+                        activity.startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+//                userKeyList.get(position);
+//                Intent intent = new Intent(view.getContext(), PrivateChatActivity.class);
+//                intent.putExtra("UserKey",userKeyList.get(position));
+//                activity.startActivity(intent);
+            }
+        });
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,6 +167,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
         TextView nameUser, bioUser;
         CircleImageView imageView;
+        CardView cardView;
 
         ViewHolder(View itemView){
             super(itemView);
@@ -141,7 +175,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             nameUser = itemView.findViewById(R.id.nameUser);
             imageView = itemView.findViewById(R.id.imageView);
             bioUser = itemView.findViewById(R.id.bioUser);
-
+            cardView = itemView.findViewById(R.id.cardview_users);
         }
     }
 
