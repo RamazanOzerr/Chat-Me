@@ -98,22 +98,23 @@ public class RegisterActivity extends AppCompatActivity {
 
                         if(task.isSuccessful()) {
 
-                            firebaseDatabase = FirebaseDatabase.getInstance();
-                            if(firebaseAuth.getUid() == null){
-                                Toast.makeText(getApplicationContext(),"NULL ÇIKTI",Toast.LENGTH_SHORT).show();
-                            }else{
-                                databaseReference = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getUid());
-                                Map map = new HashMap();
-                                map.put("name","null");
-                                map.put("username","null");
-                                map.put("photo","null");
-                                map.put("bio","null");
-
-                                databaseReference.setValue(map);
-
-                                Toast.makeText(RegisterActivity.this, "Signed up Successfully",Toast.LENGTH_SHORT).show();
-                                openLogin();
-                            }
+                            startActivity(new Intent(getApplicationContext(),SignUpSetProfile.class));
+//                            firebaseDatabase = FirebaseDatabase.getInstance();
+//                            if(firebaseAuth.getUid() == null){
+//                                Toast.makeText(getApplicationContext(),"NULL ÇIKTI",Toast.LENGTH_SHORT).show();
+//                            }else{
+//                                databaseReference = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getUid());
+//                                Map map = new HashMap();
+//                                map.put("name","null");
+//                                map.put("username","null");
+//                                map.put("photo","null");
+//                                map.put("bio","null");
+//
+//                                databaseReference.setValue(map);
+//
+//                                Toast.makeText(RegisterActivity.this, "Signed up Successfully",Toast.LENGTH_SHORT).show();
+//                                openLogin();
+//                            }
 
 
 //

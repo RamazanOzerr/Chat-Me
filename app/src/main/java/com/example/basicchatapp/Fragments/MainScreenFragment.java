@@ -80,6 +80,7 @@ public class MainScreenFragment extends Fragment {
                         Profile user1 = snapshot.getValue(Profile.class);
 
                         if(!user1.getUsername().equals("null") && !snapshot.getKey().equals(user.getUid())){
+                            System.out.println("key: "+snapshot.getKey());
                             userKeyList.add(snapshot.getKey());
                             userAdapter.notifyDataSetChanged();
                         }
