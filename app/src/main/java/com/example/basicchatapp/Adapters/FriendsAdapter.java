@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.basicchatapp.Activities.PrivateChatActivity;
 import com.example.basicchatapp.Activities.UserProfileActivity;
 import com.example.basicchatapp.R;
+import com.example.basicchatapp.Utils.Friend;
 import com.example.basicchatapp.Utils.RecentChats;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,23 +35,23 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder> {
+public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder> implements Filterable{
 
-    private List<String> friendsIDlist;
-    private List<String> friendsIDlistfull;
+    private List<Friend> friendlist;
+    private List<Friend> friendlistfull;
     Activity activity;
     Context context;
     FirebaseUser user;
     DatabaseReference reference;
 
 
-    public FriendsAdapter(List<String> friendsIDlist, Activity activity, Context context) {
-        this.friendsIDlist = friendsIDlist;
+    public FriendsAdapter(List<Friend> friendList, Activity activity, Context context) {
+        this.friendlist = friendList;
         this.activity = activity;
         this.context = context;
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference();
-        friendsIDlistfull = new ArrayList<>(friendsIDlist);
+        friendlistfull = new ArrayList<>(friendList);
     }
 
     @NonNull
@@ -64,30 +65,17 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull FriendsAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        // db den user info çekip set ledik
-       reference.child("Users").child(friendsIDlist.get(position)).addValueEventListener(new ValueEventListener() {
-           @Override
-           public void onDataChange(@NonNull DataSnapshot snapshot) {
-               String name = snapshot.child("name").getValue().toString();
-               String bio = snapshot.child("bio").getValue().toString();
-               String photoID = snapshot.child("photo").getValue().toString();
-               holder.name_friends.setText(name);
-               holder.bio_friends.setText(bio);
-               Picasso.get().load(photoID).into(holder.imageViewfriends);
 
-           }
 
-           @Override
-           public void onCancelled(@NonNull DatabaseError error) {
-
-           }
-       });
+        holder.name_friends.setText(friendlist.get(position).getName());
+        holder.bio_friends.setText(friendlist.get(position).getBio());
+        Picasso.get().load(friendlist.get(position).getPhotoPath()).into(holder.imageViewfriends);
 
        holder.cardview_friends.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
                Intent intent = new Intent(view.getContext(), PrivateChatActivity.class);
-               intent.putExtra("UserKey",friendsIDlist.get(position));
+               intent.putExtra("UserKey",friendlist.get(position).getUserKey());
                activity.startActivity(intent);
            }
        });
@@ -95,28 +83,12 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
        holder.imageViewfriends.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               reference.child("Users").child(friendsIDlist.get(position)).addValueEventListener(new ValueEventListener() {
-                   @Override
-                   public void onDataChange(@NonNull DataSnapshot snapshot) {
-                       String name = snapshot.child("name").getValue().toString();
-                       String bio = snapshot.child("bio").getValue().toString();
-                       String photoID = snapshot.child("photo").getValue().toString();
-                       Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
-                       intent.putExtra("name",name);
-                       intent.putExtra("photo",photoID);
-                       intent.putExtra("bio",bio);
-                       intent.putExtra("UserKey",friendsIDlist.get(position));
-                       activity.startActivity(intent);
-                   }
-
-                   @Override
-                   public void onCancelled(@NonNull DatabaseError error) {
-
-                   }
-               });
-
-
-
+               Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
+               intent.putExtra("name",friendlist.get(position).getName());
+               intent.putExtra("photo",friendlist.get(position).getPhotoPath());
+               intent.putExtra("bio",friendlist.get(position).getBio());
+               intent.putExtra("UserKey",friendlist.get(position).getUserKey());
+               activity.startActivity(intent);
            }
        });
 
@@ -125,7 +97,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return friendsIDlist.size();
+        return friendlist.size();
     }
 
     public class ViewHolder extends  RecyclerView.ViewHolder{
@@ -144,5 +116,39 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
 
         }
     }
+
+    @Override
+    public Filter getFilter() {
+        return friendFilter;
+    }
+
+    private Filter friendFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<Friend> filteredList = new ArrayList<>();
+            if(charSequence == null || charSequence.length() == 0){
+                filteredList.addAll(friendlistfull);
+            }else{
+                String filterPattern = charSequence.toString().toLowerCase().trim();
+
+                for(Friend item : friendlistfull){
+                    if(item.getName().toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            friendlist.clear();
+            friendlist.addAll((List) filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
 
 }

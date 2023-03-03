@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:id="@+id/swipe_to_refresh_layout"
     android:orientation="vertical"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.RecentChatsFragment">
 
     <androidx.recyclerview.widget.RecyclerView

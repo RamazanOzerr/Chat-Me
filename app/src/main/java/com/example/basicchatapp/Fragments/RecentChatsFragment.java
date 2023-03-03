@@ -311,7 +311,4 @@ public class RecentChatsFragment extends Fragment {
             }
         });
     }
-
-
-
 }

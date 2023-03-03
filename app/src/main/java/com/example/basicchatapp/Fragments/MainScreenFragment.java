@@ -8,11 +8,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import com.example.basicchatapp.Activities.PrivateChatActivity;
 import com.example.basicchatapp.Activities.UserProfileDesign;
@@ -36,12 +41,13 @@ public class MainScreenFragment extends Fragment {
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference reference;
-    List<String> userKeyList;
+    private List<Profile> userList;
     RecyclerView userListRecyclerView;
     View view;
     UserAdapter userAdapter;
     FirebaseAuth auth;
     FirebaseUser user;
+    private SwipeRefreshLayout swipeRefreshLayout_main;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,16 +64,23 @@ public class MainScreenFragment extends Fragment {
     public void init(){
         firebaseDatabase = FirebaseDatabase.getInstance();
         reference = firebaseDatabase.getReference();
-        userKeyList = new ArrayList<>();
         userListRecyclerView = view.findViewById(R.id.userListRecyclerView);
         // alttaki snapCount değişkeni bir satırda kaç tane görüntülenmesini istediğimizi belirler
         RecyclerView.LayoutManager mng = new GridLayoutManager(getContext(),1);
         userListRecyclerView.setLayoutManager(mng);
-        userAdapter = new UserAdapter(userKeyList,getActivity(),getContext());
-        userListRecyclerView.setAdapter(userAdapter);
+
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
-
+        userList = new ArrayList<>();
+        swipeRefreshLayout_main = view.findViewById(R.id.swipe_to_refresh_layout_main);
+        swipeRefreshLayout_main.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                userList.clear();
+                getUsers();
+                swipeRefreshLayout_main.setRefreshing(false);
+            }
+        });
     }
 
     public void getUsers(){
@@ -78,13 +91,19 @@ public class MainScreenFragment extends Fragment {
                 reference.child("Users").child(snapshot.getKey()).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        Profile user1 = snapshot.getValue(Profile.class);
-
-                        if(!user1.getUsername().equals("null") && !snapshot.getKey().equals(user.getUid())){
-                            System.out.println("key: "+snapshot.getKey());
-                            userKeyList.add(snapshot.getKey());
-                            userAdapter.notifyDataSetChanged();
+//                        Profile user1 = snapshot.getValue(Profile.class);
+                        String name = snapshot.child("name").getValue().toString();
+                        String bio = snapshot.child("bio").getValue().toString();
+                        String photo = snapshot.child("photo").getValue().toString();
+                        String username = snapshot.child("username").getValue().toString();
+                        if(!name.equals("null") && !snapshot.getKey().equals(user.getUid())){
+//                            System.out.println("key: "+snapshot.getKey());
+//                            userKeyList.add(snapshot.getKey());
+                            userList.add(new Profile(bio, name, photo, username, snapshot.getKey()));
+//                            userAdapter.notifyDataSetChanged();
                         }
+                        userAdapter = new UserAdapter(userList,getActivity(),getContext());
+                        userListRecyclerView.setAdapter(userAdapter);
                     }
 
                     @Override
@@ -120,4 +139,28 @@ public class MainScreenFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                userAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
+    }
 }

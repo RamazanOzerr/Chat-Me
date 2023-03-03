@@ -19,6 +19,7 @@ import com.example.basicchatapp.Activities.PrivateChatActivity;
 import com.example.basicchatapp.Activities.UserProfileActivity;
 import com.example.basicchatapp.R;
 import com.example.basicchatapp.Utils.Profile;
+import com.example.basicchatapp.Utils.Requests;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,24 +33,23 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
-
-    List<String> userKeyList;
-    List<String> userKeyListFull;
+public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> implements Filterable{
+    private List<Profile> userList;
+    private List<Profile> userListFull;
     Activity activity;
     Context context;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference reference;
 
-    public UserAdapter(List<String> userKeyList, Activity activity, Context context) {
-        this.userKeyList = userKeyList;
+    public UserAdapter(List<Profile> userList, Activity activity, Context context) {
+        this.userList = userList;
         this.activity = activity;
         this.context = context;
         firebaseDatabase = FirebaseDatabase.getInstance();
         reference = firebaseDatabase.getReference();
 
         // userKeyList in copy sini oluşturduk
-        userKeyListFull = new ArrayList<>(userKeyList);
+        userListFull = new ArrayList<>(userList);
     }
 
     // layout tanımlaması yapılacak
@@ -74,25 +74,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             @Override
             public void onClick(View view) {
 
-                reference.child("Users").child(userKeyList.get(position)).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String name = snapshot.child("name").getValue().toString();
-                        String bio = snapshot.child("bio").getValue().toString();
-                        String photoID = snapshot.child("photo").getValue().toString();
-                        Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
-                        intent.putExtra("name",name);
-                        intent.putExtra("photo",photoID);
-                        intent.putExtra("bio",bio);
-                        intent.putExtra("UserKey",userKeyList.get(position));
-                        activity.startActivity(intent);
-                    }
+                Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
+                intent.putExtra("name",userList.get(position).getName());
+                intent.putExtra("photo",userList.get(position).getPhoto());
+                intent.putExtra("bio",userList.get(position).getBio());
+                intent.putExtra("UserKey",userList.get(position).getOtherUser());
+                activity.startActivity(intent);
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
 
 //                userKeyList.get(position);
 //                Intent intent = new Intent(view.getContext(), PrivateChatActivity.class);
@@ -105,25 +93,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             @Override
             public void onClick(View view) {
 
-                reference.child("Users").child(userKeyList.get(position)).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String name = snapshot.child("name").getValue().toString();
-                        String bio = snapshot.child("bio").getValue().toString();
-                        String photoID = snapshot.child("photo").getValue().toString();
-                        Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
-                        intent.putExtra("name",name);
-                        intent.putExtra("photo",photoID);
-                        intent.putExtra("bio",bio);
-                        intent.putExtra("UserKey",userKeyList.get(position));
-                        activity.startActivity(intent);
-                    }
+                Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
+                intent.putExtra("name",userList.get(position).getName());
+                intent.putExtra("photo",userList.get(position).getPhoto());
+                intent.putExtra("bio",userList.get(position).getBio());
+                intent.putExtra("UserKey",userList.get(position).getOtherUser());
+                activity.startActivity(intent);
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
 
 //                userKeyList.get(position);
 //                Intent intent = new Intent(view.getContext(), PrivateChatActivity.class);
@@ -132,35 +109,16 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             }
         });
 
-        reference.child("Users").child(userKeyList.get(position)).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Profile profile = snapshot.getValue(Profile.class);
-                String photoPath = snapshot.child("photo").getValue().toString();
-//                Picasso.get().load(profile.getImage()).into(holder.imageView);
-                Picasso.get().load(photoPath).into(holder.imageView);
-                holder.nameUser.setText(profile.getName());
-                holder.bioUser.setText(profile.getBio());
-//                if(profile.getImage() == 0){
-//                    Picasso.get().load(profile.getImage()).into(holder.imageView);
-//                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-
-        });
-
-
+        Picasso.get().load(userList.get(position).getPhoto()).into(holder.imageView);
+        holder.nameUser.setText(userList.get(position).getName());
+        holder.bioUser.setText(userList.get(position).getBio());
 
     }
 
     // adapteri oluşturacak listenin size ı
     @Override
     public int getItemCount() {
-        return userKeyList.size();
+        return userList.size();
     }
 
     // view ların tanımlanma işlemi
@@ -180,31 +138,37 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         }
     }
 
-//    @Override
-//    public Filter getFilter() {
-//        return userFilter;
-//    }
-//    private Filter userFilter = new Filter() {
-//        @Override
-//        protected FilterResults performFiltering(CharSequence charSequence) {
-//            List<String> filteredList = new ArrayList<>();
-//            if(charSequence == null || charSequence.length() == 0){
-//                filteredList.addAll(userKeyListFull);
-//            }else{
-//                String filterPattern = charSequence.toString().toLowerCase().trim();
-//
-//                for(String item : userKeyListFull){
-//                    //TODO BURADA BIZIM LISTEDEN USER NAME I CEKEBILMEMIZ LAZIM AMA BIZIM LISTE
-//                    // BUNA UYGUN DEGIL, O YUZDEN BUNU DEGISTIRMEK GEREKIYOR...
-//                }
-//            }
-//
-//            return null;
-//        }
-//
-//        @Override
-//        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-//
-//        }
-//    };
+    @Override
+    public Filter getFilter() {
+        return userFilter;
+    }
+
+    private Filter userFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            List<Profile> filteredList = new ArrayList<>();
+            if(charSequence == null || charSequence.length() == 0){
+                filteredList.addAll(userListFull);
+            }else{
+                String filterPattern = charSequence.toString().toLowerCase().trim();
+
+                for(Profile item : userListFull){
+                    if(item.getName().toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }
+                }
+            }
+
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            userList.clear();
+            userList.addAll((List) filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
 }

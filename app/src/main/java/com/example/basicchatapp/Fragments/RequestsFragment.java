@@ -8,10 +8,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.basicchatapp.Adapters.RequestsAdapter;
@@ -36,7 +42,9 @@ public class RequestsFragment extends Fragment {
     FirebaseUser user;
     DatabaseReference reference;
     List<Requests> requestsList;
-
+    RequestsAdapter requestsAdapter;
+    private SwipeRefreshLayout swipeRefreshLayout_requests;
+    View view;
 
 
     //TODO şu MissingInflatedId olayına bakalım
@@ -44,7 +52,7 @@ public class RequestsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_requests, container, false);
+        view = inflater.inflate(R.layout.fragment_requests, container, false);
 
         requestsRecyclerView = view.findViewById(R.id.requestsRecyclerView);
         requestsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -57,6 +65,15 @@ public class RequestsFragment extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference();
         requestsList = new ArrayList<>();
+        swipeRefreshLayout_requests = view.findViewById(R.id.swipe_to_refresh_layout_requests);
+        swipeRefreshLayout_requests.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requestsList.clear();
+                getRequests();
+                swipeRefreshLayout_requests.setRefreshing(false);
+            }
+        });
 
     }
 
@@ -81,9 +98,8 @@ public class RequestsFragment extends Fragment {
                                     String name = snapshot.child("name").getValue().toString();
                                     String bio = snapshot.child("bio").getValue().toString();
                                     requestsList.add(new Requests(photoID, name, bio, otherID));
-                                    RequestsAdapter requestsAdapter = new RequestsAdapter(requestsList, getActivity(), getContext());
+                                    requestsAdapter = new RequestsAdapter(requestsList, getActivity(), getContext());
                                     requestsRecyclerView.setAdapter(requestsAdapter);
-
                                 }
 
 
@@ -104,6 +120,31 @@ public class RequestsFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                requestsAdapter.getFilter().filter(s);
+                return false;
             }
         });
     }
