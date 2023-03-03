@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#E8DDEC"
+    android:background="@color/white"
     android:layout_height="match_parent"
     tools:context=".Activities.MainActivity">
 
@@ -18,8 +18,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#DC68EF"
-            app:navigationIcon="@drawable/rsz_iconn"
+            android:background="@color/azure"
+            app:navigationIcon="@mipmap/ic_logo6"
+            app:titleTextColor="@color/blue_toolbar"
             android:padding="10dp"
             app:menu="@menu/top_app_bar"
             app:layout_constraintTop_toTopOf="parent"
@@ -30,14 +31,14 @@
             android:id="@+id/tablayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#DC68EF"
+            android:background="@color/azure"
             android:minHeight="?attr/actionBarSize"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:tabIndicatorColor="#32013A"
+            app:tabIndicatorColor="@color/blue_toolbar"
             app:tabIndicatorHeight="5dp"
-            app:tabSelectedTextColor="#40044A"
-            app:tabTextColor="@color/white"
+            app:tabSelectedTextColor="@color/blue_toolbar"
+            app:tabTextColor="@color/blue_toolbar"
             />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -67,6 +68,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/frame_layout"
+        android:background="@color/azure"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appbarlayout"
         app:layout_constraintEnd_toEndOf="parent"

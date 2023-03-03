@@ -26,7 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.basicchatapp.R;
-import com.example.basicchatapp.Utils.MessageAdapterr;
+import com.example.basicchatapp.Adapters.MessageAdapterr;
 import com.example.basicchatapp.Utils.MessageModel;
 import com.example.basicchatapp.Utils.Profile;
 
@@ -158,6 +158,7 @@ public class PrivateChatActivity extends AppCompatActivity {
         });
 
         loadMessage(userKey);
+        scrollView.fullScroll(scrollView.FOCUS_DOWN);
     }
 
     public String getDate(){
@@ -212,7 +213,7 @@ public class PrivateChatActivity extends AppCompatActivity {
                         // looks like we can leave here empty for now
 
 //                        sendNotification("hahaha mesaj gönderdim hahah:  "+message);
-                        scrollView.fullScroll(scrollView.FOCUS_DOWN);
+//                        scrollView.fullScroll(scrollView.FOCUS_DOWN);
 
                     }
                 });

@@ -1,4 +1,4 @@
-package com.example.basicchatapp.Utils;
+package com.example.basicchatapp.Adapters;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.basicchatapp.R;
+import com.example.basicchatapp.Utils.MessageModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

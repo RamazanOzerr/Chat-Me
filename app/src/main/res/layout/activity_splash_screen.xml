@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#E8DDEC"
+    android:background="@color/azure"
     tools:context=".Activities.SplashScreen">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:src="@drawable/newlogin3"
+        android:src="@mipmap/ic_logo6"
         />
 
 

@@ -13,9 +13,8 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
+        android:backgroundTint="@color/white"
         android:background="@drawable/shape"
-        app:cardBackgroundColor="@color/white"
-        app:cardMaxElevation="5dp"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
         >
@@ -39,7 +38,7 @@
             android:text="name of the user"
             android:textSize="20dp"
             android:textStyle="italic"
-            android:textColor="#D500F9"
+            android:textColor="@color/blue_toolbar"
             />
 
         <de.hdodenhof.circleimageview.CircleImageView
@@ -49,7 +48,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/contacts"
-
+            app:civ_border_color="@color/blue_backgrnd"
+            app:civ_border_width="2dp"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

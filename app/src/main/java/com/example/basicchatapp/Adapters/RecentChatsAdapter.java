@@ -1,4 +1,4 @@
-package com.example.basicchatapp.Utils;
+package com.example.basicchatapp.Adapters;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.basicchatapp.Activities.PrivateChatActivity;
 import com.example.basicchatapp.Activities.UserProfileActivity;
 import com.example.basicchatapp.R;
+import com.example.basicchatapp.Utils.RecentChats;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
@@ -101,13 +102,13 @@ public class RecentChatsAdapter extends RecyclerView.Adapter<RecentChatsAdapter.
             }
         });
 
-        holder.recentImage.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                createAlertDialog(recentChatsInfoList.get(position).getUserKey());
-                return false;
-            }
-        });
+//        holder.recentImage.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View view) {
+//                createAlertDialog(recentChatsInfoList.get(position).getUserKey());
+//                return false;
+//            }
+//        });
 
 //        holder.recentnameUser.setOnLongClickListener(new View.OnLongClickListener() {
 //            @Override
@@ -126,7 +127,7 @@ public class RecentChatsAdapter extends RecyclerView.Adapter<RecentChatsAdapter.
 
     public static class ViewHolder extends  RecyclerView.ViewHolder{
 
-        TextView recentnameUser, textLoser;
+        TextView recentnameUser;
         CircleImageView recentImage;
         CardView cardView;
 
@@ -135,7 +136,6 @@ public class RecentChatsAdapter extends RecyclerView.Adapter<RecentChatsAdapter.
 
             recentnameUser = itemView.findViewById(R.id.recentnameUser);
             recentImage = itemView.findViewById(R.id.recentChatImage);
-            textLoser = itemView.findViewById(R.id.textLoser);
             cardView = itemView.findViewById(R.id.cardview_recent);
 
         }
@@ -168,7 +168,7 @@ public class RecentChatsAdapter extends RecyclerView.Adapter<RecentChatsAdapter.
 
     @Override
     public Filter getFilter() {
-        return null;
+        return userFilter;
     }
 
     private Filter userFilter = new Filter() {

@@ -8,7 +8,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="50dp"
-        android:background="@color/white"
+        android:backgroundTint="@color/azure"
+        android:background="@drawable/shape"
         android:id="@+id/layoutformessage">
 
         <TextView

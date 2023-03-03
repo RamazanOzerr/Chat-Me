@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.basicchatapp.R;
-import com.example.basicchatapp.Utils.FriendsAdapter;
+import com.example.basicchatapp.Adapters.FriendsAdapter;
 import com.example.basicchatapp.Utils.Requests;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,7 +32,7 @@ public class FriendsFragment extends Fragment {
     private RecyclerView friendsRecyclerView;
     FirebaseUser user;
     DatabaseReference reference;
-    List<String> friendsIDlist;
+    private List<String> friendsIDlist;
 
 
     public FriendsFragment() {
@@ -65,16 +65,17 @@ public class FriendsFragment extends Fragment {
         reference.child("Requests").child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                friendsIDlist.clear();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     // we only check one side, no need to the other coz they both are the same
                     if(dataSnapshot.child("isFriend").getValue().toString().equals("true")){
                         friendsIDlist.add(dataSnapshot.getKey());
                     }
                 }
-                System.out.println("friends keys: "+friendsIDlist);
+//                System.out.println("friends keys: "+friendsIDlist);
                 FriendsAdapter friendsAdapter = new FriendsAdapter(friendsIDlist,getActivity(),getContext());
-                System.out.println("sizee: "+friendsIDlist.size());
-                System.out.println("size: "+friendsAdapter.getItemCount());
+//                System.out.println("sizee: "+friendsIDlist.size());
+//                System.out.println("size: "+friendsAdapter.getItemCount());
                 friendsRecyclerView.setAdapter(friendsAdapter);
             }
 

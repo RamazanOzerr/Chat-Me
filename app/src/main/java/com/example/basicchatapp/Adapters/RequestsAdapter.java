@@ -1,4 +1,4 @@
-package com.example.basicchatapp.Utils;
+package com.example.basicchatapp.Adapters;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.basicchatapp.Activities.UserProfileActivity;
 import com.example.basicchatapp.R;
+import com.example.basicchatapp.Utils.Requests;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;

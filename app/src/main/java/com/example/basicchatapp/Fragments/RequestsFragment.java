@@ -14,9 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.basicchatapp.Adapters.RequestsAdapter;
 import com.example.basicchatapp.R;
 import com.example.basicchatapp.Utils.Requests;
-import com.example.basicchatapp.Utils.RequestsAdapter;
+import com.example.basicchatapp.Adapters.RequestsAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -61,11 +62,10 @@ public class RequestsFragment extends Fragment {
 
 
     private void getRequests(){
-
-
-        reference.child("Requests").addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.child("Requests").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                requestsList.clear();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     if(dataSnapshot.hasChild(user.getUid())){
                         if(dataSnapshot.child(user.getUid()).child("type").getValue()
@@ -83,6 +83,7 @@ public class RequestsFragment extends Fragment {
                                     requestsList.add(new Requests(photoID, name, bio, otherID));
                                     RequestsAdapter requestsAdapter = new RequestsAdapter(requestsList, getActivity(), getContext());
                                     requestsRecyclerView.setAdapter(requestsAdapter);
+
                                 }
 
 

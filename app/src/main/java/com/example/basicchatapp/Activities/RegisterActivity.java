@@ -3,6 +3,7 @@ package com.example.basicchatapp.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.example.basicchatapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -26,14 +28,16 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    EditText email2Text, password2Text, password3Text;
-    Button signButton;
-    TextView loginText;
+    private EditText email2Text, password2Text, password3Text;
+    private Button signButton;
+    private TextView loginText;
     FirebaseAuth firebaseAuth;
-    ProgressBar progressBar2;
+    private ProgressBar progressBar2;
+    private MaterialToolbar toolbar;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+
 
 
     @Override
@@ -48,6 +52,9 @@ public class RegisterActivity extends AppCompatActivity {
         signButton = findViewById(R.id.signInbutton);
         firebaseAuth = FirebaseAuth.getInstance();
         progressBar2 = findViewById(R.id.progressBar2);
+        toolbar = findViewById(R.id.toolBar_signup);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         loginText.setOnClickListener(new View.OnClickListener() {
             @Override

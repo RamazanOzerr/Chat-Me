@@ -1,4 +1,4 @@
-package com.example.basicchatapp.Utils;
+package com.example.basicchatapp.Adapters;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.basicchatapp.Activities.PrivateChatActivity;
 import com.example.basicchatapp.Activities.UserProfileActivity;
 import com.example.basicchatapp.R;
+import com.example.basicchatapp.Utils.RecentChats;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -31,9 +34,10 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder>{
+public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHolder> {
 
     private List<String> friendsIDlist;
+    private List<String> friendsIDlistfull;
     Activity activity;
     Context context;
     FirebaseUser user;
@@ -46,6 +50,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         this.context = context;
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference();
+        friendsIDlistfull = new ArrayList<>(friendsIDlist);
     }
 
     @NonNull
@@ -139,4 +144,5 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
 
         }
     }
+
 }

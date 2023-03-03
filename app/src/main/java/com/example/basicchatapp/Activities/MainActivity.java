@@ -23,7 +23,7 @@ import com.example.basicchatapp.Fragments.MainScreenFragment;
 import com.example.basicchatapp.Fragments.RecentChatsFragment;
 import com.example.basicchatapp.Fragments.RequestsFragment;
 import com.example.basicchatapp.R;
-import com.example.basicchatapp.Utils.CustomViewPager;
+import com.example.basicchatapp.Adapters.CustomViewPager;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -62,8 +62,8 @@ public class MainActivity extends AppCompatActivity {
         customViewPager = new CustomViewPager(getSupportFragmentManager());
         customViewPager.addFragment(new RecentChatsFragment(),"Chats");
         customViewPager.addFragment(new MainScreenFragment(),"Users");
-        customViewPager.addFragment(new FriendsFragment(),"Friends");
         customViewPager.addFragment(new RequestsFragment(),"Requests");
+        customViewPager.addFragment(new FriendsFragment(),"Friends");
 
         viewPager.setAdapter(customViewPager);
 
