@@ -12,12 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.telecom.Call;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -105,6 +108,7 @@ public class PrivateChatActivity extends AppCompatActivity {
         image = findViewById(R.id.specificuserimageinimageview);
         backImage = findViewById(R.id.backImage);
         editTextMessage = findViewById(R.id.editTextMessage);
+//        editTextMessage.requestFocus();
         textUserName = findViewById(R.id.textUserName);
         btnSend = findViewById(R.id.btnSend);
 
@@ -152,18 +156,19 @@ public class PrivateChatActivity extends AppCompatActivity {
 //                getMessages(firebaseUser.getUid(),"demo");
 //                readData(firebaseUser.getUid(),"demo");
                     editTextMessage.setText("");
+
                 }
 
             }
         });
-
         loadMessage(userKey);
-        scrollView.fullScroll(scrollView.FOCUS_DOWN);
+        Toast.makeText(getApplicationContext(),"size of list:"+String.valueOf(messageModelList.size()),Toast.LENGTH_LONG).show();
+        mmessagerecyclerview.smoothScrollToPosition(messageModelList.size());
     }
 
     public String getDate(){
 //        SimpleDateFormat sdf = new SimpleDateFormat("'Date\n'dd-MM-yyyy '\n\nand\n\nTime\n'HH:mm:ss z");
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd-MM-yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         String currentDateAndTime = sdf.format(new Date());
         return currentDateAndTime;
     }
@@ -211,7 +216,8 @@ public class PrivateChatActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         // looks like we can leave here empty for now
-
+                        editTextMessage.requestFocus();
+                        chatRecyView.smoothScrollToPosition(messageModelList.size());
 //                        sendNotification("hahaha mesaj gönderdim hahah:  "+message);
 //                        scrollView.fullScroll(scrollView.FOCUS_DOWN);
 
@@ -232,8 +238,8 @@ public class PrivateChatActivity extends AppCompatActivity {
                 messageAdapter.notifyDataSetChanged();
                 keyList.add(userKey);
 //                mmessagerecyclerview.smoothScrollToPosition(mmessagerecyclerview.getAdapter().getItemCount()+1);
-                mmessagerecyclerview.smoothScrollToPosition(messageModelList.size());
-                scrollView.fullScroll(scrollView.FOCUS_DOWN);
+//                mmessagerecyclerview.smoothScrollToPosition(messageModelList.size());
+//                scrollView.fullScroll(scrollView.FOCUS_DOWN);
             }
 
             @Override

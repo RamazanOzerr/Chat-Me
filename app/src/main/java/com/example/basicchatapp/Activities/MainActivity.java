@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
 //        replaceFragments(new RecentChatsFragment());
     }
 
-    //TODO has not finished yet
     public void setNavigationButtonActivity(){
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override

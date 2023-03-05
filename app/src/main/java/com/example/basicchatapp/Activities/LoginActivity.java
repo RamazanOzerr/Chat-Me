@@ -21,12 +21,12 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
-    TextView signInTextView, forgetPasswordId;
-    EditText email, password;
-    Button loginButton;
-    ProgressBar progressBar;
+    private TextView signInTextView, forgetPasswordId;
+    private EditText email, password;
+    private Button loginButton;
+    private ProgressBar progressBar;
     FirebaseAuth firebaseAuth;
-    String email_user, password_user;
+    private String email_user, password_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +39,9 @@ public class LoginActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         loginButton = findViewById(R.id.loginButton);
         progressBar = findViewById(R.id.progressBar);
-        //TODO log out olmak için FirebaseAuth.getInstance().signOut();
-        //TODO app in içine log out kısmı koyduğumuzda bu methodu kullancaz, sign in olduğu activity
-        //TODO ye dönmenin yanı sıra bu methodu da çalıştırcaz işte
         firebaseAuth = FirebaseAuth.getInstance();
         openSignIn();
         login();
-
-
     }
 
     public void login(){
@@ -92,17 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
-
-
-
-
-
-
-
-
-
             public void openSignIn() {
                 signInTextView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -111,6 +96,4 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
             }
-
-
 }

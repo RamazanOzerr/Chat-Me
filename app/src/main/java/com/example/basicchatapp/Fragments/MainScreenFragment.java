@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -66,7 +67,8 @@ public class MainScreenFragment extends Fragment {
         reference = firebaseDatabase.getReference();
         userListRecyclerView = view.findViewById(R.id.userListRecyclerView);
         // alttaki snapCount değişkeni bir satırda kaç tane görüntülenmesini istediğimizi belirler
-        RecyclerView.LayoutManager mng = new GridLayoutManager(getContext(),1);
+//        RecyclerView.LayoutManager mng =
+        RecyclerView.LayoutManager mng = new LinearLayoutManager(getActivity());
         userListRecyclerView.setLayoutManager(mng);
 
         auth = FirebaseAuth.getInstance();
