@@ -8,6 +8,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,6 +34,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class UserProfileActivity extends AppCompatActivity {
@@ -40,8 +44,10 @@ public class UserProfileActivity extends AppCompatActivity {
     Button likeBtn, msgBtn;
     FirebaseUser firebaseUser;
     DatabaseReference reference;
-    Boolean sent;
+    Boolean sent;  // true if request been sent
     MaterialToolbar toolbar;
+    private int count;
+    private boolean isBlocked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +65,6 @@ public class UserProfileActivity extends AppCompatActivity {
         setUserInfo(username,photoPath,bio);
         setBtnFunctions(userKey);
         checkIfRequestAlreadySent(userKey);
-
     }
 
 
@@ -76,8 +81,9 @@ public class UserProfileActivity extends AppCompatActivity {
         sent = false;
         toolbar = findViewById(R.id.toolbar_user_profile_screen);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("PROFILE");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle("PROFILE");
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
     }
 
     private void setUserInfo(String username, String photoPath, String bio){
@@ -143,8 +149,21 @@ public class UserProfileActivity extends AppCompatActivity {
 //                if(!likeImagebtn.getDrawable == R.drawable.friends5){
 //                    sendLikeRequest(userKey);
 //                }
-
-                sendLikeRequest(userKey);
+                if(sent){
+                    takeReqBack(userKey);
+                }
+                else{
+                    sendLikeRequest(userKey);
+                }
+//                if(sent != null){
+//                    if(sent){
+//                        takeReqBack(userKey);
+//                    }
+//                    else{
+//                        sendLikeRequest(userKey);
+//                    }
+//                }
+//                sendLikeRequest(userKey);
             }
         });
 //        msgBtn.setOnClickListener(new View.OnClickListener() {
@@ -177,14 +196,13 @@ public class UserProfileActivity extends AppCompatActivity {
                 reference.child("Requests").child(userKey).child(firebaseUser.getUid()).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        likeImagebtn.setImageResource(R.drawable.taken);
+                        likeImagebtn.setImageResource(R.mipmap.ic_remove_friend);
                         sent = true;
 //                        likeBtn.setText("REQUESTED");
 //                        likeBtn.animate();
 //                        likeBtn.setHintTextColor(390442);
                     }
                 });
-
             }
         });
     }
@@ -199,7 +217,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
                     // eğer biz istek göndermişsek button src update ediyoruz
                     if(type.equals("taken")){
-                        likeImagebtn.setImageResource(R.drawable.taken);
+                        likeImagebtn.setImageResource(R.mipmap.ic_remove_friend);
                         sent = true;
 
                         // eğer buton request gönderilmiş durumdayken butona basılırsa, isteği geri alacak
@@ -229,7 +247,7 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                 reference.child("Requests").child(userKey).child(firebaseUser.getUid()).removeValue();
-                likeImagebtn.setImageResource(R.drawable.sent);
+                likeImagebtn.setImageResource(R.mipmap.ic_add_friend);
                 sent = false;
                 Toast.makeText(getApplicationContext(), "REQUEST HAS BEEN CANCELED SUCCESSFULLY", Toast.LENGTH_SHORT).show();
 

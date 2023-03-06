@@ -67,8 +67,11 @@ public class RecentChatsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_recent_chats, container, false);
 
         recentChatsRecyclerView = view.findViewById(R.id.recentChatsRecyclerView);
-//        recentChatsRecyclerView.hasFixedSize();
-        recentChatsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recentChatsRecyclerView.setNestedScrollingEnabled(false);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recentChatsRecyclerView.setLayoutManager(layoutManager);
         swipeRefreshLayout = view.findViewById(R.id.swipe_to_refresh_layout);
 
         userList = new ArrayList<>(); // kişinin konuştuğu kişilerin id lerinin listesi

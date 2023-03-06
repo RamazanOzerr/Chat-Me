@@ -4,23 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
-import android.telecom.Call;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -53,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class PrivateChatActivity extends AppCompatActivity {
@@ -60,7 +50,7 @@ public class PrivateChatActivity extends AppCompatActivity {
     ImageView backImage;
     ImageView image;
     EditText editTextMessage;
-    TextView textUserName, demoText;
+    TextView textUserName;
     ImageButton btnSend;
     ScrollView scrollView;
 
@@ -69,8 +59,6 @@ public class PrivateChatActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
     FirebaseAuth auth;
 
-    MediaPlayer mediaPlayer;
-
     List<String> messageIDList;
 
     List<MessageModel> messageModelList;
@@ -78,9 +66,7 @@ public class PrivateChatActivity extends AppCompatActivity {
 
     CardView msendmessagecardview;
     androidx.appcompat.widget.Toolbar mtoolbarofspecificchat;
-    RecyclerView mmessagerecyclerview;
     ArrayList<MessageModel> messagesArrayList;
-    Intent intent;
     RecyclerView chatRecyView;
     MessageAdapterr messageAdapter;
 
@@ -93,16 +79,16 @@ public class PrivateChatActivity extends AppCompatActivity {
         messageModelList = new ArrayList<>();
         keyList = new ArrayList<>();
         chatRecyView = findViewById(R.id.recyclerviewofspecific);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(),1);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         chatRecyView.setLayoutManager(layoutManager);
         messageAdapter = new MessageAdapterr(keyList, PrivateChatActivity.this, PrivateChatActivity.this, messageModelList);
         chatRecyView.setAdapter(messageAdapter);
 
         scrollView = findViewById(R.id.scrollView);
+        scrollView.setNestedScrollingEnabled(false);
 
         msendmessagecardview = findViewById(R.id.carviewofsendmessage);
         mtoolbarofspecificchat=findViewById(R.id.toolbarofspecificchat);
-        mmessagerecyclerview=findViewById(R.id.recyclerviewofspecific);
         messagesArrayList=new ArrayList<>();
 
         image = findViewById(R.id.specificuserimageinimageview);
@@ -125,52 +111,37 @@ public class PrivateChatActivity extends AppCompatActivity {
         setUserInfo(userKey);
 
         setSupportActionBar(mtoolbarofspecificchat);
-        mtoolbarofspecificchat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        mtoolbarofspecificchat.setOnClickListener(view -> {
 //                Toast.makeText(getApplicationContext(),"Toolbar is Clicked",Toast.LENGTH_SHORT).show();
-                getUserInfo(userKey);
+            getUserInfo(userKey);
 //                startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
 
-            }
         });
 
 
 
-        backImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-            }
-        });
+        backImage.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), MainActivity.class)));
 
-        btnSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO send message
-                String text = editTextMessage.getText().toString();
-                if(text.equals("")){
-                    Toast.makeText(getApplicationContext(),"write a message first",Toast.LENGTH_LONG).show();
-                }else{
-                    sendMessage(firebaseUser.getUid(),userKey,"text",getDate(),false, text);
+        btnSend.setOnClickListener(view -> {
+            //TODO send message
+            String text = editTextMessage.getText().toString();
+            if(text.equals("")){
+                Toast.makeText(getApplicationContext(),"write a message first",Toast.LENGTH_LONG).show();
+            }else{
+                sendMessage(firebaseUser.getUid(),userKey,"text",getDate(),false, text);
 //                getMessages(firebaseUser.getUid(),"demo");
 //                readData(firebaseUser.getUid(),"demo");
-                    editTextMessage.setText("");
-
-                }
+                editTextMessage.setText("");
 
             }
+
         });
         loadMessage(userKey);
-        Toast.makeText(getApplicationContext(),"size of list:"+String.valueOf(messageModelList.size()),Toast.LENGTH_LONG).show();
-        mmessagerecyclerview.smoothScrollToPosition(messageModelList.size());
     }
 
     public String getDate(){
-//        SimpleDateFormat sdf = new SimpleDateFormat("'Date\n'dd-MM-yyyy '\n\nand\n\nTime\n'HH:mm:ss z");
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        String currentDateAndTime = sdf.format(new Date());
-        return currentDateAndTime;
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm",Locale.getDefault());
+        return sdf.format(new Date());
     }
 
 
@@ -237,8 +208,8 @@ public class PrivateChatActivity extends AppCompatActivity {
                 System.out.println("sayi: "+messageModelList.size());
                 messageAdapter.notifyDataSetChanged();
                 keyList.add(userKey);
-//                mmessagerecyclerview.smoothScrollToPosition(mmessagerecyclerview.getAdapter().getItemCount()+1);
-//                mmessagerecyclerview.smoothScrollToPosition(messageModelList.size());
+//
+                    chatRecyView.smoothScrollToPosition(messageModelList.size()-1);
 //                scrollView.fullScroll(scrollView.FOCUS_DOWN);
             }
 
@@ -286,8 +257,27 @@ public class PrivateChatActivity extends AppCompatActivity {
 
             }
         });
-    }
 
+    }
+//    private void scrollToBottom(final RecyclerView recyclerView) {
+//        // scroll to last item to get the view of last item
+//        final LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+//        final RecyclerView.Adapter adapter = recyclerView.getAdapter();
+//        final int lastItemPosition = adapter.getItemCount() - 1;
+//
+//        layoutManager.scrollToPositionWithOffset(lastItemPosition, 0);
+//        recyclerView.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                // then scroll to specific offset
+//                View target = layoutManager.findViewByPosition(lastItemPosition);
+//                if (target != null) {
+//                    int offset = recyclerView.getMeasuredHeight() - target.getMeasuredHeight();
+//                    layoutManager.scrollToPositionWithOffset(lastItemPosition, offset);
+//                }
+//            }
+//        });
+//    }
 
 
 
