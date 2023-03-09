@@ -136,7 +136,7 @@ public class MessageAdapterr extends RecyclerView.Adapter<MessageAdapterr.ViewHo
     private void createAlertDialog(String otherUser, String targetText){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("DELETE MESSAGE");
-        builder.setIcon(R.drawable.newlogin3);
+        builder.setIcon(R.mipmap.ic_logo6);
         builder.setMessage("YOU SURE YOU WANNA DELETE THIS MESSAGE?");
         builder.setNegativeButton("NO",null);
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {

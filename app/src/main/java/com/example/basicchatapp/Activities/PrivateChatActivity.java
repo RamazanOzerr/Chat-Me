@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -17,8 +16,11 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.basicchatapp.Notifications.Client;
+import com.example.basicchatapp.Notifications.FCMResponse;
 import com.example.basicchatapp.R;
 import com.example.basicchatapp.Adapters.MessageAdapterr;
+import com.example.basicchatapp.Services.APIService;
 import com.example.basicchatapp.Utils.MessageModel;
 import com.example.basicchatapp.Utils.Profile;
 
@@ -32,7 +34,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 
@@ -44,6 +48,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PrivateChatActivity extends AppCompatActivity {
 
@@ -69,13 +77,17 @@ public class PrivateChatActivity extends AppCompatActivity {
     ArrayList<MessageModel> messagesArrayList;
     RecyclerView chatRecyView;
     MessageAdapterr messageAdapter;
-
+    APIService apiService;
+    Boolean notify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private_chat);
 
+        String url = "https://fcm.googleapis.com/";
+        apiService = Client.getClient(url).create(APIService.class);
+        notify = false;
         messageModelList = new ArrayList<>();
         keyList = new ArrayList<>();
         chatRecyView = findViewById(R.id.recyclerviewofspecific);
@@ -123,7 +135,7 @@ public class PrivateChatActivity extends AppCompatActivity {
         backImage.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), MainActivity.class)));
 
         btnSend.setOnClickListener(view -> {
-            //TODO send message
+            notify = true;
             String text = editTextMessage.getText().toString();
             if(text.equals("")){
                 Toast.makeText(getApplicationContext(),"write a message first",Toast.LENGTH_LONG).show();
@@ -173,7 +185,7 @@ public class PrivateChatActivity extends AppCompatActivity {
         String messageID = reference.child("Messages").child(userID).child(otherID).push().getKey();
         messageIDList.add(messageID);
 
-        Map messageMap = new HashMap();
+        Map<String, Object> messageMap = new HashMap<>();
         messageMap.put("type",textType);
         messageMap.put("seen",seen);
         messageMap.put("time",date);
@@ -186,14 +198,74 @@ public class PrivateChatActivity extends AppCompatActivity {
                 reference.child("Messages").child(otherID).child(userID).child(messageID).setValue(messageMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        // looks like we can leave here empty for now
+
                         editTextMessage.requestFocus();
                         chatRecyView.smoothScrollToPosition(messageModelList.size());
-//                        sendNotification("hahaha mesaj gönderdim hahah:  "+message);
-//                        scrollView.fullScroll(scrollView.FOCUS_DOWN);
 
                     }
                 });
+            }
+        });
+
+        final String msg = message;
+        final String receiver = otherID;
+        reference.child("Users").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String username = snapshot.child("username").getValue().toString();
+                if(notify){
+                    System.out.println("send notif");
+                    sendNotification(receiver, username, msg, otherID);
+                }
+                notify = false;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    private void sendNotification(String receiver, String username, String message, String userID){
+        DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Users");
+        Query query = tokens.orderByKey().equalTo(receiver);
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    // get token from db
+                    String token = dataSnapshot.child("token").getValue().toString();
+
+                    // create json data
+                    JsonObject jsonData = new JsonObject();
+                    JsonObject jsonBody = new JsonObject();
+                    jsonData.addProperty("body",username+": "+message);
+                    jsonData.addProperty("title","new message");
+                    jsonBody.addProperty("to",token);
+                    jsonBody.add("notification",jsonData);
+
+                    // send post request
+                    apiService.sendNotification(jsonBody).enqueue(new Callback<FCMResponse>() {
+                        @Override
+                        public void onResponse(Call<FCMResponse> call, Response<FCMResponse> response) {
+                            if(response.isSuccessful()){
+                                System.out.println("yeah sent it");
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<FCMResponse> call, Throwable t) {
+                            System.out.println("failed "+t);
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }
@@ -205,12 +277,11 @@ public class PrivateChatActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 MessageModel messageModel = snapshot.getValue(MessageModel.class);
                 messageModelList.add(messageModel);
-                System.out.println("sayi: "+messageModelList.size());
                 messageAdapter.notifyDataSetChanged();
                 keyList.add(userKey);
-//
+
                     chatRecyView.smoothScrollToPosition(messageModelList.size()-1);
-//                scrollView.fullScroll(scrollView.FOCUS_DOWN);
+
             }
 
             @Override
@@ -259,53 +330,4 @@ public class PrivateChatActivity extends AppCompatActivity {
         });
 
     }
-//    private void scrollToBottom(final RecyclerView recyclerView) {
-//        // scroll to last item to get the view of last item
-//        final LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-//        final RecyclerView.Adapter adapter = recyclerView.getAdapter();
-//        final int lastItemPosition = adapter.getItemCount() - 1;
-//
-//        layoutManager.scrollToPositionWithOffset(lastItemPosition, 0);
-//        recyclerView.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                // then scroll to specific offset
-//                View target = layoutManager.findViewByPosition(lastItemPosition);
-//                if (target != null) {
-//                    int offset = recyclerView.getMeasuredHeight() - target.getMeasuredHeight();
-//                    layoutManager.scrollToPositionWithOffset(lastItemPosition, offset);
-//                }
-//            }
-//        });
-//    }
-
-
-
-
-    // contentText e önce username i, sonrasında da message ı gircez
-    // username+": "+ message gibi
-//    public void sendNotification(String contentText){
-//        // Create an explicit intent for an Activity in your app
-//        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE);
-//
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), "have no clue what it is")
-//                .setSmallIcon(R.drawable.iconnotif)
-//                .setContentTitle("New message")
-//                .setContentText(contentText)
-//                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-//                // Set the intent that will fire when the user taps the notification
-//                .setContentIntent(pendingIntent)
-//                .setAutoCancel(true);
-//
-//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-//
-//// notificationId is a unique int for each notification that you must define
-//        notificationManager.notify(1, builder.build()); // notificationID ye 1 verdik
-//
-//        mediaPlayer = MediaPlayer.create(getApplicationContext(),R.raw.notif);
-//        mediaPlayer.start();
-//    }
-
 }

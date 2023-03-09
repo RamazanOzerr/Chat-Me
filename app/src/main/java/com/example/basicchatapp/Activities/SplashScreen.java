@@ -16,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SplashScreen extends AppCompatActivity {
 
-    ImageView image;
+    private ImageView image;
     FirebaseAuth auth;
 
     @Override
@@ -39,7 +39,7 @@ public class SplashScreen extends AppCompatActivity {
                 finish();
 //                music.stop();
             }
-        },2400);
+        },1800);
     }
 
     private void startActivity(){

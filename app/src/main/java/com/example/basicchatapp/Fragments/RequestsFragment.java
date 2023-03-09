@@ -98,8 +98,10 @@ public class RequestsFragment extends Fragment {
                                     String name = snapshot.child("name").getValue().toString();
                                     String bio = snapshot.child("bio").getValue().toString();
                                     requestsList.add(new Requests(photoID, name, bio, otherID));
+                                    System.out.println("requests: "+requestsList.size()+" "+requestsList.get(0).getUserKey());
                                     requestsAdapter = new RequestsAdapter(requestsList, getActivity(), getContext());
                                     requestsRecyclerView.setAdapter(requestsAdapter);
+//                                    requestsList.clear();
                                 }
 
 

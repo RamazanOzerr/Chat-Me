@@ -73,7 +73,7 @@ public class RecentChatsFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recentChatsRecyclerView.setLayoutManager(layoutManager);
         swipeRefreshLayout = view.findViewById(R.id.swipe_to_refresh_layout);
-
+        recentChatsInfoList = new ArrayList<>();
         userList = new ArrayList<>(); // kişinin konuştuğu kişilerin id lerinin listesi
 
         getUserKeys();
@@ -145,7 +145,7 @@ public class RecentChatsFragment extends Fragment {
 
     private void getUserInfo(){
 
-        recentChatsInfoList = new ArrayList<>();
+//        recentChatsInfoList = new ArrayList<>();
 
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users");

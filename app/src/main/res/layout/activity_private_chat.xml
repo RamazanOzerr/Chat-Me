@@ -44,7 +44,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/fatihterim"
+                    android:src="@mipmap/ic_account"
                     android:id="@+id/specificuserimageinimageview"
                     android:scaleType="centerCrop">
 
@@ -62,7 +62,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/cardviewofspeficuser"
-                android:text="Fatih Terim"
+                tools:text="user"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold">
@@ -112,7 +112,7 @@
         android:textAlignment="textStart"
         android:layout_alignParentBottom="true"
         android:layout_marginRight="55dp"
-        android:textColor="@color/blue_toolbar"
+        android:textColor="@color/black"
         android:id="@+id/editTextMessage" />
 
 

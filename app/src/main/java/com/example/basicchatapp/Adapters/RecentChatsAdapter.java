@@ -71,7 +71,7 @@ public class RecentChatsAdapter extends RecyclerView.Adapter<RecentChatsAdapter.
 
         reference = FirebaseDatabase.getInstance().getReference();
         user = FirebaseAuth.getInstance().getCurrentUser();
-        System.out.println("adapter içindeyiz");
+//        System.out.println("adapter içindeyiz");
         holder.recentnameUser.setText(recentChatsInfoList.get(position).getName());
         Picasso.get().load(recentChatsInfoList.get(position).getPhotoPath()).into(holder.recentImage);
 
@@ -144,7 +144,7 @@ public class RecentChatsAdapter extends RecyclerView.Adapter<RecentChatsAdapter.
     private void createAlertDialog(String otherUser){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("DELETE CHAT");
-        builder.setIcon(R.drawable.newlogin3);
+        builder.setIcon(R.mipmap.ic_logo6);
         builder.setMessage("YOU SURE YOU WANNA DELETE ALL THE CHAT WITH THAT USER?");
         builder.setNegativeButton("NO",null);
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {

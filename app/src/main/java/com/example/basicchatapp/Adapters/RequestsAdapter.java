@@ -70,6 +70,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RequestsAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        System.out.println("requested user:"+userList.get(position).getUserKey());
         holder.requestsnameUser.setText(userList.get(position).getName());
         Picasso.get().load(userList.get(position).getPhotoPath()).into(holder.profile_image);
 
@@ -88,7 +89,9 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         holder.acceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                Requests acceptedReq = userList.get(position);
                 acceptReq(userList.get(position).getUserKey());
+                userList.remove(position);
                 Toast.makeText(view.getContext(),"ADDED AS FRIEND, CHECK YOUR FRIENDS LIST",Toast.LENGTH_SHORT).show();
                 //TODO burda da checkReq işlemi yapılıp, bu kişi recyclerView dan silinmesi lazım
                 // ve Friends fragment/activity içerisinde listelenmesi lazım
@@ -115,7 +118,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
     }
 
     private void acceptReq(String userKey){
-        Map map = new HashMap();
+        Map<String, String > map = new HashMap<>();
         map.put("isFriend","true");
         map.put("type","taken");
         reference.child("Requests").child(firebaseUser.getUid()).child(userKey).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {

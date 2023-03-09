@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -84,13 +85,33 @@ public class SignUpSetProfile extends AppCompatActivity {
                 || sign_up_about_me.getText().toString() == null) {
             Toast.makeText(getApplicationContext(),"you gotta fill all the blanks",Toast.LENGTH_SHORT).show();
         } else{
-            Map map = new HashMap();
+            Map<String, Object> map = new HashMap();
             map.put("name",sign_up_name.getText().toString());
             map.put("username",sign_up_user_name.getText().toString());
             map.put("bio",sign_up_about_me.getText().toString());
             reference.child("Users").child(auth.getUid()).updateChildren(map);
+            getToken();
             startActivity(new Intent(getApplicationContext(),LoginActivity.class));
         }
+    }
+
+    private void getToken(){
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(SignUpSetProfile.this, "Fetching FCM registration token failed"+ task.getException(), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        Map<String, Object> hm = new HashMap<>();
+                        hm.put("token",token);
+                        reference.child("Users").child(auth.getUid()).updateChildren(hm);
+                    }
+                });
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
