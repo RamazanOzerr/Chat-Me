@@ -57,39 +57,49 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
     @NonNull
     @Override
     public FriendsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.friends_layout,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.friends_layout,
+                parent,false);
 
-        return new FriendsAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FriendsAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+    public void onBindViewHolder(@NonNull FriendsAdapter.ViewHolder holder,
+                                 @SuppressLint("RecyclerView") int position) {
+
+        try{
+            holder.name_friends.setText(friendlist.get(position).getName());
+        }catch (Exception e){
+            holder.name_friends.setText("friend name");
+        }
+        try{
+            holder.bio_friends.setText(friendlist.get(position).getBio());
+        }catch (Exception e){
+            holder.bio_friends.setText("bio");
+        }
+
+        try{
+            Picasso.get().load(friendlist.get(position).getPhotoPath()).into(holder.imageViewfriends);
+        }catch (Exception e){
+            holder.imageViewfriends.setImageResource(R.mipmap.ic_account);
+        }
 
 
 
-        holder.name_friends.setText(friendlist.get(position).getName());
-        holder.bio_friends.setText(friendlist.get(position).getBio());
-        Picasso.get().load(friendlist.get(position).getPhotoPath()).into(holder.imageViewfriends);
 
-       holder.cardview_friends.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               Intent intent = new Intent(view.getContext(), PrivateChatActivity.class);
-               intent.putExtra("UserKey",friendlist.get(position).getUserKey());
-               activity.startActivity(intent);
-           }
+       holder.cardview_friends.setOnClickListener(view -> {
+           Intent intent = new Intent(view.getContext(), PrivateChatActivity.class);
+           intent.putExtra("UserKey",friendlist.get(position).getUserKey());
+           activity.startActivity(intent);
        });
 
-       holder.imageViewfriends.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
-               intent.putExtra("name",friendlist.get(position).getName());
-               intent.putExtra("photo",friendlist.get(position).getPhotoPath());
-               intent.putExtra("bio",friendlist.get(position).getBio());
-               intent.putExtra("UserKey",friendlist.get(position).getUserKey());
-               activity.startActivity(intent);
-           }
+       holder.imageViewfriends.setOnClickListener(view -> {
+           Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
+           intent.putExtra("name",friendlist.get(position).getName());
+           intent.putExtra("photo",friendlist.get(position).getPhotoPath());
+           intent.putExtra("bio",friendlist.get(position).getBio());
+           intent.putExtra("UserKey",friendlist.get(position).getUserKey());
+           activity.startActivity(intent);
        });
 
 
@@ -100,7 +110,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
         return friendlist.size();
     }
 
-    public class ViewHolder extends  RecyclerView.ViewHolder{
+    public static class ViewHolder extends  RecyclerView.ViewHolder{
 
         TextView name_friends, bio_friends;
         CircleImageView imageViewfriends;

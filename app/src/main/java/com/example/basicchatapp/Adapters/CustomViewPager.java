@@ -11,8 +11,8 @@ import java.util.List;
 
 public class CustomViewPager extends FragmentPagerAdapter {
 
-    private List<Fragment> fragmentList;
-    private List<String> nameList;
+    private final List<Fragment> fragmentList;
+    private final List<String> nameList;
 
     public CustomViewPager(@NonNull FragmentManager fm) {
         super(fm);

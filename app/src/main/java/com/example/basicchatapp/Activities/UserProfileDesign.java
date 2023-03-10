@@ -2,23 +2,16 @@ package com.example.basicchatapp.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.basicchatapp.R;
 import com.example.basicchatapp.Utils.RandomString;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,7 +24,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,14 +32,10 @@ public class UserProfileDesign extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     FirebaseAuth firebaseAuth;
-    ImageView profile_image;
-    EditText user_name, name, about_me;
-    Button setBtn, logOutBtn;
-    int photoID;
-
+    private ImageView profile_image;
+    private EditText user_name, name, about_me;
     StorageReference storageReference;
     FirebaseStorage firebaseStorage;
-    MaterialToolbar toolbar;
 
 
     @Override
@@ -55,59 +43,48 @@ public class UserProfileDesign extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile_design);
 
-        logOutBtn = findViewById(R.id.logOutBtn);
+        Button logOutBtn = findViewById(R.id.logOutBtn);
         profile_image = findViewById(R.id.profile_image);
         user_name = findViewById(R.id.user_name);
         name = findViewById(R.id.name);
         about_me = findViewById(R.id.about_me);
         firebaseAuth = FirebaseAuth.getInstance();
-        setBtn = findViewById(R.id.setBtn);
+        Button setBtn = findViewById(R.id.setBtn);
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
 
-        toolbar = findViewById(R.id.toolbar_user_profile_design);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar_user_profile_design);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("PROFILE");
+        toolbar.setTitle("PROFILE");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         name.setEnabled(true);
         user_name.setEnabled(true);
         about_me.setEnabled(true);
 
-        logOutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                firebaseAuth.signOut();
-                startActivity(new Intent(UserProfileDesign.this, LoginActivity.class));
-            }
+        logOutBtn.setOnClickListener(view -> {
+            firebaseAuth.signOut();
+            startActivity(new Intent(UserProfileDesign.this, LoginActivity.class));
         });
 
         // it opens gallery to pick a pic
-        profile_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent,3);
-            }
+        profile_image.setOnClickListener(view -> {
+            Intent intent = new Intent(Intent.ACTION_PICK,
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent,3);
         });
 
+        setBtn.setOnClickListener(view -> {
+            firebaseDatabase = FirebaseDatabase.getInstance();
+            databaseReference = firebaseDatabase.getReference().child("Users")
+                    .child(firebaseAuth.getUid());
 
-
-        setBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                firebaseDatabase = FirebaseDatabase.getInstance();
-                databaseReference = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getUid());
-
-                Map map = new HashMap();
-                map.put("name",name.getText().toString());
-                map.put("username",user_name.getText().toString());
-                map.put("bio",about_me.getText().toString());
-
-                databaseReference.updateChildren(map);
-            }
+            Map<String, Object> map = new HashMap<>();
+            map.put("name",name.getText().toString());
+            map.put("username",user_name.getText().toString());
+            map.put("bio",about_me.getText().toString());
+            databaseReference.updateChildren(map);
         });
-
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -115,17 +92,20 @@ public class UserProfileDesign extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
 //                Profile user1 = snapshot.getValue(Profile.class);
-                String bio = snapshot.child(firebaseAuth.getUid()).child("bio").getValue().toString();
-                String namee = snapshot.child(firebaseAuth.getUid()).child("name").getValue().toString();
-                String photoPath = snapshot.child(firebaseAuth.getUid()).child("photo").getValue().toString();
-                String username = snapshot.child(firebaseAuth.getUid()).child("username").getValue().toString();
-
+                String bio = snapshot.child(firebaseAuth.getUid()).child("bio")
+                        .getValue().toString();
+                String namee = snapshot.child(firebaseAuth.getUid()).child("name")
+                        .getValue().toString();
+                String photoPath = snapshot.child(firebaseAuth.getUid()).child("photo")
+                        .getValue().toString();
+                String username = snapshot.child(firebaseAuth.getUid()).child("username")
+                        .getValue().toString();
 
                 user_name.setText(username);
                 name.setText(namee);
                 about_me.setText(bio);
 
-                // halihazırda olan resmi yüklediğimiz kısım
+                // upload photo
                 if(!photoPath.equals("null")){
                     Picasso.get().load(photoPath).into(profile_image);
                 }
@@ -147,52 +127,35 @@ public class UserProfileDesign extends AppCompatActivity {
         name = findViewById(R.id.name);
         user_name = findViewById(R.id.user_name);
         about_me = findViewById(R.id.about_me);
-        final StorageReference ref = storageReference.child("Pictures").child(RandomString.getSaltString() + ".jpg");
+        final StorageReference ref = storageReference.child("Pictures")
+                .child(RandomString.getSaltString() + ".jpg");
         UploadTask uploadTask = ref.putFile(selectedImage);
 
-        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-            @Override
-            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                if (!task.isSuccessful()) {
-                    throw task.getException();
-                }
-
-                // Continue with the task to get the download URL
-                return ref.getDownloadUrl();
+        Task<Uri> urlTask = uploadTask.continueWithTask(task -> {
+            if (!task.isSuccessful()) {
+                throw task.getException();
             }
-        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-            @Override
-            public void onComplete(@NonNull Task<Uri> task) {
-                if (task.isSuccessful()) {
-                    Uri downloadUri = task.getResult();
-                    firebaseDatabase = FirebaseDatabase.getInstance();
-                    databaseReference = firebaseDatabase.getReference().child("Users").child(firebaseAuth.getUid());
-                    Map map = new HashMap();
-                    map.put("name",name.getText().toString());
-                    map.put("username",user_name.getText().toString());
-                    map.put("photo",downloadUri.toString());
-//                    map.put("photo",selectedImage);
-                    map.put("bio",about_me.getText().toString());
 
-                    databaseReference.setValue(map);
+            // Continue with the task to get the download URL
+            return ref.getDownloadUrl();
+        }).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Uri downloadUri = task.getResult();
+                firebaseDatabase = FirebaseDatabase.getInstance();
+                databaseReference = firebaseDatabase.getReference().child("Users")
+                        .child(firebaseAuth.getUid());
+                Map<String, Object> map = new HashMap<>();
+                map.put("name",name.getText().toString());
+                map.put("username",user_name.getText().toString());
+                map.put("photo",downloadUri.toString());
+                map.put("bio",about_me.getText().toString());
 
-                    Toast.makeText(getApplicationContext(),
-                            "picture has been successfully updated",Toast.LENGTH_LONG).show();
-//
-//
-                } else {
-                    // Handle failures
-                    // ...
-                }
+                databaseReference.setValue(map);
+
+                Toast.makeText(getApplicationContext(),
+                        "picture has been successfully updated",Toast.LENGTH_LONG).show();
             }
         });
-
-
-
-        // onDataChange methodu yüzünden buranın çalışma süresi uzun olmuyor.
-//        profile_image.setImageURI(selectedImage);
-//        Picasso.get().load(reference.getDownloadUrl().toString()).into(profile_image);
         }
     }
-
 }

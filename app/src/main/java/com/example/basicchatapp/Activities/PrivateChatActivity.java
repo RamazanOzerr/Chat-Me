@@ -3,10 +3,8 @@ package com.example.basicchatapp.Activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -15,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.basicchatapp.Notifications.Client;
 import com.example.basicchatapp.Notifications.FCMResponse;
 import com.example.basicchatapp.R;
@@ -23,9 +20,6 @@ import com.example.basicchatapp.Adapters.MessageAdapterr;
 import com.example.basicchatapp.Services.APIService;
 import com.example.basicchatapp.Utils.MessageModel;
 import com.example.basicchatapp.Utils.Profile;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -33,58 +27,50 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
-
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PrivateChatActivity extends AppCompatActivity {
 
-    ImageView backImage;
-    ImageView image;
-    EditText editTextMessage;
-    TextView textUserName;
-    ImageButton btnSend;
-    ScrollView scrollView;
+    private ImageView image;
+    private EditText editTextMessage;
+    private TextView textUserName;
 
     DatabaseReference reference;
     FirebaseDatabase firebaseDatabase;
     FirebaseUser firebaseUser;
     FirebaseAuth auth;
+    private List<MessageModel> messageModelList;
+    private List<String> keyList;
 
-    List<String> messageIDList;
-
-    List<MessageModel> messageModelList;
-    List<String> keyList;
-
-    CardView msendmessagecardview;
     androidx.appcompat.widget.Toolbar mtoolbarofspecificchat;
-    ArrayList<MessageModel> messagesArrayList;
-    RecyclerView chatRecyView;
-    MessageAdapterr messageAdapter;
+    private RecyclerView chatRecyView;
+    private MessageAdapterr messageAdapter;
     APIService apiService;
-    Boolean notify;
+    private Boolean notify;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private_chat);
 
+        init();
+
+    }
+
+    private void init(){
         String url = "https://fcm.googleapis.com/";
         apiService = Client.getClient(url).create(APIService.class);
         notify = false;
@@ -93,44 +79,33 @@ public class PrivateChatActivity extends AppCompatActivity {
         chatRecyView = findViewById(R.id.recyclerviewofspecific);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         chatRecyView.setLayoutManager(layoutManager);
-        messageAdapter = new MessageAdapterr(keyList, PrivateChatActivity.this, PrivateChatActivity.this, messageModelList);
+        messageAdapter = new MessageAdapterr(keyList, PrivateChatActivity.this,
+                PrivateChatActivity.this, messageModelList);
         chatRecyView.setAdapter(messageAdapter);
 
-        scrollView = findViewById(R.id.scrollView);
+        ScrollView scrollView = findViewById(R.id.scrollView);
         scrollView.setNestedScrollingEnabled(false);
 
-        msendmessagecardview = findViewById(R.id.carviewofsendmessage);
         mtoolbarofspecificchat=findViewById(R.id.toolbarofspecificchat);
-        messagesArrayList=new ArrayList<>();
 
         image = findViewById(R.id.specificuserimageinimageview);
-        backImage = findViewById(R.id.backImage);
+        ImageView backImage = findViewById(R.id.backImage);
         editTextMessage = findViewById(R.id.editTextMessage);
-//        editTextMessage.requestFocus();
         textUserName = findViewById(R.id.textUserName);
-        btnSend = findViewById(R.id.btnSend);
+        ImageButton btnSend = findViewById(R.id.btnSend);
 
         auth = FirebaseAuth.getInstance();
         firebaseUser = auth.getCurrentUser();
         firebaseDatabase = FirebaseDatabase.getInstance();
         reference = firebaseDatabase.getReference();
-
-//        demoText = findViewById(R.id.demoText);
-
-        messageIDList = new ArrayList<>();
         Intent intent = getIntent();
         String userKey = intent.getStringExtra("UserKey");
         setUserInfo(userKey);
 
         setSupportActionBar(mtoolbarofspecificchat);
         mtoolbarofspecificchat.setOnClickListener(view -> {
-//                Toast.makeText(getApplicationContext(),"Toolbar is Clicked",Toast.LENGTH_SHORT).show();
             getUserInfo(userKey);
-//                startActivity(new Intent(getApplicationContext(), UserProfileActivity.class));
-
         });
-
-
 
         backImage.setOnClickListener(view -> startActivity(new Intent(getApplicationContext(), MainActivity.class)));
 
@@ -141,17 +116,16 @@ public class PrivateChatActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"write a message first",Toast.LENGTH_LONG).show();
             }else{
                 sendMessage(firebaseUser.getUid(),userKey,"text",getDate(),false, text);
-//                getMessages(firebaseUser.getUid(),"demo");
-//                readData(firebaseUser.getUid(),"demo");
                 editTextMessage.setText("");
 
             }
 
         });
         loadMessage(userKey);
+
     }
 
-    public String getDate(){
+    private String getDate(){
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm",Locale.getDefault());
         return sdf.format(new Date());
     }
@@ -163,27 +137,21 @@ public class PrivateChatActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Profile profile = snapshot.getValue(Profile.class);
-
                 textUserName.setText(profile.getName());
                 String photoPath = snapshot.child("photo").getValue().toString();
                 Picasso.get().load(photoPath).into(image);
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-
         });
-
-
     }
     public void sendMessage(String userID, String otherID, String textType,
                             String date, Boolean seen, String message){
 
         String messageID = reference.child("Messages").child(userID).child(otherID).push().getKey();
-        messageIDList.add(messageID);
 
         Map<String, Object> messageMap = new HashMap<>();
         messageMap.put("type",textType);
@@ -192,30 +160,28 @@ public class PrivateChatActivity extends AppCompatActivity {
         messageMap.put("text",message);
         messageMap.put("from",userID);
 
-        reference.child("Messages").child(userID).child(otherID).child(messageID).setValue(messageMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                reference.child("Messages").child(otherID).child(userID).child(messageID).setValue(messageMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+        if(messageID != null){
+            reference.child("Messages").child(userID).child(otherID)
+                    .child(messageID).setValue(messageMap)
+                    .addOnCompleteListener(task -> reference.child("Messages")
+                            .child(otherID).child(userID).child(messageID)
+                            .setValue(messageMap).addOnCompleteListener(task1 -> {
 
-                        editTextMessage.requestFocus();
-                        chatRecyView.smoothScrollToPosition(messageModelList.size());
+                editTextMessage.requestFocus();
+                chatRecyView.smoothScrollToPosition(messageModelList.size());
 
-                    }
-                });
-            }
-        });
+            }));
+        }
 
         final String msg = message;
         final String receiver = otherID;
-        reference.child("Users").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+        reference.child("Users").child(firebaseUser.getUid())
+                .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String username = snapshot.child("username").getValue().toString();
                 if(notify){
-                    System.out.println("send notif");
-                    sendNotification(receiver, username, msg, otherID);
+                    sendNotification(receiver, username, msg);
                 }
                 notify = false;
             }
@@ -228,7 +194,7 @@ public class PrivateChatActivity extends AppCompatActivity {
 
     }
 
-    private void sendNotification(String receiver, String username, String message, String userID){
+    private void sendNotification(String receiver, String username, String message){
         DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Users");
         Query query = tokens.orderByKey().equalTo(receiver);
         query.addValueEventListener(new ValueEventListener() {
@@ -250,9 +216,7 @@ public class PrivateChatActivity extends AppCompatActivity {
                     apiService.sendNotification(jsonBody).enqueue(new Callback<FCMResponse>() {
                         @Override
                         public void onResponse(Call<FCMResponse> call, Response<FCMResponse> response) {
-                            if(response.isSuccessful()){
-                                System.out.println("yeah sent it");
-                            }
+
                         }
 
                         @Override
@@ -307,7 +271,7 @@ public class PrivateChatActivity extends AppCompatActivity {
 
     }
 
-    // UserProfileActivity ye göndermemiz gereken user info yu çekiyoruz db den
+    // get user info that will send to UserProfileActivity
     private void getUserInfo(String userKey){
         reference.child("Users").child(userKey).addValueEventListener(new ValueEventListener() {
             @Override

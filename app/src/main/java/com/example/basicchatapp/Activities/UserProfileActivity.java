@@ -1,26 +1,14 @@
 package com.example.basicchatapp.Activities;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.basicchatapp.R;
-import com.example.basicchatapp.Adapters.FriendsAdapter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,7 +17,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.snapshot.BooleanNode;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -39,15 +26,11 @@ import java.util.Objects;
 
 public class UserProfileActivity extends AppCompatActivity {
 
-    ImageView p_image, likeImagebtn, msgImagebtn;
-    TextView textUserName, textBio;
-    Button likeBtn, msgBtn;
+    private ImageView p_image, likeImagebtn, msgImagebtn;
+    private TextView textUserName, textBio;
     FirebaseUser firebaseUser;
     DatabaseReference reference;
-    Boolean sent;  // true if request been sent
-    MaterialToolbar toolbar;
-    private int count;
-    private boolean isBlocked;
+    private Boolean sent;  // true if request been sent
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,164 +55,98 @@ public class UserProfileActivity extends AppCompatActivity {
         p_image = findViewById(R.id.p_image);
         textUserName = findViewById(R.id.textUserName);
         textBio = findViewById(R.id.textBio);
-        likeBtn = findViewById(R.id.likeBtn);
-        msgBtn = findViewById(R.id.msgBtn);
         likeImagebtn = findViewById(R.id.likeImageBtn);
         msgImagebtn = findViewById(R.id.msgImageBtn);
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();  // curr user
         reference = FirebaseDatabase.getInstance().getReference();  // ref to reach db
         sent = false;
-        toolbar = findViewById(R.id.toolbar_user_profile_screen);
+        MaterialToolbar toolbar = findViewById(R.id.toolbar_user_profile_screen);
         setSupportActionBar(toolbar);
         toolbar.setTitle("PROFILE");
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-
     }
 
     private void setUserInfo(String username, String photoPath, String bio){
-        // recentChatsFragment tan alıyoruz bu bilgileri
+        // getting these info from recentChatsFragment
         textUserName.setText(username);
         textBio.setText(bio);
         Picasso.get().load(photoPath).into(p_image);
     }
 
     private void setBtnFunctions(String userKey){
-
-        msgImagebtn.setOnClickListener(new View.OnClickListener() {
+        msgImagebtn.setOnClickListener(view -> reference.child("Requests")
+                .child(firebaseUser.getUid())
+                .addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
-
-
-                reference.child("Requests").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if(snapshot.hasChild(userKey)){
-                            if(snapshot.child(userKey).child("isFriend").getValue().toString().equals("true")){
-                                Intent intent = new Intent(getApplicationContext(), PrivateChatActivity.class);
-                                intent.putExtra("UserKey",userKey);
-                                startActivity(intent);
-                            }
-                        }else{
-                            Toast.makeText(getApplicationContext(),"YOU GOTTA BE FRIENDS TO CHAT",Toast.LENGTH_SHORT).show();
-                        }
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild(userKey)){
+                    if(snapshot.child(userKey).child("isFriend").getValue()
+                            .toString().equals("true")){
+                        Intent intent = new Intent(getApplicationContext(),
+                                PrivateChatActivity.class);
+                        intent.putExtra("UserKey",userKey);
+                        startActivity(intent);
                     }
+                }else{
+                    Toast.makeText(getApplicationContext(),"YOU GOTTA BE FRIENDS TO CHAT",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-//                reference.child("Requests").child(firebaseUser.getUid()).child(userKey).addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        if(snapshot.child("isFriend").getValue().toString().equals("true")){
-//                            Intent intent = new Intent(getApplicationContext(), PrivateChatActivity.class);
-//                            intent.putExtra("UserKey",userKey);
-//                            startActivity(intent);
-//                        }else{
-//                            Toast.makeText(getApplicationContext(),"YOU GOTTA BE FRIENDS TO CHAT",Toast.LENGTH_SHORT).show();
-//                        }
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//                });
-
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
-        likeImagebtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO
-//                if(!likeImagebtn.getDrawable == R.drawable.friends5){
-//                    sendLikeRequest(userKey);
-//                }
-                if(sent){
-                    takeReqBack(userKey);
-                }
-                else{
-                    sendLikeRequest(userKey);
-                }
-//                if(sent != null){
-//                    if(sent){
-//                        takeReqBack(userKey);
-//                    }
-//                    else{
-//                        sendLikeRequest(userKey);
-//                    }
-//                }
-//                sendLikeRequest(userKey);
+        }));
+        likeImagebtn.setOnClickListener(view -> {
+            if(sent){
+                takeReqBack(userKey);
+            }
+            else{
+                sendLikeRequest(userKey);
             }
         });
-//        msgBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getApplicationContext(), PrivateChatActivity.class);
-//                intent.putExtra("UserKey",userKey);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        likeBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                sendLikeRequest(userKey);
-//            }
-//        });
     }
     private void sendLikeRequest(String userKey){
 
-        Map map = new HashMap();
+        Map<String, Object> map = new HashMap<>();
         map.put("isFriend","false");
         map.put("type","sent");
 
-        reference.child("Requests").child(firebaseUser.getUid()).child(userKey).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                Toast.makeText(getApplicationContext(),"REQUEST HAS BEEN SENT",Toast.LENGTH_SHORT).show();
-                map.put("type","taken");
-                reference.child("Requests").child(userKey).child(firebaseUser.getUid()).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        likeImagebtn.setImageResource(R.mipmap.ic_remove_friend);
-                        sent = true;
-//                        likeBtn.setText("REQUESTED");
-//                        likeBtn.animate();
-//                        likeBtn.setHintTextColor(390442);
-                    }
+        reference.child("Requests").child(firebaseUser.getUid()).child(userKey)
+                .setValue(map).addOnCompleteListener(task -> {
+                    Toast.makeText(getApplicationContext(),"REQUEST HAS BEEN SENT",
+                            Toast.LENGTH_SHORT).show();
+                    map.put("type","taken");
+                    reference.child("Requests").child(userKey).child(firebaseUser.
+                            getUid()).setValue(map).addOnCompleteListener(task1 -> {
+                                likeImagebtn.setImageResource(R.mipmap.ic_remove_friend);
+                                sent = true;
+                            });
                 });
-            }
-        });
     }
 
     private void checkIfRequestAlreadySent(String userKey){
-        reference.child("Requests").child(userKey).addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.child("Requests").child(userKey)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild(firebaseUser.getUid())){
                     String type = snapshot.child(firebaseUser.getUid())
                             .child("type").getValue().toString();
 
-                    // eğer biz istek göndermişsek button src update ediyoruz
+                    // update button src if already requested
                     if(type.equals("taken")){
                         likeImagebtn.setImageResource(R.mipmap.ic_remove_friend);
                         sent = true;
 
-                        // eğer buton request gönderilmiş durumdayken butona basılırsa, isteği geri alacak
-                        likeImagebtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                               if(sent){
-                                   takeReqBack(userKey);
-                               }else{
-                                   sendLikeRequest(userKey);
-                               }
-                            }
+                        // take back req
+                        likeImagebtn.setOnClickListener(view -> {
+                           if(sent){
+                               takeReqBack(userKey);
+                           }else{
+                               sendLikeRequest(userKey);
+                           }
                         });
                     }
                 }
@@ -243,20 +160,21 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void takeReqBack(String userKey){
-        reference.child("Requests").child(firebaseUser.getUid()).child(userKey).removeValue(new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                reference.child("Requests").child(userKey).child(firebaseUser.getUid()).removeValue();
-                likeImagebtn.setImageResource(R.mipmap.ic_add_friend);
-                sent = false;
-                Toast.makeText(getApplicationContext(), "REQUEST HAS BEEN CANCELED SUCCESSFULLY", Toast.LENGTH_SHORT).show();
-
-            }
-        });
+        reference.child("Requests").child(firebaseUser.getUid()).child(userKey)
+                .removeValue((error, ref) -> {
+                    reference.child("Requests").child(userKey)
+                            .child(firebaseUser.getUid()).removeValue();
+                    likeImagebtn.setImageResource(R.mipmap.ic_add_friend);
+                    sent = false;
+                    Toast.makeText(getApplicationContext(),
+                            "REQUEST HAS BEEN CANCELED SUCCESSFULLY",
+                            Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void isAlreadyFriend(String userKey){
-        reference.child("Requests").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+        reference.child("Requests").child(firebaseUser.getUid())
+                .addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
@@ -268,7 +186,6 @@ public class UserProfileActivity extends AppCompatActivity {
                     }
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 

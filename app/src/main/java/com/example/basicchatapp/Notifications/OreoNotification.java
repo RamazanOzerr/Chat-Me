@@ -10,6 +10,8 @@ import android.content.ContextWrapper;
 import android.net.Uri;
 import android.os.Build;
 
+import com.example.basicchatapp.R;
+
 
 public class OreoNotification extends ContextWrapper {
 
@@ -49,7 +51,7 @@ public class OreoNotification extends ContextWrapper {
         return new Notification.Builder(getApplicationContext(), CHANNEL_ID)
                 .setContentIntent(pendingIntent)
                 .setContentTitle(title)
-                .setSmallIcon(Integer.parseInt(icon))
+                .setSmallIcon(R.mipmap.ic_notification)
                 .setSound(soundUri)
                 .setAutoCancel(true);
     }

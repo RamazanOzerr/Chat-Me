@@ -2,7 +2,6 @@ package com.example.basicchatapp.Fragments;
 
 import android.graphics.Canvas;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -11,7 +10,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.Toast;
-
 import com.example.basicchatapp.R;
 import com.example.basicchatapp.Utils.MessageModel;
 import com.example.basicchatapp.Utils.Profile;
@@ -29,16 +26,13 @@ import com.example.basicchatapp.Adapters.RecentChatsAdapter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class RecentChatsFragment extends Fragment {
@@ -49,17 +43,13 @@ public class RecentChatsFragment extends Fragment {
     FirebaseUser fuser;
     DatabaseReference reference;
     RecentChatsAdapter recentChatsAdapter;
-    private List<String> userList;  // kişinin konuştuğu kişilerin id lerinin listesi
+    private List<String> userList;  // id list of people whom user has talked
 
     private List<RecentChats> recentChatsInfoList;
 
-    private List<String> textList;  // temp
     public RecentChatsFragment() {
         // Required empty public constructor
     }
-
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,46 +64,18 @@ public class RecentChatsFragment extends Fragment {
         recentChatsRecyclerView.setLayoutManager(layoutManager);
         swipeRefreshLayout = view.findViewById(R.id.swipe_to_refresh_layout);
         recentChatsInfoList = new ArrayList<>();
-        userList = new ArrayList<>(); // kişinin konuştuğu kişilerin id lerinin listesi
+        userList = new ArrayList<>(); // id list
 
         getUserKeys();
         swipeToRemove();
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                recentChatsInfoList.clear();
-                getUserKeys();
-                swipeRefreshLayout.setRefreshing(false);
-            }
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            recentChatsInfoList.clear();
+            getUserKeys();
+            swipeRefreshLayout.setRefreshing(false);
         });
         return view;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        //Toast.makeText(getContext(),"FRAGMENT METHODUNDAYIZ",Toast.LENGTH_LONG).show();
-        super.onCreateOptionsMenu(menu, inflater);
-        MenuItem searchItem = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                recentChatsAdapter.getFilter().filter(s);
-                return false;
-            }
-        });
-    }
 
     private void getUserKeys(){
 
@@ -121,17 +83,15 @@ public class RecentChatsFragment extends Fragment {
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Messages");
 
-        // user ın konuştuğu kişilerin listesini aldık
+        // get id list
         reference.child(fuser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 userList.clear(); // listeyi temizledik
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    userList.add(dataSnapshot.getKey()); // tüm konuştuğu kişilerin id lerini listeledik
-                    //TODO Debug için yazdık, keylerin hepsini başarılı şekilde alıyor
-                    System.out.println("key:"+ dataSnapshot.getKey());
+                    userList.add(dataSnapshot.getKey()); // listed all id's
                 }
-
+                // get user info using id's
                 getUserInfo();
             }
 
@@ -144,9 +104,6 @@ public class RecentChatsFragment extends Fragment {
     }
 
     private void getUserInfo(){
-
-//        recentChatsInfoList = new ArrayList<>();
-
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.addValueEventListener(new ValueEventListener() {
@@ -157,18 +114,15 @@ public class RecentChatsFragment extends Fragment {
                     System.out.println("id ler:"+id);
                     Profile profile = snapshot.child(id).getValue(Profile.class);
                     String photoPath = snapshot.child(id).child("photo").getValue().toString();
-                    // kullanıcının foto ve isim bilgilerini alıp bir class yapısında depoladık
-                    RecentChats recentChats = new RecentChats(photoPath, profile.getName(),null,userList.size(),profile.getBio(), id);
+                    RecentChats recentChats = new RecentChats(photoPath, profile.getName()
+                            ,null,userList.size(),profile.getBio(), id);
                     recentChatsInfoList.add(recentChats);
 
-                    System.out.println(recentChats);
-
                 }
-                recentChatsAdapter = new RecentChatsAdapter(recentChatsInfoList, getActivity(), getContext());
+                recentChatsAdapter = new RecentChatsAdapter(recentChatsInfoList,
+                        getActivity(), getContext());
                 recentChatsRecyclerView.setAdapter(recentChatsAdapter);
-
             }
-
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -178,78 +132,14 @@ public class RecentChatsFragment extends Fragment {
 
     }
 
-    private void getLastMessage(){
-//        Date d1,d2;
-//        String pattern = "yyyy-MM-dd";
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-
-        textList = new ArrayList<>();
-
-        recentChatsInfoList = new ArrayList<>();
-        tempMm = new MessageModel();
-        fuser = FirebaseAuth.getInstance().getCurrentUser();
-        reference = FirebaseDatabase.getInstance().getReference("Messages");
-
-        reference.child(fuser.getUid()).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        reference.child(fuser.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(String id : userList){
-                    // tüm mesaj id leri üzerinde dolaşıyoruz, db de en sondaki en son atılan mesaj
-                    // olacağı için kıyaslama yapmaktan ziyade, direkt bi öncekinin üzerine yazarak
-                    // en sona kadar ilerliyoruz
-                    for(DataSnapshot dataSnapshot : snapshot.child(id).getChildren()){
-                        MessageModel messageModel = dataSnapshot.getValue(MessageModel.class);
-                        System.out.println("message: " + messageModel);
-                        tempMm.setFrom(messageModel.getFrom());
-                        tempMm.setSeen(messageModel.getSeen());
-                        tempMm.setText(messageModel.getText());
-                        tempMm.setTime(messageModel.getTime());
-                        tempMm.setType(messageModel.getType());
-                    }
-                    textList.add(tempMm.getText());
-                    // tarih eklemek istersek, benzer işlemi burda yapcaz
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
+    // swipe to remove conversation
     private void swipeToRemove(){
-        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.RIGHT) {
             @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            public boolean onMove(@NonNull RecyclerView recyclerView,
+                                  @NonNull RecyclerView.ViewHolder viewHolder,
+                                  @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
 
@@ -285,15 +175,19 @@ public class RecentChatsFragment extends Fragment {
                 });
             }
             @Override
-            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
+                                    @NonNull RecyclerView.ViewHolder viewHolder, float dX,
+                                    float dY, int actionState, boolean isCurrentlyActive) {
 
-                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY,
+                        actionState, isCurrentlyActive)
                         .addBackgroundColor(ContextCompat.getColor(getContext(), R.color.red))
                         .addActionIcon(R.mipmap.ic_delete)
                         .create()
                         .decorate();
 
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY,
+                        actionState, isCurrentlyActive);
             }
 
         };
@@ -306,12 +200,39 @@ public class RecentChatsFragment extends Fragment {
     private void deleteChat(String otherUser){
         DatabaseReference tempRef = FirebaseDatabase.getInstance().getReference();
 
-        tempRef.child("Messages").child(fuser.getUid()).child(otherUser).removeValue(new DatabaseReference.CompletionListener() {
+        tempRef.child("Messages").child(fuser.getUid()).child(otherUser)
+                .removeValue((error, ref) -> {
+            tempRef.child("Messages").child(otherUser).child(fuser.getUid()).removeValue();
+            Toast.makeText(getContext(),"MESSAGES WITH THAT USER WERE SUCCESSFULLY DELETED"
+                    ,Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    // call onCreateOptionsMenu
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
+    // set search feature
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                tempRef.child("Messages").child(otherUser).child(fuser.getUid()).removeValue();
-                Toast.makeText(getContext(),"MESSAGES WITH THAT USER WERE SUCCESSFULLY DELETED",Toast.LENGTH_SHORT).show();
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                recentChatsAdapter.getFilter().filter(s);
+                return false;
             }
         });
     }
+
 }

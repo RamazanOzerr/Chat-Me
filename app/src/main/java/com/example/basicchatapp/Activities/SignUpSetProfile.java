@@ -1,6 +1,5 @@
 package com.example.basicchatapp.Activities;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,8 +13,6 @@ import android.widget.Toast;
 
 import com.example.basicchatapp.R;
 import com.example.basicchatapp.Utils.RandomString;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -97,20 +94,19 @@ public class SignUpSetProfile extends AppCompatActivity {
 
     private void getToken(){
         FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(SignUpSetProfile.this, "Fetching FCM registration token failed"+ task.getException(), Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-
-                        // Get new FCM registration token
-                        String token = task.getResult();
-                        Map<String, Object> hm = new HashMap<>();
-                        hm.put("token",token);
-                        reference.child("Users").child(auth.getUid()).updateChildren(hm);
+                .addOnCompleteListener(task -> {
+                    if (!task.isSuccessful()) {
+                        Toast.makeText(SignUpSetProfile.this,
+                                "Fetching FCM registration token failed"+ task.getException(),
+                                Toast.LENGTH_SHORT).show();
+                        return;
                     }
+
+                    // Get new FCM registration token
+                    String token = task.getResult();
+                    Map<String, Object> hm = new HashMap<>();
+                    hm.put("token",token);
+                    reference.child("Users").child(auth.getUid()).updateChildren(hm);
                 });
     }
 
@@ -123,42 +119,31 @@ public class SignUpSetProfile extends AppCompatActivity {
             sign_up_user_name = findViewById(R.id.sign_up_user_name);
             sign_up_about_me = findViewById(R.id.sign_up_about_me);
             sign_up_profile_image = findViewById(R.id.sign_up_profile_image);
-            final StorageReference ref = storageReference.child("Pictures").child(RandomString.getSaltString() + ".jpg");
+            final StorageReference ref = storageReference.child("Pictures")
+                    .child(RandomString.getSaltString() + ".jpg");
             UploadTask uploadTask = ref.putFile(selectedImage);
 
-            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                @Override
-                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
-                    }
-
-                    // Continue with the task to get the download URL
-                    return ref.getDownloadUrl();
+            Task<Uri> urlTask = uploadTask.continueWithTask(task -> {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
                 }
-            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                @Override
-                public void onComplete(@NonNull Task<Uri> task) {
-                    if (task.isSuccessful()) {
-                        Uri downloadUri = task.getResult();
-                        Map map = new HashMap();
-                        map.put("name", sign_up_name.getText().toString());
-                        map.put("username", sign_up_user_name.getText().toString());
-                        map.put("photo", downloadUri.toString());
-//                    map.put("photo",selectedImage);
-                        map.put("bio", sign_up_about_me.getText().toString());
 
-                        reference.child("Users").child(auth.getUid()).setValue(map);
-                        sign_up_profile_image.setImageURI(selectedImage);
-                        hasPhotoSet = true;
-                        Toast.makeText(getApplicationContext(),
-                                "picture has been successfully added", Toast.LENGTH_LONG).show();
+                // Continue with the task to get the download URL
+                return ref.getDownloadUrl();
+            }).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("name", sign_up_name.getText().toString());
+                    map.put("username", sign_up_user_name.getText().toString());
+                    map.put("photo", downloadUri.toString());
+                    map.put("bio", sign_up_about_me.getText().toString());
 
-//
-                    } else {
-                        // Handle failures
-                        // ...
-                    }
+                    reference.child("Users").child(auth.getUid()).setValue(map);
+                    sign_up_profile_image.setImageURI(selectedImage);
+                    hasPhotoSet = true;
+                    Toast.makeText(getApplicationContext(),
+                            "picture has been successfully added", Toast.LENGTH_LONG).show();
                 }
             });
         }

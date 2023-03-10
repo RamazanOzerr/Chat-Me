@@ -41,7 +41,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHolder> implements Filterable {
 
-    // şimdilik liste yazdık, sonradan düzenlicez
     private List<Requests> userList;
     private List<Requests> userListFull;
 
@@ -59,94 +58,82 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         userListFull = new ArrayList<>(userList);
     }
 
-
     @NonNull
     @Override
     public RequestsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.requests_layout,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.requests_layout,
+                parent,false);
 
         return new RequestsAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RequestsAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        System.out.println("requested user:"+userList.get(position).getUserKey());
-        holder.requestsnameUser.setText(userList.get(position).getName());
-        Picasso.get().load(userList.get(position).getPhotoPath()).into(holder.profile_image);
+    public void onBindViewHolder(@NonNull RequestsAdapter.ViewHolder holder,
+                                 @SuppressLint("RecyclerView") int position) {
 
-        holder.profile_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
-                intent.putExtra("name",userList.get(position).getName());
-                intent.putExtra("photo",userList.get(position).getPhotoPath());
-                intent.putExtra("bio",userList.get(position).getBio());
-                intent.putExtra("UserKey",userList.get(position).getUserKey());
-                activity.startActivity(intent);
-            }
+        try{
+            holder.requestsnameUser.setText(userList.get(position).getName());
+        }catch (Exception e){
+            holder.requestsnameUser.setText("");
+        }
+        try{
+            Picasso.get().load(userList.get(position).getPhotoPath()).into(holder.profile_image);
+        }catch (Exception e){
+            holder.profile_image.setImageResource(R.mipmap.ic_account);
+        }
+
+        holder.profile_image.setOnClickListener(view -> {
+            Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
+            intent.putExtra("name",userList.get(position).getName());
+            intent.putExtra("photo",userList.get(position).getPhotoPath());
+            intent.putExtra("bio",userList.get(position).getBio());
+            intent.putExtra("UserKey",userList.get(position).getUserKey());
+            activity.startActivity(intent);
         });
 
-        holder.acceptBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        holder.acceptBtn.setOnClickListener(view -> {
 //                Requests acceptedReq = userList.get(position);
-                acceptReq(userList.get(position).getUserKey());
-                userList.remove(position);
-                Toast.makeText(view.getContext(),"ADDED AS FRIEND, CHECK YOUR FRIENDS LIST",Toast.LENGTH_SHORT).show();
-                //TODO burda da checkReq işlemi yapılıp, bu kişi recyclerView dan silinmesi lazım
-                // ve Friends fragment/activity içerisinde listelenmesi lazım
-            }
+            acceptReq(userList.get(position).getUserKey());
+            userList.remove(position);
+            Toast.makeText(view.getContext(),"ADDED AS FRIEND, CHECK YOUR FRIENDS LIST",
+                    Toast.LENGTH_SHORT).show();
+            //TODO burda da checkReq işlemi yapılıp, bu kişi recyclerView dan silinmesi lazım
+            // ve Friends fragment/activity içerisinde listelenmesi lazım
         });
 
-        holder.rejectBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                rejectReq(userList.get(position).getUserKey());
-                Toast.makeText(view.getContext(),"REQUEST REJECTED",Toast.LENGTH_SHORT).show();
-                //TODO ret işleminden sonra kullanıcının recyclerView den silinmesi gerekiyor, bunun için
-                // checkReq methodunu yeniden çalıştırmamız lazım
-            }
+        holder.rejectBtn.setOnClickListener(view -> {
+            rejectReq(userList.get(position).getUserKey());
+            Toast.makeText(view.getContext(),"REQUEST REJECTED",Toast.LENGTH_SHORT).show();
+            //TODO: ret işleminden sonra kullanıcının recyclerView den silinmesi gerekiyor, bunun için
+            // checkReq methodunu yeniden çalıştırmamız lazım
         });
-//        holder.requestsnameUser.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(view.getContext(), PrivateChatActivity.class);
-//                intent.putExtra("UserKey",userList.get(position).getUserKey());
-//                activity.startActivity(intent);
-//            }
-//        });
     }
 
     private void acceptReq(String userKey){
         Map<String, String > map = new HashMap<>();
         map.put("isFriend","true");
         map.put("type","taken");
-        reference.child("Requests").child(firebaseUser.getUid()).child(userKey).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                map.put("type","sent");
-                reference.child("Requests").child(userKey).child(firebaseUser.getUid()).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+        reference.child("Requests").child(firebaseUser.getUid()).child(userKey)
+                .setValue(map).addOnCompleteListener(task -> {
+                    map.put("type","sent");
+                    reference.child("Requests").child(userKey).child(firebaseUser
+                            .getUid()).setValue(map).addOnCompleteListener(task1 -> {
 
-                    }
+                            });
                 });
-            }
-        });
     }
 
     private void rejectReq(String userKey){
-        reference.child("Requests").child(firebaseUser.getUid()).child(userKey).removeValue(new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                reference.child("Requests").child(userKey).child(firebaseUser.getUid()).removeValue();
+        reference.child("Requests").child(firebaseUser.getUid()).child(userKey)
+                .removeValue((error, ref) -> {
+            reference.child("Requests").child(userKey).child(firebaseUser.getUid())
+                    .removeValue();
 
-                Toast.makeText(context.getApplicationContext(), "REQUEST HAS BEEN REJECTED SUCCESSFULLY", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context.getApplicationContext(),
+                    "REQUEST HAS BEEN REJECTED SUCCESSFULLY", Toast.LENGTH_SHORT).show();
 
-            }
         });
     }
-
 
     @Override
     public int getItemCount() {

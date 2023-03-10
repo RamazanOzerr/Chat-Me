@@ -10,32 +10,22 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.basicchatapp.Activities.PrivateChatActivity;
 import com.example.basicchatapp.Activities.UserProfileActivity;
 import com.example.basicchatapp.R;
 import com.example.basicchatapp.Utils.Profile;
-import com.example.basicchatapp.Utils.Requests;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
-
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> implements Filterable{
-    private List<Profile> userList;
-    private List<Profile> userListFull;
+    List<Profile> userList;
+    List<Profile> userListFull;
     Activity activity;
     Context context;
     FirebaseDatabase firebaseDatabase;
@@ -48,81 +38,70 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> im
         firebaseDatabase = FirebaseDatabase.getInstance();
         reference = firebaseDatabase.getReference();
 
-        // userKeyList in copy sini oluşturduk
+        // copy
         userListFull = new ArrayList<>(userList);
     }
 
-    // layout tanımlaması yapılacak
+    // layout initialization
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.user_layout,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.user_layout,
+                parent,false);
 
         return new ViewHolder(view);
     }
 
-    // TODO burada int position kısmında bir hata oluşuyordu, hata sebebi setOnClickListener atıyor
-    // TODO oluşumuz, onu silince düzeliyordu, şimdilik şu @SuppressLint("RecyclerView") şeyini ekledi
-    //  TODOhata çıkarırsa silicez onu
-    // view lere setlemeler yapılacak
+    // set views
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-//        holder.nameUser.setText(userKeyList.get(position).toString());
+        holder.cardView.setOnClickListener(view -> {
 
+            Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
+            intent.putExtra("name",userList.get(position).getName());
+            intent.putExtra("photo",userList.get(position).getPhoto());
+            intent.putExtra("bio",userList.get(position).getBio());
+            intent.putExtra("UserKey",userList.get(position).getOtherUser());
+            activity.startActivity(intent);
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
-                intent.putExtra("name",userList.get(position).getName());
-                intent.putExtra("photo",userList.get(position).getPhoto());
-                intent.putExtra("bio",userList.get(position).getBio());
-                intent.putExtra("UserKey",userList.get(position).getOtherUser());
-                activity.startActivity(intent);
-
-
-//                userKeyList.get(position);
-//                Intent intent = new Intent(view.getContext(), PrivateChatActivity.class);
-//                intent.putExtra("UserKey",userKeyList.get(position));
-//                activity.startActivity(intent);
-            }
         });
 
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        holder.imageView.setOnClickListener(view -> {
 
-                Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
-                intent.putExtra("name",userList.get(position).getName());
-                intent.putExtra("photo",userList.get(position).getPhoto());
-                intent.putExtra("bio",userList.get(position).getBio());
-                intent.putExtra("UserKey",userList.get(position).getOtherUser());
-                activity.startActivity(intent);
-
-
-
-//                userKeyList.get(position);
-//                Intent intent = new Intent(view.getContext(), PrivateChatActivity.class);
-//                intent.putExtra("UserKey",userKeyList.get(position));
-//                activity.startActivity(intent);
-            }
+            Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
+            intent.putExtra("name",userList.get(position).getName());
+            intent.putExtra("photo",userList.get(position).getPhoto());
+            intent.putExtra("bio",userList.get(position).getBio());
+            intent.putExtra("UserKey",userList.get(position).getOtherUser());
+            activity.startActivity(intent);
         });
 
-        Picasso.get().load(userList.get(position).getPhoto()).into(holder.imageView);
-        holder.nameUser.setText(userList.get(position).getName());
-        holder.bioUser.setText(userList.get(position).getBio());
-
+        try {
+            Picasso.get().load(userList.get(position).getPhoto()).into(holder.imageView);
+        }catch (Exception e){
+            holder.imageView.setImageResource(R.mipmap.ic_account);
+        }
+        try {
+            holder.nameUser.setText(userList.get(position).getName());
+        }catch (Exception e){
+            holder.nameUser.setText("");
+        }
+        try {
+            holder.bioUser.setText(userList.get(position).getBio());
+        }catch (Exception e){
+            holder.bioUser.setText("");
+        }
     }
 
-    // adapteri oluşturacak listenin size ı
+    // size of the list
     @Override
     public int getItemCount() {
         return userList.size();
     }
 
-    // view ların tanımlanma işlemi
-    public class ViewHolder extends  RecyclerView.ViewHolder{
+    // initialize views
+    public static class ViewHolder extends  RecyclerView.ViewHolder{
 
         TextView nameUser, bioUser;
         CircleImageView imageView;
