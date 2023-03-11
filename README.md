@@ -57,6 +57,19 @@ https://drive.google.com/file/d/14YhGN71ijXBQvJKuoC7EKpXGoyXV6av5/view?usp=shari
 # Important!
 if you want to fork and improve this project, do not forget to add your own google-services.json file, I have deleted mine.
 
+# dependencies
+- implementation 'de.hdodenhof:circleimageview:3.1.0'
+- implementation 'com.squareup.picasso:picasso:2.71828'
+- implementation 'it.xabaras.android:recyclerview-swipedecorator:1.4'
+- implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+- implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
+- implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+- implementation 'com.google.firebase:firebase-database:20.1.0'
+- implementation 'com.google.firebase:firebase-auth:21.1.0'
+- implementation 'com.google.firebase:firebase-storage:20.1.0'
+- implementation 'com.google.firebase:firebase-messaging:23.0.3'
+    
+
 # Did you find this repository helpful?
 Do not forget to give a start
 
