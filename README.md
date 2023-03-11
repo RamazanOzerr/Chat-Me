@@ -21,6 +21,28 @@ this is an android chat application that user can add friends, can chat
 - Firebase Realtime Database
 - Firebase Storage
 
+# APK
+https://drive.google.com/file/d/14YhGN71ijXBQvJKuoC7EKpXGoyXV6av5/view?usp=sharing
+
+# Important!
+if you want to fork and improve this project, do not forget to add your own google-services.json file, I have deleted mine.
+
+# dependencies
+- implementation 'de.hdodenhof:circleimageview:3.1.0'
+- implementation 'com.squareup.picasso:picasso:2.71828'
+- implementation 'it.xabaras.android:recyclerview-swipedecorator:1.4'
+- implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+- implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
+- implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+- implementation 'com.google.firebase:firebase-database:20.1.0'
+- implementation 'com.google.firebase:firebase-auth:21.1.0'
+- implementation 'com.google.firebase:firebase-storage:20.1.0'
+- implementation 'com.google.firebase:firebase-messaging:23.0.3'
+    
+# Push notification
+I have deleted my server key from the project, if you want to post request to fcm, you need to add your own server key in APIService.java
+![serverKey](https://user-images.githubusercontent.com/96844411/224488828-7bbf924c-ab58-4b8a-9e8a-98dee7b85c62.PNG)
+
 # How to use
 ## create account
 ![sign up](https://user-images.githubusercontent.com/96844411/224481235-e3e429a0-02a4-4e73-b9ae-bc4356b3d2c2.PNG)
@@ -50,29 +72,6 @@ this is an android chat application that user can add friends, can chat
 ![notification](https://user-images.githubusercontent.com/96844411/224481693-c150a239-db13-4e96-8648-63a5abd864a9.PNG)
 ![more](https://user-images.githubusercontent.com/96844411/224481695-91676065-fdc0-4dec-9f9d-d1b4f29d99c0.PNG)
 ![profile](https://user-images.githubusercontent.com/96844411/224481699-4037f6f7-0412-41df-92a3-d2364f9eb641.PNG)
-
-# APK
-https://drive.google.com/file/d/14YhGN71ijXBQvJKuoC7EKpXGoyXV6av5/view?usp=sharing
-
-# Important!
-if you want to fork and improve this project, do not forget to add your own google-services.json file, I have deleted mine.
-
-# dependencies
-- implementation 'de.hdodenhof:circleimageview:3.1.0'
-- implementation 'com.squareup.picasso:picasso:2.71828'
-- implementation 'it.xabaras.android:recyclerview-swipedecorator:1.4'
-- implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-- implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
-- implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-- implementation 'com.google.firebase:firebase-database:20.1.0'
-- implementation 'com.google.firebase:firebase-auth:21.1.0'
-- implementation 'com.google.firebase:firebase-storage:20.1.0'
-- implementation 'com.google.firebase:firebase-messaging:23.0.3'
-    
-# Push notification
-I have deleted my server key from the project, if you want to post request to fcm, you need to add your own server key in APIService.java
-![serverKey](https://user-images.githubusercontent.com/96844411/224488828-7bbf924c-ab58-4b8a-9e8a-98dee7b85c62.PNG)
-
 
 # Did you find this repository helpful?
 Do not forget to give a start
