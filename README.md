@@ -69,6 +69,10 @@ if you want to fork and improve this project, do not forget to add your own goog
 - implementation 'com.google.firebase:firebase-storage:20.1.0'
 - implementation 'com.google.firebase:firebase-messaging:23.0.3'
     
+# Push notification
+I have deleted my server key from the project, if you want to post request to fcm, you need to add your own server key in APIService.java
+![serverKey](https://user-images.githubusercontent.com/96844411/224488828-7bbf924c-ab58-4b8a-9e8a-98dee7b85c62.PNG)
+
 
 # Did you find this repository helpful?
 Do not forget to give a start
