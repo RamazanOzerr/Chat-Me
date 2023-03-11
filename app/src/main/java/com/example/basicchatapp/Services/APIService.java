@@ -15,7 +15,7 @@ import retrofit2.http.POST;
 public interface APIService {
     @Headers({
             "Content-Type:application/json",
-            "Authorization:key=AAAAnO4U-jo:APA91bFQkp6FP_zsFj8KK9Fdw_k66de_Ax0YV9o3IcTY8JU4nC3SoOEx_jaSYgjNSSxKdYhp98wbPHbIRHvl_KVqZ3w9YW4ngOH-rk5fBRGOrVPNHd145J2UPym0mzUU68xh7QQxKXe0"
+            "Authorization:key="
     })
     @POST("fcm/send")
     Call<FCMResponse> sendNotification(@Body JsonObject jsonObject);
