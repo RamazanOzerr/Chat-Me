@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
-        toolbar.setTitle("CHATHUB");
+        toolbar.setTitle("CHATAPP");
 
 
         customViewPager = new CustomViewPager(getSupportFragmentManager());

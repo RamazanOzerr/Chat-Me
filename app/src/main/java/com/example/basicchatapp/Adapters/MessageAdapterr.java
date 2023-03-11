@@ -81,11 +81,11 @@ public class MessageAdapterr extends RecyclerView.Adapter<MessageAdapterr.ViewHo
             }
 
 
-            holder.messageText.setOnLongClickListener(view -> {
-                createAlertDialog(userKeyList.get(position),messageModelList.
-                        get(position).getText());
-                return false;
-            });
+//            holder.messageText.setOnLongClickListener(view -> {
+//                createAlertDialog(userKeyList.get(position),messageModelList.
+//                        get(position).getText());
+//                return false;
+//            });
 
 
         }
@@ -131,12 +131,12 @@ public class MessageAdapterr extends RecyclerView.Adapter<MessageAdapterr.ViewHo
         builder.setMessage("YOU SURE YOU WANNA DELETE THIS MESSAGE?");
         builder.setNegativeButton("NO",null);
         builder.setPositiveButton("YES", (dialogInterface, i) ->
-                deleteMessage(targetText,otherUser));
+                deleteMessage(otherUser, targetText));
         builder.show();
     }
 
     // finds the id of the message that will be deleted
-    private void deleteMessage(String targetText, String otherUser){
+    private void deleteMessage(String otherUser, String targetText){
 
         reference.child("Messages").child(firebaseUser.getUid()).child(otherUser)
                 .addValueEventListener(new ValueEventListener() {

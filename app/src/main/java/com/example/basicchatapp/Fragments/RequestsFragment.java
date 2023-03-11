@@ -54,8 +54,6 @@ public class RequestsFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_requests, container, false);
 
-        requestsRecyclerView = view.findViewById(R.id.requestsRecyclerView);
-        requestsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         init();
         getRequests();
 
@@ -66,6 +64,8 @@ public class RequestsFragment extends Fragment {
         reference = FirebaseDatabase.getInstance().getReference();
         requestsList = new ArrayList<>();
         swipeRefreshLayout_requests = view.findViewById(R.id.swipe_to_refresh_layout_requests);
+        requestsRecyclerView = view.findViewById(R.id.requestsRecyclerView);
+        requestsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         swipeRefreshLayout_requests.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -79,44 +79,136 @@ public class RequestsFragment extends Fragment {
 
 
     private void getRequests(){
-        reference.child("Requests").addValueEventListener(new ValueEventListener() {
+
+//        reference.child("Requests").addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//                System.out.println("key: "+snapshot.getKey()); // istek atan kişinin id si
+//                String otherUser = snapshot.getKey();
+//                String type = snapshot.child(otherUser).child(user.getUid())
+//                        .child("type").getValue().toString();
+//                String friend = snapshot.child(otherUser).child(user.getUid())
+//                        .child("isFriend").getValue().toString();
+//
+//                if(type.equals("sent") && friend.equals("false")){
+//                    reference.child("Users").child(otherUser)
+//                            .addListenerForSingleValueEvent(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                            String photoID = snapshot.child("photo").getValue().toString();
+//                            String name = snapshot.child("name").getValue().toString();
+//                            String bio = snapshot.child("bio").getValue().toString();
+//                            requestsList.add(new Requests(photoID, name, bio, otherUser));
+//                            requestsAdapter = new RequestsAdapter(requestsList, getActivity(), getContext());
+//                            requestsRecyclerView.setAdapter(requestsAdapter);
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError error) {
+//
+//                        }
+//                    });
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+
+        reference.child("Requests").child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                requestsList.clear();
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    if(dataSnapshot.hasChild(user.getUid())){
-                        if(dataSnapshot.child(user.getUid()).child("type").getValue()
-                                .toString().equals("sent") && dataSnapshot.child(user.getUid())
-                                .child("isFriend").getValue().toString().equals("false")){
-
-                            String otherID = dataSnapshot.getKey();
-                            reference.child("Users").child(otherID)
-                                    .addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    String photoID = snapshot.child("photo").getValue().toString();
-                                    String name = snapshot.child("name").getValue().toString();
-                                    String bio = snapshot.child("bio").getValue().toString();
-                                    requestsList.add(new Requests(photoID, name, bio, otherID));
-                                    System.out.println("requests: "+requestsList.size()+" "+requestsList.get(0).getUserKey());
-                                    requestsAdapter = new RequestsAdapter(requestsList, getActivity(), getContext());
-                                    requestsRecyclerView.setAdapter(requestsAdapter);
-//                                    requestsList.clear();
-                                }
-
-
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });
-                        }
-
-
+                    String type = dataSnapshot.child("type").getValue().toString();
+                    String friend = dataSnapshot.child("isFriend").getValue().toString();
+                    if(type.equals("taken") && friend.equals("false")){
+                        getUserInfo(dataSnapshot.getKey());
                     }
-
                 }
+//                requestsAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+//        reference.child("Requests").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                requestsList.clear();
+//                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+//                    if(dataSnapshot.hasChild(user.getUid())){
+//                        if(dataSnapshot.child(user.getUid()).child("type").getValue()
+//                                .toString().equals("sent") && dataSnapshot.child(user.getUid())
+//                                .child("isFriend").getValue().toString().equals("false")){
+//
+//                            String otherID = dataSnapshot.getKey();
+//                            reference.child("Users").child(otherID)
+//                                    .addValueEventListener(new ValueEventListener() {
+//                                @Override
+//                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                    String photoID = snapshot.child("photo").getValue().toString();
+//                                    String name = snapshot.child("name").getValue().toString();
+//                                    String bio = snapshot.child("bio").getValue().toString();
+//                                    requestsList.add(new Requests(photoID, name, bio, otherID));
+//                                    System.out.println("requests: "+requestsList.size()+" "+requestsList.get(0).getUserKey());
+//                                    requestsAdapter = new RequestsAdapter(requestsList, getActivity(), getContext());
+//                                    requestsRecyclerView.setAdapter(requestsAdapter);
+////                                    requestsAdapter.notifyDataSetChanged();
+//                                }
+//
+//
+//
+//                                @Override
+//                                public void onCancelled(@NonNull DatabaseError error) {
+//
+//                                }
+//                            });
+//                        }
+//
+//
+//                    }
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+    }
+
+    private void getUserInfo(String otherUser){
+        reference.child("Users").child(otherUser).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String photoID = snapshot.child("photo").getValue().toString();
+                String name = snapshot.child("name").getValue().toString();
+                String bio = snapshot.child("bio").getValue().toString();
+                requestsList.add(new Requests(photoID, name, bio, otherUser));
+                requestsAdapter = new RequestsAdapter(requestsList, getActivity(), getContext());
+                requestsRecyclerView.setAdapter(requestsAdapter);
             }
 
             @Override

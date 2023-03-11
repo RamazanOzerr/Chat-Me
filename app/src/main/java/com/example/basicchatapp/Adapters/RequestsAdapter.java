@@ -93,8 +93,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
 
         holder.acceptBtn.setOnClickListener(view -> {
 //                Requests acceptedReq = userList.get(position);
-            acceptReq(userList.get(position).getUserKey());
-            userList.remove(position);
+            acceptReq(userList.get(position).getUserKey(), position);
             Toast.makeText(view.getContext(),"ADDED AS FRIEND, CHECK YOUR FRIENDS LIST",
                     Toast.LENGTH_SHORT).show();
             //TODO burda da checkReq işlemi yapılıp, bu kişi recyclerView dan silinmesi lazım
@@ -103,13 +102,15 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
 
         holder.rejectBtn.setOnClickListener(view -> {
             rejectReq(userList.get(position).getUserKey());
+            userList.remove(position);
+            notifyItemRemoved(position);
             Toast.makeText(view.getContext(),"REQUEST REJECTED",Toast.LENGTH_SHORT).show();
             //TODO: ret işleminden sonra kullanıcının recyclerView den silinmesi gerekiyor, bunun için
             // checkReq methodunu yeniden çalıştırmamız lazım
         });
     }
 
-    private void acceptReq(String userKey){
+    private void acceptReq(String userKey, int position){
         Map<String, String > map = new HashMap<>();
         map.put("isFriend","true");
         map.put("type","taken");
@@ -118,9 +119,9 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                     map.put("type","sent");
                     reference.child("Requests").child(userKey).child(firebaseUser
                             .getUid()).setValue(map).addOnCompleteListener(task1 -> {
-
                             });
                 });
+//        notifyDataSetChanged();
     }
 
     private void rejectReq(String userKey){
@@ -128,11 +129,12 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
                 .removeValue((error, ref) -> {
             reference.child("Requests").child(userKey).child(firebaseUser.getUid())
                     .removeValue();
-
+                notifyDataSetChanged();
             Toast.makeText(context.getApplicationContext(),
                     "REQUEST HAS BEEN REJECTED SUCCESSFULLY", Toast.LENGTH_SHORT).show();
 
         });
+
     }
 
     @Override
@@ -146,7 +148,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         CircleImageView profile_image;
         Button acceptBtn, rejectBtn;
 
-        ViewHolder(View itemView){
+        public ViewHolder(View itemView){
             super(itemView);
 
             requestsnameUser = itemView.findViewById(R.id.requestsnameUser);
@@ -155,6 +157,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
             rejectBtn = itemView.findViewById(R.id.rejectBtn);
 
         }
+
     }
 
     @Override

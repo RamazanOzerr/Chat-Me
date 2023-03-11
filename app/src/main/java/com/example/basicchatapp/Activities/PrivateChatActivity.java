@@ -3,9 +3,12 @@ package com.example.basicchatapp.Activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -18,8 +21,10 @@ import com.example.basicchatapp.Notifications.FCMResponse;
 import com.example.basicchatapp.R;
 import com.example.basicchatapp.Adapters.MessageAdapterr;
 import com.example.basicchatapp.Services.APIService;
+import com.example.basicchatapp.Utils.Friend;
 import com.example.basicchatapp.Utils.MessageModel;
 import com.example.basicchatapp.Utils.Profile;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -38,6 +43,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -122,7 +129,7 @@ public class PrivateChatActivity extends AppCompatActivity {
 
         });
         loadMessage(userKey);
-
+        swipeToRemove(userKey);
     }
 
     private String getDate(){
@@ -202,30 +209,38 @@ public class PrivateChatActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     // get token from db
-                    String token = dataSnapshot.child("token").getValue().toString();
+                    String token;
+                    try{
+                        token = dataSnapshot.child("token").getValue().toString();
+                    }catch (Exception e){
+                        token = null;
+                    }
+                    if(token != null){
+                        // create json data
+                        JsonObject jsonData = new JsonObject();
+                        JsonObject jsonBody = new JsonObject();
+                        jsonData.addProperty("body",username+": "+message);
+                        jsonData.addProperty("title","new message");
+                        jsonBody.addProperty("to",token);
+                        jsonBody.add("notification",jsonData);
 
-                    // create json data
-                    JsonObject jsonData = new JsonObject();
-                    JsonObject jsonBody = new JsonObject();
-                    jsonData.addProperty("body",username+": "+message);
-                    jsonData.addProperty("title","new message");
-                    jsonBody.addProperty("to",token);
-                    jsonBody.add("notification",jsonData);
+                        // send post request
+                        apiService.sendNotification(jsonBody).enqueue(new Callback<FCMResponse>() {
+                            @Override
+                            public void onResponse(Call<FCMResponse> call, Response<FCMResponse> response) {
 
-                    // send post request
-                    apiService.sendNotification(jsonBody).enqueue(new Callback<FCMResponse>() {
-                        @Override
-                        public void onResponse(Call<FCMResponse> call, Response<FCMResponse> response) {
+                            }
 
-                        }
-
-                        @Override
-                        public void onFailure(Call<FCMResponse> call, Throwable t) {
-                            System.out.println("failed "+t);
-                        }
-                    });
+                            @Override
+                            public void onFailure(Call<FCMResponse> call, Throwable t) {
+                                System.out.println("failed "+t);
+                            }
+                        });
+                    }
                 }
+
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -243,8 +258,7 @@ public class PrivateChatActivity extends AppCompatActivity {
                 messageModelList.add(messageModel);
                 messageAdapter.notifyDataSetChanged();
                 keyList.add(userKey);
-
-                    chatRecyView.smoothScrollToPosition(messageModelList.size()-1);
+                chatRecyView.smoothScrollToPosition(messageModelList.size()-1);
 
             }
 
@@ -293,5 +307,93 @@ public class PrivateChatActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+
+    private void swipeToRemove(String userKey){
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView,
+                                  @NonNull RecyclerView.ViewHolder viewHolder, @NonNull
+                                  RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int pos = viewHolder.getAdapterPosition();
+                MessageModel deletedMessage = messageModelList.get(pos);
+                messageModelList.remove(pos);
+                messageAdapter.notifyItemRemoved(pos);
+                Snackbar snackbar = Snackbar.make(chatRecyView, deletedMessage.getText()
+                                , Snackbar.LENGTH_LONG)
+                        .setAction("undo", view -> {
+                            messageModelList.add(pos, deletedMessage);
+                            messageAdapter.notifyItemInserted(pos);
+
+                        });
+                snackbar.show();
+                // remove chat from db as well if user didnt undo deletion
+                snackbar.addCallback(new Snackbar.Callback() {
+
+                    @Override
+                    public void onDismissed(Snackbar snackbar, int event) {
+                        if (event == Snackbar.Callback.DISMISS_EVENT_TIMEOUT) {
+                            // Snackbar closed on its own, means chat will be removed from the db as well
+                            deleteMessage(userKey, deletedMessage.getText());
+                        }
+                    }
+
+                    @Override
+                    public void onShown(Snackbar snackbar) {
+
+                    }
+                });
+            }
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
+                                    @NonNull RecyclerView.ViewHolder viewHolder, float dX,
+                                    float dY, int actionState, boolean isCurrentlyActive) {
+
+                new RecyclerViewSwipeDecorator.Builder(c, recyclerView, viewHolder, dX, dY,
+                        actionState, isCurrentlyActive)
+                        .addBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.red))
+                        .addActionIcon(R.mipmap.ic_delete)
+                        .create()
+                        .decorate();
+
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState,
+                        isCurrentlyActive);
+            }
+
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(chatRecyView);
+
+    }
+
+    private void deleteMessage(String otherUser, String targetText){
+
+        reference.child("Messages").child(firebaseUser.getUid()).child(otherUser)
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                            if(dataSnapshot.child("text").getValue().toString().equals(targetText)){
+                                String temp = dataSnapshot.getKey();
+                                reference.child("Messages").child(firebaseUser.getUid())
+                                        .child(otherUser).child(temp).removeValue((error, ref) -> {
+                                        });
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
     }
 }
