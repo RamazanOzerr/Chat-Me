@@ -21,6 +21,9 @@ this is an android chat application that user can add friends, can chat
 - Firebase Realtime Database
 - Firebase Storage
 
+# Project video
+https://youtu.be/T9fWFNDZfZ0
+
 # APK
 https://drive.google.com/file/d/14YhGN71ijXBQvJKuoC7EKpXGoyXV6av5/view?usp=sharing
 
