@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.ProfileActivity.ProfileActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbarlayout_profile_update"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/color1"
+        >
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_profile_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:theme="@style/AppTheme"
+            app:title="Profile"
+            app:navigationIcon="@drawable/twotone_arrow_back_ios_32"
+            app:titleTextAppearance="@style/toolbar_style"
+            app:titleTextColor="@color/white" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/appbarlayout_profile_update"
+        android:gravity="center"
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image_profile_update_pp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@mipmap/profile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edittext_profile_update_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Name"
+            android:textColorHint="#37474F"
+            android:textColor="#37474F"
+            android:background="@drawable/shape_settings_search"
+            android:backgroundTint="#E0E0E0"
+            android:padding="10dp"
+            android:drawableStart="@drawable/baseline_account_circle_32"
+            android:layout_margin="5dp"
+            android:inputType="textEmailAddress"
+            android:drawablePadding="13dp"
+            />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edittext_profile_update_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="email"
+            android:textColorHint="#37474F"
+            android:textColor="#37474F"
+            android:background="@drawable/shape_settings_search"
+            android:backgroundTint="#E0E0E0"
+            android:padding="10dp"
+            android:drawableStart="@drawable/baseline_account_circle_32"
+            android:layout_margin="5dp"
+            android:inputType="textEmailAddress"
+            android:drawablePadding="13dp"
+            />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edittext_profile_update_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Phone number"
+            android:textColorHint="#37474F"
+            android:textColor="#37474F"
+            android:background="@drawable/shape_settings_search"
+            android:backgroundTint="#E0E0E0"
+            android:padding="10dp"
+            android:drawableStart="@drawable/baseline_account_circle_32"
+            android:layout_margin="5dp"
+            android:inputType="textEmailAddress"
+            android:drawablePadding="13dp"
+            />
+
+
+
+
+
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

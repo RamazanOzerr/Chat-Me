@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.Toast;
 import com.example.basicchatapp.R;
-import com.example.basicchatapp.Utils.MessageModel;
+import com.example.basicchatapp.Activities.ChatActivity.MessageModel;
 import com.example.basicchatapp.Utils.Profile;
 import com.example.basicchatapp.Utils.RecentChats;
 import com.example.basicchatapp.Adapters.RecentChatsAdapter;
@@ -55,24 +55,24 @@ public class RecentChatsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recent_chats, container, false);
-
-        recentChatsRecyclerView = view.findViewById(R.id.recentChatsRecyclerView);
-        recentChatsRecyclerView.setNestedScrollingEnabled(false);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recentChatsRecyclerView.setLayoutManager(layoutManager);
-        swipeRefreshLayout = view.findViewById(R.id.swipe_to_refresh_layout);
-        recentChatsInfoList = new ArrayList<>();
-        userList = new ArrayList<>(); // id list
-
-        getUserKeys();
-        swipeToRemove();
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            recentChatsInfoList.clear();
-            getUserKeys();
-            swipeRefreshLayout.setRefreshing(false);
-        });
+//
+//        recentChatsRecyclerView = view.findViewById(R.id.recentChatsRecyclerView);
+//        recentChatsRecyclerView.setNestedScrollingEnabled(false);
+//
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+//        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+//        recentChatsRecyclerView.setLayoutManager(layoutManager);
+//        swipeRefreshLayout = view.findViewById(R.id.swipe_to_refresh_layout);
+//        recentChatsInfoList = new ArrayList<>();
+//        userList = new ArrayList<>(); // id list
+//
+//        getUserKeys();
+//        swipeToRemove();
+//        swipeRefreshLayout.setOnRefreshListener(() -> {
+//            recentChatsInfoList.clear();
+//            getUserKeys();
+//            swipeRefreshLayout.setRefreshing(false);
+//        });
         return view;
     }
 
@@ -209,30 +209,30 @@ public class RecentChatsFragment extends Fragment {
     }
 
     // call onCreateOptionsMenu
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        super.onCreate(savedInstanceState);
-    }
-
-    // set search feature
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        MenuItem searchItem = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                recentChatsAdapter.getFilter().filter(s);
-                return false;
-            }
-        });
-    }
+//    @Override
+//    public void onCreate(@Nullable Bundle savedInstanceState) {
+//        setHasOptionsMenu(true);
+//        super.onCreate(savedInstanceState);
+//    }
+//
+//    // set search feature
+//    @Override
+//    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//        MenuItem searchItem = menu.findItem(R.id.search);
+//        SearchView searchView = (SearchView) searchItem.getActionView();
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String s) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String s) {
+//                recentChatsAdapter.getFilter().filter(s);
+//                return false;
+//            }
+//        });
+//    }
 
 }

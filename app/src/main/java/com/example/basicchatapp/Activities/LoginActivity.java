@@ -2,107 +2,154 @@ package com.example.basicchatapp.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.basicchatapp.R;
+import com.example.basicchatapp.Utils.HelperMethods;
+import com.example.basicchatapp.databinding.ActivityLoginBinding;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private TextView signInTextView, forgetPasswordId;
-    private EditText email, password;
-    private Button loginButton;
-    private ProgressBar progressBar;
-    FirebaseAuth firebaseAuth;
-    private String email_user, password_user;
+    private FirebaseAuth firebaseAuth;
+    private ActivityLoginBinding binding;
+    private boolean isReady; // true if email and password are both valid
+    private HelperMethods helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        init();
-        openSignIn();
-        login();
-
-        forgetPasswordId.setOnClickListener(view -> {
-            email_user = email.getText().toString().trim();
-            resetPassword(email_user);
-        });
-    }
-
-    private void resetPassword(String email) {
-        //TODO: reset password yazılacak
-        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                Toast.makeText(getApplicationContext(),
-                        "password reset email been sented, please check your mail box",
-                        Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(getApplicationContext(),
-                        "email could not sented, please check the accuracy of your email",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void init(){
-        signInTextView = findViewById(R.id.signIntextView);
-        forgetPasswordId = findViewById(R.id.forgetPasswordId);
-        email = findViewById(R.id.email);
-        password = findViewById(R.id.password);
-        loginButton = findViewById(R.id.loginButton);
-        progressBar = findViewById(R.id.progressBar);
+        helper = new HelperMethods();
         firebaseAuth = FirebaseAuth.getInstance();
+        isReady = false;
+        listeners();
     }
 
-    public void login(){
-        loginButton.setOnClickListener(v -> {
 
-            email_user = email.getText().toString().trim();
-            password_user = password.getText().toString().trim();
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if(currentUser != null){
+            doNothing();
+        }
+    }
 
-            if (TextUtils.isEmpty(email_user)) {
-                email.setError("Email is required");
+    private void doNothing(){
 
-            }
-            if (TextUtils.isEmpty(password_user)) {
-                password.setError("Password is required");
-            }
-            if (password.length() < 8) {
-                password.setError("Password must be at least 8 characters");
-            }
+    }
 
-            progressBar.setVisibility(View.VISIBLE);
-            try {
-                firebaseAuth.signInWithEmailAndPassword(email_user , password_user).addOnCompleteListener(task -> {
+    private void listeners(){
+        binding.buttonSignin.setOnClickListener(view -> signInViaEmail());
+        binding.tvSigninDontHaveAccount.setOnClickListener(view -> signUp());
+        binding.tvSigninForgotPassword.setOnClickListener(view -> resetPassword());
+        binding.googleSignin.setOnClickListener(view -> signInGoogle());
+        binding.constraintSignInPhone.setOnClickListener(view -> {
 
-                    if(task.isSuccessful()) {
-                        Toast.makeText(LoginActivity.this,
-                                "Logged in Successfully",Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                    }
-                    else {
-                        Toast.makeText(LoginActivity.this,
-                                "Error!", Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
+            // gives an animation like buttons have
+            binding.constraintSignInPhone.animate()
+                    .alpha(0.5f)
+                    .scaleX(1.0f)
+                    .setDuration(80)
+                    .withEndAction(() -> {
+                        // Restore the original properties
+                        binding.constraintSignInPhone.setAlpha(1.0f);
+                        binding.constraintSignInPhone.setScaleX(1.0f);
+                    })
+                    .start();
 
-            catch (IllegalArgumentException e) {
-                Toast.makeText(LoginActivity.this, "You must enter the password",
-                        Toast.LENGTH_LONG).show();
-            }
+            signInViaPhoneNumber();
+
         });
     }
-            public void openSignIn() {
-                signInTextView.setOnClickListener(view ->
-                        startActivity(new Intent(getApplicationContext(), RegisterActivity.class)));
-            }
+
+    //todo: we will add this feature later
+    private void signInViaPhoneNumber(){
+
+    }
+
+    private void signInViaEmail(){
+        String email, password;
+        if(binding.edittextSigninEmail.getText() != null){
+            email = binding.edittextSigninEmail.getText().toString().trim();
+            isReady = true;
+        } else{
+            email = "";
+            binding.edittextSigninEmail.setError("email is required");
+            isReady = false;
+        }
+        if(binding.edittextSigninPassword.getText() != null){
+            password = binding.edittextSigninPassword.getText().toString().trim();
+            isReady = true;
+        } else{
+            password = "";
+            binding.edittextSigninPassword.setError("password is required");
+            isReady = false;
+        }
+        if(password.length() < 8){
+            binding.edittextSigninPassword.setError("password must be at least 8 characters");
+            isReady = false;
+        }
+
+        if(isReady){
+            firebaseAuth.signInWithEmailAndPassword(email,password)
+                    .addOnCompleteListener(task -> {
+                        if(task.isSuccessful()){
+                            if(Objects.requireNonNull(firebaseAuth.getCurrentUser())
+                                    .isEmailVerified()){
+                                signIn();
+                                helper.showShortToast(LoginActivity.this,
+                                        "signed in successfully");
+
+                            } else{
+                                helper.showShortToast(LoginActivity.this
+                                        , "please verify your account first");
+                            }
+
+                        } else{
+                            helper.showShortToast(LoginActivity.this, "Authentication failed.");
+                        }
+                    });
+        }
+    }
+
+    //todo: we will add this feature later
+    private void signInGoogle(){
+
+    }
+
+    private void resetPassword(){
+        if(binding.edittextSigninEmail.getText() != null){
+            firebaseAuth.sendPasswordResetEmail
+                            (binding.edittextSigninEmail.getText().toString())
+                    .addOnCompleteListener(task -> {
+                        if(task.isSuccessful()){
+                            helper.showShortToast(this
+                                    , "we sent an email to reset your password" +
+                                            ", please check your mails");
+                        }
+            });
+        }
+    }
+
+    private void signUp(){
+        startActivity(new Intent(this, SignUpActivity.class));
+        finish();  // destroy activity
+    }
+
+    // launch MainActivity
+    private void signIn(){
+        startActivity(new Intent(this, MainActivity.class));
+        finish();  // destroy activity
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        binding = null;
+    }
 }

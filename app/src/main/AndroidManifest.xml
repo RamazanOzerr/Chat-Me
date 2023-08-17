@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -14,35 +14,25 @@
         android:roundIcon="@mipmap/ic_logo6"
         android:supportsRtl="true"
         android:theme="@style/Theme.BasicChatApp">
-
-        <service
-            android:name=".Services.FirebaseNotificationService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
-        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
-     See README(https://goo.gl/l4GJaQ) for more. -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_launcher_foreground" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/azure" />
-
         <activity
-            android:name=".Activities.SignUpSetProfile"
+            android:name=".Activities.SearchActivity.SearchActivity"
+            android:exported="false"
+            android:parentActivityName=".Activities.MainActivity"/>
+        <activity
+            android:name=".Activities.ProfileActivity.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.UserProfileActivity"
-            android:exported="false"
+            android:name=".Activities.SettingsActivity.SettingsActivity"
+            android:exported="true"
             android:parentActivityName=".Activities.MainActivity" />
         <activity
-            android:name=".Activities.SplashScreen"
+            android:name=".Activities.SetUpProfileActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activities.EmailVerificationActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activities.WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,23 +41,44 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.UserProfileDesign"
-            android:exported="false"
-            android:parentActivityName=".Activities.MainActivity" />
+            android:name=".Activities.SignUpActivity"
+            android:exported="true" />
+
+        <service
+            android:name=".Services.FirebaseNotificationService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <!--
+ Set custom default icon. This is used when no icon is set for incoming notification messages.
+     See README(https://goo.gl/l4GJaQ) for more.
+        -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_launcher_foreground" />
+        <!--
+ Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/azure" />
+
         <activity
-            android:name=".Activities.PrivateChatActivity"
+            android:name=".Activities.SplashActivity"
+            android:exported="true" />
+        <activity
+            android:name=".Activities.ChatActivity.PrivateChatActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.RegisterActivity"
-            android:exported="false"
-            android:parentActivityName=".Activities.LoginActivity"/>
-        <activity
             android:name=".Activities.LoginActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_login" />
         <activity
             android:name=".Activities.MainActivity"
-            android:exported="false" />
+            android:exported="true" />
     </application>
 
 </manifest>

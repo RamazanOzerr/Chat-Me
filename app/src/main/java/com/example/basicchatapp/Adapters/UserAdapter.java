@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.basicchatapp.Activities.UserProfileActivity;
+
 import com.example.basicchatapp.R;
 import com.example.basicchatapp.Utils.Profile;
 import com.google.firebase.database.DatabaseReference;
@@ -58,24 +58,24 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> im
 
         holder.cardView.setOnClickListener(view -> {
 
-            Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
-            intent.putExtra("name",userList.get(position).getName());
-            intent.putExtra("photo",userList.get(position).getPhoto());
-            intent.putExtra("bio",userList.get(position).getBio());
-            intent.putExtra("UserKey",userList.get(position).getOtherUser());
-            activity.startActivity(intent);
+//            Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
+//            intent.putExtra("name",userList.get(position).getName());
+//            intent.putExtra("photo",userList.get(position).getPhoto());
+//            intent.putExtra("bio",userList.get(position).getBio());
+//            intent.putExtra("UserKey",userList.get(position).getOtherUser());
+//            activity.startActivity(intent);
 
         });
 
-        holder.imageView.setOnClickListener(view -> {
-
-            Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
-            intent.putExtra("name",userList.get(position).getName());
-            intent.putExtra("photo",userList.get(position).getPhoto());
-            intent.putExtra("bio",userList.get(position).getBio());
-            intent.putExtra("UserKey",userList.get(position).getOtherUser());
-            activity.startActivity(intent);
-        });
+//        holder.imageView.setOnClickListener(view -> {
+//
+//            Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
+//            intent.putExtra("name",userList.get(position).getName());
+//            intent.putExtra("photo",userList.get(position).getPhoto());
+//            intent.putExtra("bio",userList.get(position).getBio());
+//            intent.putExtra("UserKey",userList.get(position).getOtherUser());
+//            activity.startActivity(intent);
+//        });
 
         try {
             Picasso.get().load(userList.get(position).getPhoto()).into(holder.imageView);

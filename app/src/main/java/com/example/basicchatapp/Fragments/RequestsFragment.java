@@ -54,8 +54,8 @@ public class RequestsFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_requests, container, false);
 
-        init();
-        getRequests();
+//        init();
+//        getRequests();
 
         return view;
     }
@@ -218,11 +218,11 @@ public class RequestsFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    public void onCreate(@Nullable Bundle savedInstanceState) {
+//        setHasOptionsMenu(true);
+//        super.onCreate(savedInstanceState);
+//    }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {

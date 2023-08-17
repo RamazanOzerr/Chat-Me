@@ -15,8 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.basicchatapp.Activities.PrivateChatActivity;
-import com.example.basicchatapp.Activities.UserProfileActivity;
+import com.example.basicchatapp.Activities.ChatActivity.PrivateChatActivity;
 import com.example.basicchatapp.R;
 import com.example.basicchatapp.Utils.RecentChats;
 import com.google.firebase.auth.FirebaseAuth;
@@ -74,12 +73,12 @@ public class RecentChatsAdapter extends RecyclerView.Adapter<RecentChatsAdapter.
                 .into(holder.recentImage);
 
         holder.recentImage.setOnClickListener(view -> {
-            Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
-            intent.putExtra("name",recentChatsInfoList.get(position).getName());
-            intent.putExtra("photo",recentChatsInfoList.get(position).getPhotoPath());
-            intent.putExtra("bio",recentChatsInfoList.get(position).getBio());
-            intent.putExtra("UserKey",recentChatsInfoList.get(position).getUserKey());
-            activity.startActivity(intent);
+//            Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
+//            intent.putExtra("name",recentChatsInfoList.get(position).getName());
+//            intent.putExtra("photo",recentChatsInfoList.get(position).getPhotoPath());
+//            intent.putExtra("bio",recentChatsInfoList.get(position).getBio());
+//            intent.putExtra("UserKey",recentChatsInfoList.get(position).getUserKey());
+//            activity.startActivity(intent);
         });
 
 

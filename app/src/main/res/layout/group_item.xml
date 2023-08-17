@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_settings_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="#EEEEEE"
+        app:strokeWidth="1dp"
+        android:layout_margin="20dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            >
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_star"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/baseline_star_50"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_more_vert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_more_vert_24"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:tint="@color/black"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_create_new_group"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/baseline_add_circle_100"
+                app:layout_constraintStart_toEndOf="@+id/image_star"
+                app:layout_constraintEnd_toStartOf="@id/image_more_vert"
+                app:layout_constraintTop_toBottomOf="@id/image_star"
+                android:layout_margin="10dp"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_group_item_group_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create New Group"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:textStyle="italic|bold"
+                android:padding="10dp"
+                app:layout_constraintStart_toStartOf="@+id/image_create_new_group"
+                app:layout_constraintEnd_toEndOf="@+id/image_create_new_group"
+                app:layout_constraintTop_toBottomOf="@+id/image_create_new_group"
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

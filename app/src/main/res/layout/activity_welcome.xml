@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.WelcomeActivity">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_welcome1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/welcome1"
+        android:textStyle="bold"
+        android:textColor="@color/color1"
+        android:textSize="36sp"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_welcome2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_welcome1"
+        app:layout_constraintBottom_toTopOf="@+id/linear_welcome_buttons"
+        android:text="@string/welcome2"
+        android:textStyle="bold"
+        android:textColor="#9E9E9E"
+        android:textSize="24sp"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
+        android:layout_marginTop="15dp"
+        />
+
+    <LinearLayout
+        android:id="@+id/linear_welcome_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_welcome_sign_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_button"
+            android:layout_marginBottom="20dp"
+            android:text="@string/buttonw1"
+            android:textColor="@color/white"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_welcome_sign_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_button"
+            android:backgroundTint="@color/white"
+            android:layout_marginBottom="20dp"
+            android:text="@string/buttonw2"
+            />
+
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

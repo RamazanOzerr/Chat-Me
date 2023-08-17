@@ -24,4 +24,11 @@
     <color name="babyblue">#89CFF0</color>
     <color name="azure">#F0FFFF</color>
     <color name="red">#F44336</color>
+
+
+    <color name="color1">#2CB9B0</color>
+    <color name="color2">#38EF7D</color>
+    <color name="color5">#2CB9B0</color>
+    <color name="color3">#19191b</color>
+    <color name="color4">#2b2c33</color>
 </resources>

@@ -11,4 +11,43 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="welcome1">Discover your nearby friends</string>
+    <string name="welcome2">find your all friends in one place by signing the apps quick and easily</string>
+    <string name="buttonw1">Have account? LOGIN</string>
+    <string name="buttonw2">JOIN us, ITS free</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="title_welcome">CHAT ME</string>
+    <string name="no_conversation">You did not make any conversation yet</string>
+    <string name="no_conversation2">please select username</string>
+
+    <string name="sign_in">Sign in</string>
+    <string name="sign_in_email">Email Address</string>
+    <string name="sign_in_password">Password</string>
+    <string name="sign_in_forgot_password">I forgot my password</string>
+    <string name="sign_in_text">or sign in with</string>
+    <string name="sign_in_no_account">do not have an account?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_up_valid_account">Already have an account?</string>
+    <string name="sign_up_terms_and_policy">I read and agree with terms and policy</string>
+    <string name="sign_up_confirm_password">Confirm Password</string>
+    <string name="sign_up_password">Password</string>
+    <string name="sign_up_name">Name</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+
+
 </resources>

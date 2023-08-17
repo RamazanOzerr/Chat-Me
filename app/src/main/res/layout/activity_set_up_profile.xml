@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    tools:context=".Activities.UserProfileDesign">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        >
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profile information"
+            android:fontFamily="serif"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please enter your name and your profile photo(optional)"
+            android:textSize="24sp"
+            android:textStyle="italic"
+            android:textColor="@color/black"
+            android:padding="30dp"
+            />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/image_setup_profile"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@mipmap/profile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="50dp"
+            />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edittext_setup_profile_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Your name"
+            android:background="@drawable/shape_edittext"
+            android:padding="20dp"
+            android:layout_margin="10dp"
+            android:inputType="textEmailAddress"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_setup_profile_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_button"
+            android:layout_gravity="center"
+            android:text="Next"
+            android:textAllCaps="false"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="30dp"
+            android:padding="10dp"
+            />
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

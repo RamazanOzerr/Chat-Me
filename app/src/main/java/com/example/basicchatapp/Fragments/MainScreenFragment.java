@@ -46,8 +46,8 @@ public class MainScreenFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_main_screen, container, false);
 
-        init();
-        getUsers();
+//        init();
+//        getUsers();
 
         return view;
     }
@@ -143,12 +143,12 @@ public class MainScreenFragment extends Fragment {
         });
     }
 
-    // call onCreateOptionsMenu
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        super.onCreate(savedInstanceState);
-    }
+//    // call onCreateOptionsMenu
+//    @Override
+//    public void onCreate(@Nullable Bundle savedInstanceState) {
+//        setHasOptionsMenu(true);
+//        super.onCreate(savedInstanceState);
+//    }
 
     // set search feature
     @Override

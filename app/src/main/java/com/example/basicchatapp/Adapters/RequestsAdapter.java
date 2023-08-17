@@ -14,22 +14,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.basicchatapp.Activities.UserProfileActivity;
 import com.example.basicchatapp.R;
-import com.example.basicchatapp.Utils.Friend;
 import com.example.basicchatapp.Utils.Requests;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -83,12 +75,12 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.ViewHo
         }
 
         holder.profile_image.setOnClickListener(view -> {
-            Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
-            intent.putExtra("name",userList.get(position).getName());
-            intent.putExtra("photo",userList.get(position).getPhotoPath());
-            intent.putExtra("bio",userList.get(position).getBio());
-            intent.putExtra("UserKey",userList.get(position).getUserKey());
-            activity.startActivity(intent);
+//            Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
+//            intent.putExtra("name",userList.get(position).getName());
+//            intent.putExtra("photo",userList.get(position).getPhotoPath());
+//            intent.putExtra("bio",userList.get(position).getBio());
+//            intent.putExtra("UserKey",userList.get(position).getUserKey());
+//            activity.startActivity(intent);
         });
 
         holder.acceptBtn.setOnClickListener(view -> {

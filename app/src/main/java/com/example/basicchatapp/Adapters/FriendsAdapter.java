@@ -15,18 +15,13 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.basicchatapp.Activities.PrivateChatActivity;
-import com.example.basicchatapp.Activities.UserProfileActivity;
+import com.example.basicchatapp.Activities.ChatActivity.PrivateChatActivity;
 import com.example.basicchatapp.R;
 import com.example.basicchatapp.Utils.Friend;
-import com.example.basicchatapp.Utils.RecentChats;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 
@@ -94,12 +89,12 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.ViewHold
        });
 
        holder.imageViewfriends.setOnClickListener(view -> {
-           Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
-           intent.putExtra("name",friendlist.get(position).getName());
-           intent.putExtra("photo",friendlist.get(position).getPhotoPath());
-           intent.putExtra("bio",friendlist.get(position).getBio());
-           intent.putExtra("UserKey",friendlist.get(position).getUserKey());
-           activity.startActivity(intent);
+//           Intent intent = new Intent(view.getContext(), UserProfileActivity.class);
+//           intent.putExtra("name",friendlist.get(position).getName());
+//           intent.putExtra("photo",friendlist.get(position).getPhotoPath());
+//           intent.putExtra("bio",friendlist.get(position).getBio());
+//           intent.putExtra("UserKey",friendlist.get(position).getUserKey());
+//           activity.startActivity(intent);
        });
 
 

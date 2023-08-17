@@ -1,17 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:id="@+id/swipe_to_refresh_layout_main"
     tools:context=".Fragments.MainScreenFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/userListRecyclerView"
-        />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/userListRecyclerView"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:src="@drawable/no_group_chat"
+                android:layout_gravity="center"
+                android:paddingTop="25dp"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Group Chat"
+                android:layout_gravity="center"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_conversation"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#9E9E9E"
+                android:paddingStart="50dp"
+                android:paddingEnd="50dp"
+                android:layout_marginTop="20dp"
+                />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_conversation2"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#9E9E9E"
+                android:paddingStart="50dp"
+                android:paddingEnd="50dp"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create Group"
+                android:layout_gravity="center"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#304FFE"
+                android:paddingStart="50dp"
+                android:paddingEnd="50dp"
+                android:layout_marginTop="20dp"
+                />
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

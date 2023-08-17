@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.EmailVerificationActivity">
+
+    <LinearLayout
+        android:id="@+id/linear_email_verification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        >
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:src="@drawable/email"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="check your email"
+            android:textSize="28sp"
+            android:textStyle="bold|italic"
+            android:textColor="@color/black"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="to confirm your email address,
+             tap to the link in the email we sent you"
+            android:textSize="28sp"
+            android:textStyle="italic"
+            android:textColor="@color/black"
+            android:padding="20dp"
+            android:layout_marginTop="30dp"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_email_verification_open_gmail_app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_button"
+            android:text="Open gmail app"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:layout_marginTop="20dp"
+            android:padding="20dp"
+            />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/linear_email_verification"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="have not received anything?"
+                android:textSize="18sp"
+                android:textStyle="italic"
+                android:textColor="#424242"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_email_verification_send_another_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="send again"
+                android:textSize="18sp"
+                android:textStyle="italic"
+                android:textColor="@color/teal_700"
+                android:layout_marginStart="6dp"
+                />
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_email_verification_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="03.00"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/linear_email_verification"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/sign_up_valid_account"
+            android:textSize="18sp"
+            android:textStyle="italic"
+            android:textColor="#424242"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_email_verification_get_to_sign_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/sign_in"
+            android:textSize="18sp"
+            android:textStyle="italic"
+            android:textColor="@color/teal_700"
+            android:layout_marginStart="6dp"
+            />
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

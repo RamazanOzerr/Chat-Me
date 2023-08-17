@@ -50,10 +50,10 @@ public class FriendsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_friends, container, false);
-        friendsRecyclerView = view.findViewById(R.id.friendsRecyclerView);
-        friendsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        init();
-        getFriendsIDs();
+//        friendsRecyclerView = view.findViewById(R.id.friendsRecyclerView);
+//        friendsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        init();
+//        getFriendsIDs();
 
         return view;
     }
@@ -189,11 +189,11 @@ public class FriendsFragment extends Fragment {
     }
 
     // call onCreateOptionsMenu
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    public void onCreate(@Nullable Bundle savedInstanceState) {
+//        setHasOptionsMenu(true);
+//        super.onCreate(savedInstanceState);
+//    }
 
     // set search feature
     @Override
