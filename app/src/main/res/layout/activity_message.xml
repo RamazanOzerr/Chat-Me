@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.MessageActivity.MessageActivity"
+    android:id="@+id/constraint_home_fragment"
+    android:background="@color/white"
+    >
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbarLayout_message_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color1"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                >
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image_message_activity_back_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/twotone_arrow_back_ios_32"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/image_message_activity_profile_photo"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/img"
+                    android:layout_margin="5dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    >
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/text_message_activity_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="Fatih Terim"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        android:textStyle="italic|bold"
+                        android:layout_margin="5dp"
+                        />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/text_message_activity_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Active now"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:textStyle="italic"
+                        />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                >
+
+               <androidx.appcompat.widget.AppCompatImageView
+                   android:id="@+id/image_message_activity_video_call"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:src="@drawable/baseline_video_camera_back_32"
+                   android:layout_gravity="center_vertical"
+                   android:layout_margin="5dp"
+                   />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/image_message_activity_voice_call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_phone_32"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    />
+
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_more_vert_32"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    android:visibility="gone"
+                    />
+
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_to_refresh_message_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="?attr/actionBarSize"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_message_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/receiver_item"
+            />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+<!--    <androidx.appcompat.widget.AppCompatEditText-->
+<!--        android:id="@+id/edittext_message_activity"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        android:layout_gravity="bottom"-->
+<!--        android:hint="type a message"-->
+<!--        android:textColorHint="@color/black"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:background="@drawable/shape_chat"-->
+<!--        android:padding="10dp"-->
+<!--        android:drawablePadding="20dp"-->
+<!--        android:layout_margin="2dp"-->
+<!--        android:drawableEnd="@drawable/baseline_send_36"-->
+<!--        android:drawableStart="@drawable/baseline_photo_camera_36"-->
+<!--        android:inputType="textEmailAddress"-->
+<!--        android:visibility="gone"-->
+<!--        tools:ignore="RtlSymmetry" />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:background="@drawable/shape_chat"
+        android:paddingStart="10dp"
+        tools:ignore="RtlSymmetry">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image_message_activity_camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_photo_camera_36"
+            android:layout_gravity="center_vertical"
+            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraint_message_activity_constraint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            >
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edittext_message_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:background="@null"
+                android:hint="Message..."
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/image_message_activity_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:src="@drawable/baseline_send_36"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
