@@ -2,19 +2,14 @@ package com.example.basicchatapp.Fragments.GroupFragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.example.basicchatapp.Fragments.ChatsFragment.Stories.StoriesViewModel;
-import com.example.basicchatapp.R;
 import com.example.basicchatapp.databinding.FragmentGroupBinding;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +21,7 @@ public class GroupFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         GroupViewModel groupViewModel =
@@ -39,17 +34,27 @@ public class GroupFragment extends Fragment {
             groupModelsList.clear();
             groupModelsList.addAll(groupModels);
             adapter = new GroupAdapter(groupModelsList);
-            binding.recyclerViewFragmentGroup.setAdapter(adapter);
+            if (adapter.getItemCount() != 1) { // we set as 1 because
+                // the first item in the list is "create new group view"
+                binding.linearGroupFragmentNoGroup.setVisibility(View.GONE);
+                binding.recyclerViewFragmentGroup.setAdapter(adapter);
+            } else {
+                binding.linearGroupFragmentNoGroup.setVisibility(View.VISIBLE);
+            }
+
         });
 
         // Inflate the layout for this fragment
         return binding.getRoot();
     }
 
+
+    // handle initialization
     private void init(){
         groupModelsList = new ArrayList<>();
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         binding.recyclerViewFragmentGroup.setLayoutManager(layoutManager);
+
     }
 
     @Override

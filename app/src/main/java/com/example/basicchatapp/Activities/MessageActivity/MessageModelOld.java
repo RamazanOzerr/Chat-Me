@@ -1,13 +1,11 @@
-package com.example.basicchatapp.Activities.ChatActivity;
+package com.example.basicchatapp.Activities.MessageActivity;
 
-import java.util.List;
-
-public class MessageModel {
+public class MessageModelOld {
 
     private String sender, text, time, type;
     private boolean seen;
 
-    public MessageModel(boolean seen, String sender, String text, String time, String type) {
+    public MessageModelOld(boolean seen, String sender, String text, String time, String type) {
         this.seen = seen;
         this.sender = sender;
         this.text = text;
@@ -15,7 +13,7 @@ public class MessageModel {
         this.type = type;
     }
 
-    public MessageModel() {
+    public MessageModelOld() {
     }
 
     public String getSender() {

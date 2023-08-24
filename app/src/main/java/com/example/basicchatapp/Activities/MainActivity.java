@@ -14,7 +14,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.example.basicchatapp.Activities.SearchActivity.SearchActivity;
+import com.example.basicchatapp.Activities.FriendsAndRequests.FriendsAndRequestsActivity;
+import com.example.basicchatapp.Activities.SearchAndAddFriends.SearchActivity;
 import com.example.basicchatapp.Activities.SettingsActivity.SettingsActivity;
 import com.example.basicchatapp.Adapters.ViewPagerAdapter;
 import com.example.basicchatapp.BroadcastReceiver.BroadcastReceiverNetwork;
@@ -95,6 +96,12 @@ public class MainActivity extends AppCompatActivity {
 
         receiverBroadcast();
 
+        binding.fabMain.setOnClickListener(view -> getToFriendsAndRequests());
+
+    }
+
+    private void getToFriendsAndRequests() {
+        startActivity(new Intent(MainActivity.this, FriendsAndRequestsActivity.class));
     }
 
     private void receiverBroadcast(){

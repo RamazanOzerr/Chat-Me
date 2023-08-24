@@ -28,6 +28,10 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="toolbar_subtitle_style" parent="@style/Base.TextAppearance.AppCompat.Title">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 
     <style name="Theme.BasicChatApp.SearchViewTheme">
         <item name="colorControlNormal">#FFFFFF</item>

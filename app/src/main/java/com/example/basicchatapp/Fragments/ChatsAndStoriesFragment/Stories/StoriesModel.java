@@ -1,4 +1,4 @@
-package com.example.basicchatapp.Fragments.ChatsFragment.Stories;
+package com.example.basicchatapp.Fragments.ChatsAndStoriesFragment.Stories;
 
 public class StoriesModel {
 

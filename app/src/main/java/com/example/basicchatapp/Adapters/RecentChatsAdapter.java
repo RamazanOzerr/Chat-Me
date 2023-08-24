@@ -15,7 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.basicchatapp.Activities.ChatActivity.PrivateChatActivity;
+import com.example.basicchatapp.Activities.MessageActivity.PrivateChatActivity;
 import com.example.basicchatapp.R;
 import com.example.basicchatapp.Utils.RecentChats;
 import com.google.firebase.auth.FirebaseAuth;

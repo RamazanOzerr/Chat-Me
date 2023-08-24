@@ -90,6 +90,7 @@ public class EmailVerificationActivity extends AppCompatActivity {
         intent.putExtra("email", email);
         intent.putExtra("password", password);
         startActivity(intent);
+        finish();
     }
 
     @SuppressLint("SetTextI18n")
@@ -144,10 +145,36 @@ public class EmailVerificationActivity extends AppCompatActivity {
                     });
         }
 
-
-
-
-
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        assert user != null;
+        if(user.isEmailVerified()){
+            getToSetUpProfile();
+            helper.showShortToast(this,"evet verified oldu");
+        } else{
+            AuthCredential credential = EmailAuthProvider.getCredential(email, password);
+            user.reauthenticate(credential)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            // User reauthenticated successfully, check email verification status again
+                            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                            if (firebaseUser != null && firebaseUser.isEmailVerified()) {
+                                getToSetUpProfile();
+                                // User is now verified, continue with your logic
+                            } else {
+                                // Email verification still not complete
+                                helper.showShortToast(this, "olmuyor aq");
+                            }
+                        } else {
+                            // Reauthentication failed
+                            helper.showShortToast(this,"reauth olmadı");
+                        }
+                    });
+        }
+    }
 }

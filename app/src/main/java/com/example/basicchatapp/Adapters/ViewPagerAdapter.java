@@ -6,11 +6,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.basicchatapp.Fragments.ChatsFragment.ChatsFragment;
+import com.example.basicchatapp.Fragments.ChatsAndStoriesFragment.ChatsFragment;
 import com.example.basicchatapp.Fragments.GroupFragment.GroupFragment;
 import com.example.basicchatapp.Fragments.MainScreenFragment;
-import com.example.basicchatapp.Fragments.RecentChatsFragment;
-import com.example.basicchatapp.Fragments.RequestsFragment;
 
 public class ViewPagerAdapter extends FragmentStateAdapter {
 
@@ -27,7 +25,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
             case 1:
                 return new GroupFragment();
             case 2:
-                return new RequestsFragment();
+                return new MainScreenFragment();  //todo: burayı güncelle
         }
         return new ChatsFragment();
     }

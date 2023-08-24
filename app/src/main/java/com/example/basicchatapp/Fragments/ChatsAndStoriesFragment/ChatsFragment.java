@@ -1,21 +1,23 @@
-package com.example.basicchatapp.Fragments.ChatsFragment;
+package com.example.basicchatapp.Fragments.ChatsAndStoriesFragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.basicchatapp.Fragments.ChatsFragment.Stories.StoriesAdapter;
-import com.example.basicchatapp.Fragments.ChatsFragment.Stories.StoriesModel;
-import com.example.basicchatapp.Fragments.ChatsFragment.Stories.StoriesViewModel;
+import com.example.basicchatapp.Fragments.ChatsAndStoriesFragment.Chats.ChatAdapter;
+import com.example.basicchatapp.Fragments.ChatsAndStoriesFragment.Chats.ChatModel;
+import com.example.basicchatapp.Fragments.ChatsAndStoriesFragment.Chats.ChatViewModel;
+import com.example.basicchatapp.Fragments.ChatsAndStoriesFragment.Stories.StoriesAdapter;
+import com.example.basicchatapp.Fragments.ChatsAndStoriesFragment.Stories.StoriesModel;
+import com.example.basicchatapp.Fragments.ChatsAndStoriesFragment.Stories.StoriesViewModel;
 import com.example.basicchatapp.databinding.FragmentChatsBinding;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ public class ChatsFragment extends Fragment {
     private StoriesAdapter storiesAdapter;
     private List<ChatModel> chatModelList;
     private List<StoriesModel> storiesModelList;
+    private Activity activity;
 
 
     @Override
@@ -46,8 +49,16 @@ public class ChatsFragment extends Fragment {
         chatsViewModel.getChats().observe(getViewLifecycleOwner(), chatModels -> {
             chatModelList.clear();
             chatModelList.addAll(chatModels);
-            adapter = new ChatAdapter(chatModelList);
-            binding.recyclerViewChats.setAdapter(adapter);
+            adapter = new ChatAdapter(chatModelList, activity);
+            if(adapter.getItemCount() != 0){
+                binding.linearFragmantChatsNoChat.setVisibility(View.GONE);
+                binding.recyclerViewChats.setVisibility(View.VISIBLE);
+                binding.recyclerViewChats.setAdapter(adapter);
+            } else {
+                binding.recyclerViewChats.setVisibility(View.GONE);
+                binding.linearFragmantChatsNoChat.setVisibility(View.VISIBLE);
+            }
+
         });
 
         storiesViewModel.getLiveData().observe(getViewLifecycleOwner(), storiesModels -> {
@@ -61,6 +72,7 @@ public class ChatsFragment extends Fragment {
     }
 
     private void init(){
+        activity = getActivity();
         chatModelList = new ArrayList<>();
         storiesModelList = new ArrayList<>();
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());

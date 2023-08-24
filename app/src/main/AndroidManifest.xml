@@ -15,9 +15,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BasicChatApp">
         <activity
-            android:name=".Activities.SearchActivity.SearchActivity"
+            android:name=".Activities.FriendsAndRequests.FriendsAndRequestsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.StoryActivity.StoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.MessageActivity.MessageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.SearchAndAddFriends.SearchActivity"
             android:exported="false"
-            android:parentActivityName=".Activities.MainActivity"/>
+            android:parentActivityName=".Activities.MainActivity" />
         <activity
             android:name=".Activities.ProfileActivity.ProfileActivity"
             android:exported="false" />
@@ -70,7 +79,7 @@
             android:name=".Activities.SplashActivity"
             android:exported="true" />
         <activity
-            android:name=".Activities.ChatActivity.PrivateChatActivity"
+            android:name=".Activities.MessageActivity.PrivateChatActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.LoginActivity"

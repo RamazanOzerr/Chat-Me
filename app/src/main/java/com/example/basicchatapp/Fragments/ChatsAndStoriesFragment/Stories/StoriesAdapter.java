@@ -1,11 +1,10 @@
-package com.example.basicchatapp.Fragments.ChatsFragment.Stories;
+package com.example.basicchatapp.Fragments.ChatsAndStoriesFragment.Stories;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 

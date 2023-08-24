@@ -1,8 +1,7 @@
-package com.example.basicchatapp.Activities.ChatActivity;
+package com.example.basicchatapp.Activities.MessageActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.List;
 
-public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
+public class MessageAdapterOld extends RecyclerView.Adapter<MessageAdapterOld.ViewHolder> {
 
     List<String> userKeyList;
     Activity activity;
@@ -30,15 +29,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     FirebaseAuth auth;
     FirebaseUser firebaseUser;
     String userId;
-    List<MessageModel> messageModelList;
+    List<MessageModelOld> messageModelOldList;
     private Boolean state;
     int view_type_send=1,view_type_receive=2;
 
-    public MessageAdapter(List<String> userKeyList, Activity activity,
-                          Context context, List<MessageModel> messageModelList) {
+    public MessageAdapterOld(List<String> userKeyList, Activity activity,
+                             Context context, List<MessageModelOld> messageModelOldList) {
         this.activity = activity;
         this.context = context;
-        this.messageModelList = messageModelList;
+        this.messageModelOldList = messageModelOldList;
         this.userKeyList = userKeyList;
         firebaseDatabase = FirebaseDatabase.getInstance();
         reference = firebaseDatabase.getReference();
@@ -49,8 +48,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     @NonNull
         @Override
-        public MessageAdapter.ViewHolder onCreateViewHolder (@NonNull ViewGroup parent,
-                                                             int viewType) {
+        public MessageAdapterOld.ViewHolder onCreateViewHolder (@NonNull ViewGroup parent,
+                                                                int viewType) {
            View view;
 
            if(viewType == view_type_send){
@@ -66,15 +65,15 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         }
 
         @Override
-        public void onBindViewHolder (@NonNull MessageAdapter.ViewHolder holder,
+        public void onBindViewHolder (@NonNull MessageAdapterOld.ViewHolder holder,
                                       @SuppressLint("RecyclerView") int position){
             try{
-                holder.messageText.setText(messageModelList.get(position).getText());
+                holder.messageText.setText(messageModelOldList.get(position).getText());
             }catch (Exception e){
                 holder.messageText.setText("");
             }
             try{
-                holder.time.setText(messageModelList.get(position).getTime());
+                holder.time.setText(messageModelOldList.get(position).getTime());
             }catch (Exception e){
                 holder.time.setText("");
             }
@@ -83,13 +82,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         @Override
         public int getItemCount () {
-            return messageModelList.size();
+            return messageModelOldList.size();
         }
 
 
 
     public int getItemViewType(int position){
-        if(messageModelList.get(position).getSender().equals(userId)){
+        if(messageModelOldList.get(position).getSender().equals(userId)){
             state = true;
             return view_type_send;
         }else{

@@ -1,4 +1,4 @@
-package com.example.basicchatapp.Fragments.ChatsFragment;
+package com.example.basicchatapp.Fragments.ChatsAndStoriesFragment.Chats;
 
 import androidx.lifecycle.MutableLiveData;
 
@@ -26,7 +26,7 @@ public class ChatRepository {
                 , "online", "19.05");
 
         ChatModel chatModel3 = new ChatModel("Ali Koç"
-                ,"no_photo", "Afrikanın anasının amı kabilesinde bir topçu bulmuşummmm"
+                ,"no_photo", "Afrikanın kabilesinde bir topçu bulmuşummmm"
                 , "online", "15m ago");
 
         ChatModel chatModel4 = new ChatModel("Jack London"
@@ -44,17 +44,17 @@ public class ChatRepository {
         chatModelList.add(chatModel2);
         chatModelList.add(chatModel3);
         chatModelList.add(chatModel4);
-        chatModelList.add(chatModel5);
-        chatModelList.add(chatModel1);
-        chatModelList.add(chatModel2);
-        chatModelList.add(chatModel3);
-        chatModelList.add(chatModel4);
-        chatModelList.add(chatModel5);
-        chatModelList.add(chatModel1);
-        chatModelList.add(chatModel2);
-        chatModelList.add(chatModel3);
-        chatModelList.add(chatModel4);
-        chatModelList.add(chatModel5);
+//        chatModelList.add(chatModel5);
+//        chatModelList.add(chatModel1);
+//        chatModelList.add(chatModel2);
+//        chatModelList.add(chatModel3);
+//        chatModelList.add(chatModel4);
+//        chatModelList.add(chatModel5);
+//        chatModelList.add(chatModel1);
+//        chatModelList.add(chatModel2);
+//        chatModelList.add(chatModel3);
+//        chatModelList.add(chatModel4);
+//        chatModelList.add(chatModel5);
 
         liveData.setValue(chatModelList);
 

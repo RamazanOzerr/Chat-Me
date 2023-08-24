@@ -17,6 +17,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class SetUpProfileActivity extends AppCompatActivity {
@@ -53,9 +55,10 @@ public class SetUpProfileActivity extends AppCompatActivity {
     }
 
     private void saveData(String name, @Nullable String photoUrl){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+
         ProfileModel profile = new ProfileModel(name, photoUrl);
-        reference.child(user.getUid()).setValue(profile)
+        reference.child("Users").child(user.getUid()).setValue(profile)
                 .addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 login();

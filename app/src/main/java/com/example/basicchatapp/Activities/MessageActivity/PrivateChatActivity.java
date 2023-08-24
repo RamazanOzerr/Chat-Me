@@ -1,4 +1,4 @@
-package com.example.basicchatapp.Activities.ChatActivity;
+package com.example.basicchatapp.Activities.MessageActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -58,12 +58,12 @@ public class PrivateChatActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     FirebaseUser firebaseUser;
     FirebaseAuth auth;
-    private List<MessageModel> messageModelList;
+    private List<MessageModelOld> messageModelOldList;
     private List<String> keyList;
 
     androidx.appcompat.widget.Toolbar mtoolbarofspecificchat;
     private RecyclerView chatRecyView;
-    private MessageAdapter messageAdapter;
+    private MessageAdapterOld messageAdapterOld;
     APIService apiService;
     private Boolean notify;
 
@@ -80,14 +80,15 @@ public class PrivateChatActivity extends AppCompatActivity {
         String url = "https://fcm.googleapis.com/";
         apiService = Client.getClient(url).create(APIService.class);
         notify = false;
-        messageModelList = new ArrayList<>();
+
+        messageModelOldList = new ArrayList<>();
         keyList = new ArrayList<>();
         chatRecyView = findViewById(R.id.recyclerviewofspecific);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         chatRecyView.setLayoutManager(layoutManager);
-        messageAdapter = new MessageAdapter(keyList, PrivateChatActivity.this,
-                PrivateChatActivity.this, messageModelList);
-        chatRecyView.setAdapter(messageAdapter);
+        messageAdapterOld = new MessageAdapterOld(keyList, PrivateChatActivity.this,
+                PrivateChatActivity.this, messageModelOldList);
+        chatRecyView.setAdapter(messageAdapterOld);
 
         ScrollView scrollView = findViewById(R.id.scrollView);
         scrollView.setNestedScrollingEnabled(false);
@@ -174,7 +175,7 @@ public class PrivateChatActivity extends AppCompatActivity {
                             .setValue(messageMap).addOnCompleteListener(task1 -> {
 
                 editTextMessage.requestFocus();
-                chatRecyView.smoothScrollToPosition(messageModelList.size());
+                chatRecyView.smoothScrollToPosition(messageModelOldList.size());
 
             }));
         }
@@ -253,11 +254,11 @@ public class PrivateChatActivity extends AppCompatActivity {
         reference.child("Messages").child(firebaseUser.getUid()).child(userKey).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                MessageModel messageModel = snapshot.getValue(MessageModel.class);
-                messageModelList.add(messageModel);
-                messageAdapter.notifyDataSetChanged();
+                MessageModelOld messageModelOld = snapshot.getValue(MessageModelOld.class);
+                messageModelOldList.add(messageModelOld);
+                messageAdapterOld.notifyDataSetChanged();
                 keyList.add(userKey);
-                chatRecyView.smoothScrollToPosition(messageModelList.size()-1);
+                chatRecyView.smoothScrollToPosition(messageModelOldList.size()-1);
 
             }
 
@@ -322,14 +323,14 @@ public class PrivateChatActivity extends AppCompatActivity {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int pos = viewHolder.getAdapterPosition();
-                MessageModel deletedMessage = messageModelList.get(pos);
-                messageModelList.remove(pos);
-                messageAdapter.notifyItemRemoved(pos);
+                MessageModelOld deletedMessage = messageModelOldList.get(pos);
+                messageModelOldList.remove(pos);
+                messageAdapterOld.notifyItemRemoved(pos);
                 Snackbar snackbar = Snackbar.make(chatRecyView, deletedMessage.getText()
                                 , Snackbar.LENGTH_LONG)
                         .setAction("undo", view -> {
-                            messageModelList.add(pos, deletedMessage);
-                            messageAdapter.notifyItemInserted(pos);
+                            messageModelOldList.add(pos, deletedMessage);
+                            messageAdapterOld.notifyItemInserted(pos);
 
                         });
                 snackbar.show();

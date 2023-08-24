@@ -15,7 +15,7 @@ import java.util.List;
 
 public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupViewHolder> {
 
-    private List<GroupModel> groupModels;
+    private final List<GroupModel> groupModels;
     private boolean isStarred;
 
     public GroupAdapter(List<GroupModel> groupModels) {

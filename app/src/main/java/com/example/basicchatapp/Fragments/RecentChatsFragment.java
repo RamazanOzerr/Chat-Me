@@ -3,23 +3,17 @@ package com.example.basicchatapp.Fragments;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 import android.widget.Toast;
 import com.example.basicchatapp.R;
-import com.example.basicchatapp.Activities.ChatActivity.MessageModel;
+import com.example.basicchatapp.Activities.MessageActivity.MessageModelOld;
 import com.example.basicchatapp.Utils.Profile;
 import com.example.basicchatapp.Utils.RecentChats;
 import com.example.basicchatapp.Adapters.RecentChatsAdapter;
@@ -31,13 +25,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import java.util.ArrayList;
+
 import java.util.List;
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class RecentChatsFragment extends Fragment {
 
-    private MessageModel tempMm;
+    private MessageModelOld tempMm;
     private RecyclerView recentChatsRecyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     FirebaseUser fuser;

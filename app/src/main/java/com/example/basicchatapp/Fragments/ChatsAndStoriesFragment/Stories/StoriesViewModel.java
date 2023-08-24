@@ -1,9 +1,8 @@
-package com.example.basicchatapp.Fragments.ChatsFragment.Stories;
+package com.example.basicchatapp.Fragments.ChatsAndStoriesFragment.Stories;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class StoriesViewModel extends ViewModel {

@@ -15,6 +15,7 @@
 
 
     <LinearLayout
+        android:id="@+id/linear_group_fragment_no_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"

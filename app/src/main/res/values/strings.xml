@@ -13,6 +13,14 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
+    <!-- Database -->
+    <string name="db_users">Users</string>
+    <string name="db_messages">Messages</string>
+    <string name="db_users_username">name</string>
+    <string name="db_users_photo">photoUrl</string>
+    <string name="db_users_notification_token">token</string>
+
+
     <string name="welcome1">Discover your nearby friends</string>
     <string name="welcome2">find your all friends in one place by signing the apps quick and easily</string>
     <string name="buttonw1">Have account? LOGIN</string>

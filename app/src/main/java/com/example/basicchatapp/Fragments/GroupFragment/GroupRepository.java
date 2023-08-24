@@ -2,8 +2,6 @@ package com.example.basicchatapp.Fragments.GroupFragment;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.basicchatapp.Fragments.ChatsFragment.Stories.StoriesModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
