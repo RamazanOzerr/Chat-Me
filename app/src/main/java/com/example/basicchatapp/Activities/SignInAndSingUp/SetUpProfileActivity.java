@@ -1,4 +1,4 @@
-package com.example.basicchatapp.Activities;
+package com.example.basicchatapp.Activities.SignInAndSingUp;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import com.example.basicchatapp.ProfileModel;
+
+import com.example.basicchatapp.Activities.MainActivity.MainActivity;
+import com.example.basicchatapp.Activities.ProfileActivity.ProfileModel;
+import com.example.basicchatapp.Activities.SignInAndSingUp.LoginActivity;
 import com.example.basicchatapp.Utils.HelperMethods;
 import com.example.basicchatapp.Utils.RandomString;
 import com.example.basicchatapp.databinding.ActivitySetUpProfileBinding;
@@ -18,7 +21,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class SetUpProfileActivity extends AppCompatActivity {
@@ -27,7 +29,6 @@ public class SetUpProfileActivity extends AppCompatActivity {
     private FirebaseUser user;
     private String photoUrl, email, password;
     private StorageReference storageReference;
-    private HelperMethods helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,6 @@ public class SetUpProfileActivity extends AppCompatActivity {
         binding = ActivitySetUpProfileBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        helper = new HelperMethods();
         photoUrl = "";
         email = getIntent().getStringExtra("email");
         password = getIntent().getStringExtra("password");
@@ -70,10 +70,10 @@ public class SetUpProfileActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
-                        helper.showShortToast(this,"logged in successfully");
+                        HelperMethods.showShortToast(this,"logged in successfully");
                         startActivity(new Intent(this, MainActivity.class));
                     } else{  // if an error occurs, it will redirect user to the LoginScreen
-                        helper.showShortToast(this,
+                        HelperMethods.showShortToast(this,
                                 "an error occur while logging in, please try again");
                         startActivity(new Intent(this, LoginActivity.class));
                     }

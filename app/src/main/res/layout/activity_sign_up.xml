@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.SignUpActivity">
+    tools:context=".Activities.SignInAndSingUp.SignUpActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -129,7 +129,19 @@
                     android:layout_marginStart="6dp"
                     />
 
+
             </LinearLayout>
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/progress_bar_sign_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                app:indicatorColor="@color/color1"
+                android:visibility="gone"
+                />
 
         </LinearLayout>
 

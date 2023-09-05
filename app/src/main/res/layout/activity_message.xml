@@ -43,8 +43,9 @@
                     android:id="@+id/image_message_activity_profile_photo"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/img"
+                    android:src="@mipmap/profile_round"
                     android:layout_margin="5dp"
+                    android:background="@color/color1"
                     />
 
                 <LinearLayout

@@ -1,4 +1,4 @@
-package com.example.basicchatapp.Adapters;
+package com.example.basicchatapp.Activities.MainActivity;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.example.basicchatapp.Fragments.CallFragment.CallsListFragment;
 import com.example.basicchatapp.Fragments.ChatsAndStoriesFragment.ChatsFragment;
 import com.example.basicchatapp.Fragments.GroupFragment.GroupFragment;
 import com.example.basicchatapp.Fragments.MainScreenFragment;
@@ -25,7 +26,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
             case 1:
                 return new GroupFragment();
             case 2:
-                return new MainScreenFragment();  //todo: burayı güncelle
+                return new CallsListFragment();  //todo: burayı güncelle
         }
         return new ChatsFragment();
     }

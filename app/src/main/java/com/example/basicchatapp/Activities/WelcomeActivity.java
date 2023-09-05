@@ -4,6 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.example.basicchatapp.Activities.MainActivity.MainActivity;
+import com.example.basicchatapp.Activities.SignInAndSingUp.LoginActivity;
+import com.example.basicchatapp.Activities.SignInAndSingUp.SignUpActivity;
 import com.example.basicchatapp.databinding.ActivityWelcomeBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

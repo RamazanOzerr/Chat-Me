@@ -1,10 +1,11 @@
-package com.example.basicchatapp.Activities;
+package com.example.basicchatapp.Activities.SignInAndSingUp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+
 import com.example.basicchatapp.Utils.HelperMethods;
 import com.example.basicchatapp.databinding.ActivityEmailVerificationBinding;
 import com.google.firebase.auth.AuthCredential;
@@ -17,7 +18,6 @@ import java.text.NumberFormat;
 public class EmailVerificationActivity extends AppCompatActivity {
 
     private ActivityEmailVerificationBinding binding;
-    private HelperMethods helper;
     private boolean isReset;
     private String email, password;
 
@@ -27,7 +27,6 @@ public class EmailVerificationActivity extends AppCompatActivity {
         binding = ActivityEmailVerificationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        helper = new HelperMethods();
         isReset = false;
         email = getIntent().getStringExtra("email");
         password = getIntent().getStringExtra("password");
@@ -64,7 +63,7 @@ public class EmailVerificationActivity extends AppCompatActivity {
             assert user != null;  // if user != null
             user.sendEmailVerification().addOnCompleteListener(task -> {
                 if(task.isSuccessful()){
-                    helper.showLongToast(EmailVerificationActivity.this,
+                    HelperMethods.showLongToast(EmailVerificationActivity.this,
                             "we sent an email to verify your account");
 
                     binding.tvEmailVerificationTimer.setText("03.00");
@@ -73,7 +72,7 @@ public class EmailVerificationActivity extends AppCompatActivity {
                 }
             });
         } else {
-            helper.showShortToast(EmailVerificationActivity.this
+            HelperMethods.showShortToast(EmailVerificationActivity.this
                     , "wait till timer is reset");
         }
     }
@@ -123,7 +122,7 @@ public class EmailVerificationActivity extends AppCompatActivity {
         assert user != null;
         if(user.isEmailVerified()){
             getToSetUpProfile();
-            helper.showShortToast(this,"evet verified oldu");
+            HelperMethods.showShortToast(this,"evet verified oldu");
         } else{
             AuthCredential credential = EmailAuthProvider.getCredential(email, password);
             user.reauthenticate(credential)
@@ -136,11 +135,11 @@ public class EmailVerificationActivity extends AppCompatActivity {
                                 // User is now verified, continue with your logic
                             } else {
                                 // Email verification still not complete
-                                helper.showShortToast(this, "olmuyor aq");
+                                HelperMethods.showShortToast(this, "olmuyor aq");
                             }
                         } else {
                             // Reauthentication failed
-                            helper.showShortToast(this,"reauth olmadı");
+                            HelperMethods.showShortToast(this,"reauth olmadı");
                         }
                     });
         }
@@ -155,7 +154,7 @@ public class EmailVerificationActivity extends AppCompatActivity {
         assert user != null;
         if(user.isEmailVerified()){
             getToSetUpProfile();
-            helper.showShortToast(this,"evet verified oldu");
+            HelperMethods.showShortToast(this,"evet verified oldu");
         } else{
             AuthCredential credential = EmailAuthProvider.getCredential(email, password);
             user.reauthenticate(credential)
@@ -168,11 +167,11 @@ public class EmailVerificationActivity extends AppCompatActivity {
                                 // User is now verified, continue with your logic
                             } else {
                                 // Email verification still not complete
-                                helper.showShortToast(this, "olmuyor aq");
+                                HelperMethods.showShortToast(this, "olmuyor aq");
                             }
                         } else {
                             // Reauthentication failed
-                            helper.showShortToast(this,"reauth olmadı");
+                            HelperMethods.showShortToast(this,"reauth olmadı");
                         }
                     });
         }

@@ -12,17 +12,18 @@ public class MessageViewModel extends ViewModel{
     private MutableLiveData<List<MessageModel>> liveDataFirst, liveData;
     private MessageRepository repository;
 
-    public MessageViewModel(String currUser, String otherUser){
-        MessageRepository repository = new MessageRepository();
-        liveDataFirst = repository.getLiveData(currUser, otherUser);
+    public MessageViewModel(){
+        repository = new MessageRepository();
+//        liveDataFirst = repository.getLiveData(currUser, otherUser);
+
+    }
+
+//    public MutableLiveData<List<MessageModel>> getMessages(){
+//        return liveDataFirst;
+//    }
+
+    public MutableLiveData<List<MessageModel>> getNewMessages(String currUser, String otherUser){
         liveData = repository.getNewMessages(currUser, otherUser);
-    }
-
-    public MutableLiveData<List<MessageModel>> getMessages(){
-        return liveDataFirst;
-    }
-
-    public MutableLiveData<List<MessageModel>> getNewMessages(){
         return liveData;
     }
 }

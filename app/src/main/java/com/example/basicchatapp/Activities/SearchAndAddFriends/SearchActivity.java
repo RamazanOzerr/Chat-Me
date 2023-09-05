@@ -1,22 +1,14 @@
 package com.example.basicchatapp.Activities.SearchAndAddFriends;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-
 import com.example.basicchatapp.Utils.HelperMethods;
 import com.example.basicchatapp.databinding.ActivitySearchBinding;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +17,6 @@ public class SearchActivity extends AppCompatActivity {
     private ActivitySearchBinding binding;
     private List<SearchModel> searchModelList;
     private SearchAdapter adapter;
-    private HelperMethods helper;
-    private boolean isEmpty;
     private Context context;
 
     @Override
@@ -41,8 +31,6 @@ public class SearchActivity extends AppCompatActivity {
 
     private void init(){
         searchModelList = new ArrayList<>();
-        isEmpty = false;
-        helper = new HelperMethods();
         context = SearchActivity.this;
 
         // set toolbar
@@ -71,13 +59,12 @@ public class SearchActivity extends AppCompatActivity {
                 searchModelList.addAll(searchModels);
                 adapter = new SearchAdapter(searchModelList, SearchActivity.this);
                 binding.recyclerViewSearchActivity.setAdapter(adapter);
-                isEmpty = true;
                 setVisibilities();
-                helper.showShortToast(context, "not empty");
+                HelperMethods.showShortToast(context, "not empty");
              } else {
                 binding.recyclerViewSearchActivity.setVisibility(View.GONE);
                 binding.linearSearchActivityNoSearchResult.setVisibility(View.VISIBLE);
-                helper.showShortToast(context, "empty");
+                HelperMethods.showShortToast(context, "empty");
              }
         });
 

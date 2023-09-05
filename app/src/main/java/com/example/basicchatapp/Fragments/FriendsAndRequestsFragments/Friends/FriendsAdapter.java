@@ -19,6 +19,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsV
 
     private List<FriendModel> friendModelList;
     private View view;
+    private final String TAG = "FRIENDS REPOSITORY";
 
     public FriendsAdapter(List<FriendModel> friendModelList) {
         this.friendModelList = friendModelList;

@@ -11,7 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
-import com.example.basicchatapp.Activities.MainActivity;
+import com.example.basicchatapp.Activities.MainActivity.MainActivity;
 import com.example.basicchatapp.Notifications.OreoNotification;
 import com.example.basicchatapp.R;
 import com.google.firebase.auth.FirebaseAuth;

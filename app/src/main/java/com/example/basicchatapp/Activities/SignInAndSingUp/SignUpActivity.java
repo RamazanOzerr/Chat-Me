@@ -1,8 +1,10 @@
-package com.example.basicchatapp.Activities;
+package com.example.basicchatapp.Activities.SignInAndSingUp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+
 import com.example.basicchatapp.Utils.HelperMethods;
 import com.example.basicchatapp.databinding.ActivitySignUpBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -13,17 +15,16 @@ public class SignUpActivity extends AppCompatActivity {
     private ActivitySignUpBinding binding;
     private FirebaseAuth auth;
     private boolean isReady;
-    private HelperMethods helper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        helper = new HelperMethods();
         auth = FirebaseAuth.getInstance();
         isReady = false;
         listeners();
+
     }
 
     private void listeners(){
@@ -33,7 +34,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void getTermsAndConditions(){
-        helper.showShortToast(SignUpActivity.this,
+        HelperMethods.showShortToast(SignUpActivity.this,
                 "terms and conditions are not available yet");
     }
 
@@ -81,6 +82,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         // create account
         if(isReady){
+            binding.progressBarSignUp.setVisibility(View.VISIBLE);
             auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(task -> {
                 if(task.isSuccessful()){
@@ -88,7 +90,7 @@ public class SignUpActivity extends AppCompatActivity {
                     emailverification();
 
                 } else{
-                    helper.showShortToast(SignUpActivity.this, "Authentication failed.");
+                    HelperMethods.showShortToast(SignUpActivity.this, "Authentication failed.");
                 }
             });
         }
@@ -99,7 +101,7 @@ public class SignUpActivity extends AppCompatActivity {
         assert user != null;  // if user != null
         user.sendEmailVerification().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
-                helper.showLongToast(SignUpActivity.this,
+                HelperMethods.showLongToast(SignUpActivity.this,
                         "we sent an email to verify your account" +
                                 ", please verify your account before trying to sign in");
 
@@ -120,6 +122,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
         startActivity(intent);
+        binding.progressBarSignUp.setVisibility(View.GONE);
     }
 
     // get to sign in screen

@@ -1,8 +1,12 @@
-package com.example.basicchatapp.Activities;
+package com.example.basicchatapp.Activities.SignInAndSingUp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.basicchatapp.Activities.MainActivity.MainActivity;
 import com.example.basicchatapp.Utils.HelperMethods;
 import com.example.basicchatapp.databinding.ActivityLoginBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -14,7 +18,6 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private ActivityLoginBinding binding;
     private boolean isReady; // true if email and password are both valid
-    private HelperMethods helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +25,6 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        helper = new HelperMethods();
         firebaseAuth = FirebaseAuth.getInstance();
         isReady = false;
         listeners();
@@ -96,22 +98,24 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         if(isReady){
+            binding.progressBarSignIn.setVisibility(View.VISIBLE);
             firebaseAuth.signInWithEmailAndPassword(email,password)
                     .addOnCompleteListener(task -> {
                         if(task.isSuccessful()){
                             if(Objects.requireNonNull(firebaseAuth.getCurrentUser())
                                     .isEmailVerified()){
-                                signIn();
-                                helper.showShortToast(LoginActivity.this,
+                                HelperMethods.showShortToast(LoginActivity.this,
                                         "signed in successfully");
+                                binding.progressBarSignIn.setVisibility(View.VISIBLE);
+                                signIn();
 
                             } else{
-                                helper.showShortToast(LoginActivity.this
+                                HelperMethods.showShortToast(LoginActivity.this
                                         , "please verify your account first");
                             }
 
                         } else{
-                            helper.showShortToast(LoginActivity.this, "Authentication failed.");
+                            HelperMethods.showShortToast(LoginActivity.this, "Authentication failed.");
                         }
                     });
         }
@@ -128,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                             (binding.edittextSigninEmail.getText().toString())
                     .addOnCompleteListener(task -> {
                         if(task.isSuccessful()){
-                            helper.showShortToast(this
+                            HelperMethods.showShortToast(this
                                     , "we sent an email to reset your password" +
                                             ", please check your mails");
                         }

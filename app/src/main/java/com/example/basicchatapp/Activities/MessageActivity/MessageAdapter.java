@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.basicchatapp.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -28,8 +29,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         state = false;
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             //todo: we comment out the line below for testing, fix it later on
-//            userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            userId = "Okan Buruk";
+            userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//            userId = "Okan Buruk";
         } else {
             userId = "null";
         }
@@ -64,7 +65,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         } catch (Exception e){
             holder.tv_text_body.setText("");
         }
-
 
     }
 

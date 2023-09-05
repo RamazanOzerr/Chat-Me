@@ -27,7 +27,6 @@
         android:contentDescription="contect_description_more"
         app:showAsAction="ifRoom"
         android:title="more"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"
         tools:ignore="HardcodedText">
         <menu>
 

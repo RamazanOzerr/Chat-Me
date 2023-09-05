@@ -50,6 +50,7 @@ public class ChatsFragment extends Fragment {
             chatModelList.clear();
             chatModelList.addAll(chatModels);
             adapter = new ChatAdapter(chatModelList, activity);
+            binding.progressBarFragmentChats.setVisibility(View.GONE);
             if(adapter.getItemCount() != 0){
                 binding.linearFragmantChatsNoChat.setVisibility(View.GONE);
                 binding.recyclerViewChats.setVisibility(View.VISIBLE);

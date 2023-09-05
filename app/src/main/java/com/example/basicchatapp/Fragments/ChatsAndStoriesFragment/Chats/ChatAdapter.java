@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.basicchatapp.Activities.MessageActivity.MessageActivity;
 import com.example.basicchatapp.R;
+import com.example.basicchatapp.Utils.Constants;
 import com.google.android.material.textview.MaterialTextView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -69,17 +71,22 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         try{
             //todo: debug için şimdilik fotoyu kendimiz set ediyoruz, db devreye girince yorumdan
             // çıkarcaz methodu
-//            Picasso.get().load(chatModelList.get(position)
-//                    .getPhoto_url()).into(holder.image_noti);
-            holder.image_chat_item_profile.setImageResource(R.drawable.img);
+            Picasso.get().load(chatModelList.get(position)
+                    .getPhoto_url()).into(holder.image_chat_item_profile);
+//            holder.image_chat_item_profile.setImageResource(R.drawable.img);
 
         }catch (Exception e){
             // it'll set the default photo, so it'll remain as it is setted in xml file
-            holder.image_chat_item_profile.setImageResource(R.drawable.img);
+//            holder.image_chat_item_profile.setImageResource(R.drawable.img);
         }
 
         holder.constraint_chat_item.setOnClickListener(view1 -> {
-            activity.startActivity(new Intent(activity.getApplicationContext(), MessageActivity.class));
+            Intent intent = new Intent(activity.getApplicationContext(), MessageActivity.class);
+            intent.putExtra(Constants.TARGET_USER_ID, chatModelList.get(position).getUserId());
+            intent.putExtra(Constants.USER_NAME, chatModelList.get(position).getUsername());
+            intent.putExtra(Constants.ONLINE_STATUS, chatModelList.get(position).getStatus());
+            intent.putExtra(Constants.PHOTO_URL, chatModelList.get(position).getPhoto_url());
+            activity.startActivity(intent);
         });
     }
 

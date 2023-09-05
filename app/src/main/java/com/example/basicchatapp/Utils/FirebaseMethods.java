@@ -1,9 +1,8 @@
 package com.example.basicchatapp.Utils;
 
 import android.content.Context;
-
+import android.util.Log;
 import androidx.annotation.NonNull;
-
 import com.example.basicchatapp.R;
 import com.example.basicchatapp.Fragments.FriendsAndRequestsFragments.Requests.RequestModel;
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,21 +16,23 @@ import com.google.firebase.database.ValueEventListener;
 
 public class FirebaseMethods {
 
-    private FirebaseUser firebaseUser;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseDatabase firebaseDatabase;
-    private DatabaseReference databaseReference;
-    private Context context;
+    private final DatabaseReference databaseReference;
+    private final Context context;
     private String userId;
+    private final String TAG = "FIREBASE METHODS";
 
     // public constructor
     public FirebaseMethods(Context context){
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
         this.context = context;
-        userId = firebaseUser.getUid();
+        if(firebaseUser != null){
+            userId = firebaseUser.getUid();
+        } else {
+            userId = "";
+        }
     }
 
     public void getFriendRequests(){
@@ -57,6 +58,7 @@ public class FirebaseMethods {
     }
 
     public void sendFriendRequest(String otherUserId){
+
         databaseReference
                 .child("Requests")
                 .child(userId)
@@ -68,9 +70,43 @@ public class FirebaseMethods {
                 .child(otherUserId)
                 .child(userId)
                 .setValue(new RequestModel("received", false, userId));
+
+//        Query query = databaseReference
+//                .child("Requests")
+//                .child(userId)
+//                .orderByChild("type")
+//                .equalTo("seen");
+//
+//        query.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if(snapshot.getValue() == null){
+//                    Log.d(TAG, "onDataChange: " + snapshot);
+//                    databaseReference
+//                            .child("Requests")
+//                            .child(userId)
+//                            .child(otherUserId)
+//                            .setValue(new RequestModel("sent", false, userId));
+//
+//                    databaseReference
+//                            .child("Requests")
+//                            .child(otherUserId)
+//                            .child(userId)
+//                            .setValue(new RequestModel("received", false, userId));
+//                } else {
+//                    HelperMethods.showShortToast(context, "you are already friends");
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
     }
 
     public void cancelFriendsRequest(String otherUserId){
+
         databaseReference
                 .child("Requests")
                 .child(userId)
@@ -84,6 +120,42 @@ public class FirebaseMethods {
                                 .removeValue();
                     }
                 });
+
+
+//        Query query = databaseReference
+//                .child("Requests")
+//                .child(userId)
+//                .orderByChild("type")
+//                .equalTo("seen");
+//
+//        query.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if(snapshot.getValue() == null){
+//                    Log.d(TAG, "onDataChange: " + snapshot);
+//                    databaseReference
+//                            .child("Requests")
+//                            .child(userId)
+//                            .child(otherUserId)
+//                            .removeValue().addOnCompleteListener(task -> {
+//                                if(task.isSuccessful()){
+//                                    databaseReference
+//                                            .child("Requests")
+//                                            .child(otherUserId)
+//                                            .child(userId)
+//                                            .removeValue();
+//                                }
+//                            });
+//                } else {
+//                    HelperMethods.showShortToast(context, "you are already friends");
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
     }
 

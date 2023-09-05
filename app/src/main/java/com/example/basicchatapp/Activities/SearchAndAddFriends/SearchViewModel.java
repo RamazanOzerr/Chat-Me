@@ -18,7 +18,8 @@ public class SearchViewModel extends ViewModel {
     }
 
     public MutableLiveData<List<SearchModel>> getLiveDataSearchList(String name){
-        liveDataSearchList = searchRepository.getSearchResult(name);
+//        liveDataSearchList = searchRepository.getSearchResult(name);
+        liveDataSearchList = searchRepository.getLiveData(name);
         return liveDataSearchList;
     }
 }

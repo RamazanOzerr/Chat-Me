@@ -1,16 +1,28 @@
 package com.example.basicchatapp.Activities.MessageActivity;
 
+import java.util.Map;
+
 public class MessageModel {
 
-    private String sender, text, time, type;
+    private String sender, text, time, type, timeStamp;
     private boolean seen;
 
-    public MessageModel(boolean seen, String sender, String text, String time, String type) {
+    public MessageModel(boolean seen, String sender, String text
+            , String time, String type, String timeStamp) {
         this.sender = sender;
         this.text = text;
         this.time = time;
         this.type = type;
         this.seen = seen;
+        this.timeStamp = timeStamp;
+    }
+
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
     }
 
     public String getSender() {

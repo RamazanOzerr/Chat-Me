@@ -2,14 +2,24 @@ package com.example.basicchatapp.Fragments.ChatsAndStoriesFragment.Chats;
 
 public class ChatModel {
 
-    private String username, photo_url, text, status, time;
+    private String username, photo_url, text, status, time, userId;
 
-    public ChatModel(String username, String photo_url, String text, String status, String time) {
+    public ChatModel(String username, String photo_url,
+                     String text, String status, String time, String userId) {
         this.username = username;
         this.photo_url = photo_url;
         this.text = text;
         this.status = status;
         this.time = time;
+        this.userId = userId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {

@@ -1,4 +1,4 @@
-package com.example.basicchatapp.Activities;
+package com.example.basicchatapp.Activities.MainActivity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,9 +17,7 @@ import android.view.MenuItem;
 import com.example.basicchatapp.Activities.FriendsAndRequests.FriendsAndRequestsActivity;
 import com.example.basicchatapp.Activities.SearchAndAddFriends.SearchActivity;
 import com.example.basicchatapp.Activities.SettingsActivity.SettingsActivity;
-import com.example.basicchatapp.Adapters.ViewPagerAdapter;
 import com.example.basicchatapp.BroadcastReceiver.BroadcastReceiverNetwork;
-import com.example.basicchatapp.ModalBottomSheet;
 import com.example.basicchatapp.R;
 import com.example.basicchatapp.Utils.HelperMethods;
 import com.example.basicchatapp.databinding.ActivityMainBinding;

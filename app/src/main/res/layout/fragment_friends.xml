@@ -14,7 +14,6 @@
         android:visibility="visible"
         />
 
-
     <LinearLayout
         android:id="@+id/linear_fragment_friends_no_friend"
         android:layout_width="match_parent"

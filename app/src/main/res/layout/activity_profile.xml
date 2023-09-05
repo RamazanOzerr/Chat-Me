@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -28,79 +29,143 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/appbarlayout_profile_update"
-        android:gravity="center"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/image_profile_update_pp"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:src="@mipmap/profile"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/edittext_profile_update_name"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Name"
-            android:textColorHint="#37474F"
-            android:textColor="#37474F"
-            android:background="@drawable/shape_settings_search"
-            android:backgroundTint="#E0E0E0"
-            android:padding="10dp"
-            android:drawableStart="@drawable/baseline_account_circle_32"
-            android:layout_margin="5dp"
-            android:inputType="textEmailAddress"
-            android:drawablePadding="13dp"
-            />
+            android:orientation="vertical"
+            >
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/edittext_profile_update_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="email"
-            android:textColorHint="#37474F"
-            android:textColor="#37474F"
-            android:background="@drawable/shape_settings_search"
-            android:backgroundTint="#E0E0E0"
-            android:padding="10dp"
-            android:drawableStart="@drawable/baseline_account_circle_32"
-            android:layout_margin="5dp"
-            android:inputType="textEmailAddress"
-            android:drawablePadding="13dp"
-            />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_profile_update_pp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@mipmap/profile"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                />
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/edittext_profile_update_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Phone number"
-            android:textColorHint="#37474F"
-            android:textColor="#37474F"
-            android:background="@drawable/shape_settings_search"
-            android:backgroundTint="#E0E0E0"
-            android:padding="10dp"
-            android:drawableStart="@drawable/baseline_account_circle_32"
-            android:layout_margin="5dp"
-            android:inputType="textEmailAddress"
-            android:drawablePadding="13dp"
-            />
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edittext_profile_update_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/white"
+                android:fontFamily="sans-serif-medium"
+                android:text="Negan"
+                android:textColor="@color/black"
+                android:textSize="28sp"
+                android:textStyle="italic" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="About me"
+                android:textStyle="italic"
+                android:textSize="16sp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edittext_profile_update_about_me"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Say something about yourself"
+                android:textColorHint="#37474F"
+                android:textColor="#37474F"
+                android:background="@drawable/shape_edittext_about_me"
+                android:backgroundTint="#E0E0E0"
+                android:padding="20dp"
+                android:layout_margin="5dp"
+                android:inputType="textEmailAddress"
+                android:layout_gravity="center"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email address"
+                android:textStyle="italic"
+                android:textSize="16sp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edittext_profile_update_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:textColorHint="#37474F"
+                android:textColor="#37474F"
+                android:background="@drawable/shape_settings_search"
+                android:backgroundTint="#E0E0E0"
+                android:padding="10dp"
+                android:drawableStart="@drawable/baseline_email_32"
+                android:layout_margin="5dp"
+                android:inputType="textEmailAddress"
+                android:drawablePadding="13dp"
+                android:layout_gravity="center"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone number"
+                android:textStyle="italic"
+                android:textSize="16sp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                />
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/edittext_update_profile_phone_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Phone number"
+                android:textColorHint="#37474F"
+                android:textColor="#37474F"
+                android:background="@drawable/shape_settings_search"
+                android:backgroundTint="#E0E0E0"
+                android:padding="10dp"
+                android:drawableStart="@drawable/baseline_phone_32"
+                android:drawableTint="@color/color1"
+                android:layout_margin="5dp"
+                android:inputType="textEmailAddress"
+                android:drawablePadding="13dp"
+                android:layout_gravity="center"
+                />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/button_update_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_button3"
+                android:backgroundTint="@color/color1"
+                android:padding="12dp"
+                android:layout_gravity="center"
+                android:text="Save Changes"
+                android:textAllCaps="false"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:layout_marginTop="20dp"
+                />
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
 
 
 
 
-
-
-
-    </LinearLayout>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

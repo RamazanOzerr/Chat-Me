@@ -1,4 +1,4 @@
-package com.example.basicchatapp;
+package com.example.basicchatapp.Activities.MainActivity;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.basicchatapp.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 // class which we use to create bottom sheet

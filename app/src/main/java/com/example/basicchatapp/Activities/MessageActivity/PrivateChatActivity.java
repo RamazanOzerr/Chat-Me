@@ -17,7 +17,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.basicchatapp.Activities.MainActivity;
+import com.example.basicchatapp.Activities.MainActivity.MainActivity;
 import com.example.basicchatapp.Notifications.Client;
 import com.example.basicchatapp.Notifications.FCMResponse;
 import com.example.basicchatapp.R;
