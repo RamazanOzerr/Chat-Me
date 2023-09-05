@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.UserProfileActivity.UserProfileActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbarlayout_user_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/color1"
+        >
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_user_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="7dp"
+            app:title="Name"
+            app:menu="@menu/menu_user_profile"
+            app:navigationIcon="@drawable/twotone_arrow_back_ios_32"
+            app:titleTextAppearance="@style/toolbar_style2"
+            app:titleTextColor="@color/white" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+<!--    android:fontFamily="sans-serif-medium"-->
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image_user_profile_pp"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@mipmap/profile"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/linear_user_profile_send_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_button3"
+                        android:backgroundTint="@color/color1"
+                        android:src="@drawable/baseline_chat_bubble_24"
+                        android:tint="@color/white"
+                        android:layout_gravity="center"
+                        android:padding="15dp"
+                        android:layout_margin="15dp"
+                        />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Message"
+                        android:textColor="@color/color1"
+                        android:textStyle="italic|bold"
+                        android:fontFamily="sans-serif-medium"
+                        />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/linear_user_profile_phone_call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_button3"
+                        android:backgroundTint="@color/color1"
+                        android:src="@drawable/fui_ic_phone_white_24dp"
+                        android:layout_gravity="center"
+                        android:padding="15dp"
+                        android:layout_margin="15dp"
+                        />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Phone Call"
+                        android:textColor="@color/color1"
+                        android:textStyle="italic|bold"
+                        android:fontFamily="sans-serif-medium"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linear_user_profile_video_call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/shape_button3"
+                        android:backgroundTint="@color/color1"
+                        android:src="@drawable/baseline_video_camera_back_32"
+                        android:layout_gravity="center"
+                        android:padding="11dp"
+                        android:layout_margin="15dp"
+                        />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Video Call"
+                        android:textColor="@color/color1"
+                        android:textStyle="italic|bold"
+                        android:fontFamily="sans-serif-medium"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="About me"
+                android:textStyle="italic"
+                android:textSize="16sp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="40dp"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_user_profile_about_me"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="About the user"
+                android:textColor="#37474F"
+                android:background="@drawable/shape_edittext_about_me"
+                android:backgroundTint="#E0E0E0"
+                android:padding="20dp"
+                android:layout_margin="5dp"
+                android:layout_gravity="center"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"
+                >
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_user_profile_block"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_button3"
+                    android:backgroundTint="@color/red"
+                    android:text="Block"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:tint="@color/white"
+                    android:layout_margin="5dp"
+                    />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/button_user_profile_remove_friend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/shape_button3"
+                    android:backgroundTint="@color/red"
+                    android:text="Remove Friend"
+                    android:textAllCaps="false"
+                    android:padding="10dp"
+                    android:textColor="@color/white"
+                    android:tint="@color/white" />
+
+            </LinearLayout>
+
+
+
+<!--            <androidx.appcompat.widget.AppCompatTextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Email address"-->
+<!--                android:textStyle="italic"-->
+<!--                android:textSize="16sp"-->
+<!--                android:layout_marginStart="5dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                />-->
+
+<!--            <androidx.appcompat.widget.AppCompatTextView-->
+<!--                android:id="@+id/tv_profile_update_email"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Say something about yourself"-->
+<!--                android:textColor="#37474F"-->
+<!--                android:background="@drawable/shape_edittext_about_me"-->
+<!--                android:backgroundTint="#E0E0E0"-->
+<!--                android:padding="20dp"-->
+<!--                android:layout_margin="5dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                />-->
+<!--            -->
+<!--            <androidx.appcompat.widget.AppCompatTextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Phone number"-->
+<!--                android:textStyle="italic"-->
+<!--                android:textSize="16sp"-->
+<!--                android:layout_marginStart="5dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                />-->
+
+<!--            <androidx.appcompat.widget.AppCompatTextView-->
+<!--                android:id="@+id/tv_profile_update_phone_number"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Say something about yourself"-->
+<!--                android:textColor="#37474F"-->
+<!--                android:background="@drawable/shape_edittext_about_me"-->
+<!--                android:backgroundTint="#E0E0E0"-->
+<!--                android:padding="20dp"-->
+<!--                android:layout_margin="5dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                />-->
+
+<!--            <androidx.appcompat.widget.AppCompatButton-->
+<!--                android:id="@+id/button_update_profile"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@drawable/shape_button3"-->
+<!--                android:backgroundTint="@color/color1"-->
+<!--                android:padding="12dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:text="Save Changes"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:textSize="20sp"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:layout_marginTop="20dp"-->
+<!--                />-->
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

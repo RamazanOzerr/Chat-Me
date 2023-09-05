@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/more"
+        android:icon="@drawable/baseline_more_vert_24"
+        android:contentDescription="contect_description_more"
+        app:showAsAction="ifRoom"
+        android:title="more"
+        tools:ignore="HardcodedText">
+        <menu>
+
+            <item
+                android:id="@+id/block_user"
+                android:title="Block"
+                android:contentDescription="content_description_search"
+                app:showAsAction="never"
+                tools:ignore="HardcodedText" />
+
+            <item
+                android:id="@+id/remove_user"
+                android:title="Remove Friend"
+                android:contentDescription="content_description_search"
+                app:showAsAction="never"
+                tools:ignore="HardcodedText" />
+
+        </menu>
+    </item>
+
+
+</menu>
