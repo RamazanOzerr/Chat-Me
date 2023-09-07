@@ -9,11 +9,14 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import com.example.basicchatapp.Activities.MainActivity.MainActivity;
 import com.example.basicchatapp.Notifications.OreoNotification;
 import com.example.basicchatapp.R;
+import com.example.basicchatapp.Utils.FirebaseMethods;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -24,9 +27,14 @@ import java.util.Map;
 
 public class FirebaseNotificationService extends FirebaseMessagingService {
 
+    private final String TAG = "FIREBASE NOTIFICATION SERVICE";
+
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
+
+        Log.d(TAG, "onMessageReceived: " + remoteMessage.getData());
+        Log.d(TAG, "onMessageReceived: " + remoteMessage.getNotification().getBody());
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             sendOreoNotification(remoteMessage);
         }else{
@@ -36,7 +44,7 @@ public class FirebaseNotificationService extends FirebaseMessagingService {
     private void sendOreoNotification(RemoteMessage remoteMessage){
         String user = remoteMessage.getData().get("user");
         String icon = remoteMessage.getData().get("icon");
-        String title = "new message";
+        String title = remoteMessage.getNotification().getBody();
         String body = remoteMessage.getNotification().getBody();
 
         int j = 0;
@@ -88,7 +96,6 @@ public class FirebaseNotificationService extends FirebaseMessagingService {
             i = j;
         }
         noti.notify(i, builder.build());
-
     }
 
     @Override

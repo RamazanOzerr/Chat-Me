@@ -122,7 +122,7 @@ public class PrivateChatActivity extends AppCompatActivity {
             if(text.equals("")){
                 Toast.makeText(getApplicationContext(),"write a message first",Toast.LENGTH_LONG).show();
             }else{
-                sendMessage(firebaseUser.getUid(),userKey,"text",getDate(),false, text);
+                sendMessage(firebaseUser.getUid(), userKey,"text",getDate(),false, text);
                 editTextMessage.setText("");
 
             }
@@ -136,7 +136,6 @@ public class PrivateChatActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm",Locale.getDefault());
         return sdf.format(new Date());
     }
-
 
     public void setUserInfo(String userKey){
 
@@ -198,7 +197,6 @@ public class PrivateChatActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     private void sendNotification(String receiver, String username, String message){
@@ -233,7 +231,7 @@ public class PrivateChatActivity extends AppCompatActivity {
 
                             @Override
                             public void onFailure(Call<FCMResponse> call, Throwable t) {
-                                System.out.println("failed "+t);
+                                System.out.println("failed " + t);
                             }
                         });
                     }

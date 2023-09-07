@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class FirebaseMethods {
 
@@ -175,6 +176,16 @@ public class FirebaseMethods {
                 .child(userId)
                 .child(context.getString(R.string.db_users_photo))
                 .setValue(photoUrl);
+    }
+
+    public void getNotificationToken(){
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                String token = task.getResult();
+                updateNotificationToken(token);
+            }
+        });
+
     }
 
     // update notification token

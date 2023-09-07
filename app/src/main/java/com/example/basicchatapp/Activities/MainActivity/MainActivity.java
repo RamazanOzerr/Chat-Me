@@ -13,13 +13,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
 import com.example.basicchatapp.Activities.FriendsAndRequests.FriendsAndRequestsActivity;
 import com.example.basicchatapp.Activities.SearchAndAddFriends.SearchActivity;
 import com.example.basicchatapp.Activities.SettingsActivity.SettingsActivity;
 import com.example.basicchatapp.BroadcastReceiver.BroadcastReceiverNetwork;
 import com.example.basicchatapp.R;
-import com.example.basicchatapp.Utils.HelperMethods;
+import com.example.basicchatapp.Utils.FirebaseMethods;
 import com.example.basicchatapp.databinding.ActivityMainBinding;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.tabs.TabLayout;
@@ -33,10 +32,11 @@ public class MainActivity extends AppCompatActivity {
     public static final String NETWORK_STATE_CHANGED = "com.example.basicchatapp.NETWORK_STATE_CHANGED";
     public static final String EXTRA_NETWORK_STATE = "network_state";
 
-    private HelperMethods helper;
     private ActivityMainBinding binding;
     private BroadcastReceiver broadcastReceiver;
     private BroadcastReceiver br;
+
+    private FirebaseMethods firebaseMethods;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +44,9 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        helper = new HelperMethods();
         broadcastReceiver = new BroadcastReceiverNetwork();
+        firebaseMethods = new FirebaseMethods(MainActivity.this);
+        firebaseMethods.getNotificationToken();
 
         List<String> tabNames = new ArrayList<>();
         tabNames.add("Message");
