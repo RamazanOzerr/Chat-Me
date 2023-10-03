@@ -38,10 +38,10 @@
             android:exported="true"
             android:parentActivityName=".Activities.MainActivity.MainActivity" />
         <activity
-            android:name=".Activities.SignInAndSingUp.SetUpProfileActivity"
+            android:name=".Activities.SignInAndSignUp.SetUpProfileActivity"
             android:exported="true" />
         <activity
-            android:name=".Activities.SignInAndSingUp.EmailVerificationActivity"
+            android:name=".Activities.SignInAndSignUp.EmailVerificationActivity"
             android:exported="true" />
         <activity
             android:name=".Activities.WelcomeActivity"
@@ -53,7 +53,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.SignInAndSingUp.SignUpActivity"
+            android:name=".Activities.SignInAndSignUp.SignUpActivity"
             android:exported="true" />
 
         <activity
@@ -63,7 +63,7 @@
             android:name=".Activities.MessageActivity.PrivateChatActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.SignInAndSingUp.LoginActivity"
+            android:name=".Activities.SignInAndSignUp.LoginActivity"
             android:exported="true"
             android:label="@string/title_activity_login" />
         <activity

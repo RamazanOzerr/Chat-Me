@@ -1,4 +1,4 @@
-package com.example.basicchatapp.Activities.SignInAndSingUp;
+package com.example.basicchatapp.Activities.SignInAndSignUp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;

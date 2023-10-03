@@ -195,26 +195,43 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d(TAG, "onDataChange: snapshot: " +  snapshot.getValue());
                 if(snapshot.exists()){
-                    String token = Objects.requireNonNull(snapshot.child(otherUser).child("token").getValue()).toString();
+                    String token = Objects.requireNonNull(snapshot.child(otherUser)
+                            .child("token").getValue()).toString();
+
                     Log.d(TAG, "onDataChange: we have the token" + token);
 
-                    // create json data
+//                    // create json data
+//                    JsonObject jsonData = new JsonObject();
+//                    JsonObject jsonBody = new JsonObject();
+//                    jsonData.addProperty("body", text);
+//                    jsonData.addProperty("title", username);
+//                    jsonBody.addProperty("to", token);
+//                    Log.d(TAG, "sendNotification: token: " + token);
+//                    jsonBody.add("notification", jsonData);
+
+
                     JsonObject jsonData = new JsonObject();
-                    JsonObject jsonBody = new JsonObject();
-                    jsonData.addProperty("body",username+": " + text);
-                    jsonData.addProperty("title","new message");
-                    jsonBody.addProperty("to", token);
-                    Log.d(TAG, "sendNotification: token: " + token);
-                    jsonBody.add("notification", jsonData);
+                    jsonData.addProperty("userId", currUser);
+
+                    JsonObject jsonNotificiation = new JsonObject();
+                    jsonNotificiation.addProperty("title", username);
+                    jsonNotificiation.addProperty("body", text);
+
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.add("notification", jsonNotificiation);
+                    jsonObject.add("data", jsonData);
+                    jsonObject.addProperty("to", token);
+
 
                     // send post request
-                    apiService.sendNotification(jsonBody).enqueue(new Callback<FCMResponse>() {
-                        @Override
+                    apiService.sendNotification(jsonObject).enqueue(new Callback<FCMResponse>() {
+                            @Override
                         public void onResponse(Call<FCMResponse> call, Response<FCMResponse> response) {
                             Log.d(TAG, "onResponse: response: " + response);
                             Log.d(TAG, "onResponse: response: " + response.message());
                             Log.d(TAG, "onResponse: response: " + response.isSuccessful());
                             Log.d(TAG, "onResponse: call: " + call);
+
                         }
 
                         @Override

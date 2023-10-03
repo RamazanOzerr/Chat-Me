@@ -222,18 +222,19 @@ public class PrivateChatActivity extends AppCompatActivity {
                         jsonBody.addProperty("to",token);
                         jsonBody.add("notification",jsonData);
 
+
                         // send post request
-                        apiService.sendNotification(jsonBody).enqueue(new Callback<FCMResponse>() {
-                            @Override
-                            public void onResponse(Call<FCMResponse> call, Response<FCMResponse> response) {
-
-                            }
-
-                            @Override
-                            public void onFailure(Call<FCMResponse> call, Throwable t) {
-                                System.out.println("failed " + t);
-                            }
-                        });
+//                        apiService.sendNotification(jsonBody).enqueue(new Callback<FCMResponse>() {
+//                            @Override
+//                            public void onResponse(Call<FCMResponse> call, Response<FCMResponse> response) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<FCMResponse> call, Throwable t) {
+//                                System.out.println("failed " + t);
+//                            }
+//                        });
                     }
                 }
 

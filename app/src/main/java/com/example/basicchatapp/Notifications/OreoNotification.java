@@ -10,12 +10,14 @@ import android.content.ContextWrapper;
 import android.net.Uri;
 import android.os.Build;
 
+import androidx.core.app.NotificationCompat;
+
 import com.example.basicchatapp.R;
 
 
 public class OreoNotification extends ContextWrapper {
 
-    private static final String CHANNEL_ID = "1";
+    private static final String CHANNEL_ID = "2";
     private static final String CHANNEL_NAME = "chatApp";
     private NotificationManager notificationManager;
 
@@ -31,10 +33,10 @@ public class OreoNotification extends ContextWrapper {
     private void createChannel(){
 
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME
-        , NotificationManager.IMPORTANCE_DEFAULT);
-        channel.enableLights(false);
+        , NotificationManager.IMPORTANCE_HIGH);
+//        channel.enableLights(false);
         channel.enableVibration(true);
-        channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+        channel.setLockscreenVisibility(Notification.VISIBILITY_SECRET);
 
         getManager().createNotificationChannel(channel);
     }
@@ -47,12 +49,14 @@ public class OreoNotification extends ContextWrapper {
 
     @TargetApi(Build.VERSION_CODES.O)
     public Notification.Builder getOreoNotification(String title, String body
-    , PendingIntent pendingIntent, Uri soundUri, String icon){
+    , PendingIntent pendingIntent, Uri soundUri){
         return new Notification.Builder(getApplicationContext(), CHANNEL_ID)
                 .setContentIntent(pendingIntent)
                 .setContentTitle(title)
+                .setContentText(body)
                 .setSmallIcon(R.mipmap.my_ic_launcher2_round)
                 .setSound(soundUri)
+                .setPriority(Notification.PRIORITY_HIGH)
                 .setAutoCancel(true);
     }
 }

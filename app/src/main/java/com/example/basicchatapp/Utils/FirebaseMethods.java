@@ -36,6 +36,7 @@ public class FirebaseMethods {
         }
     }
 
+
     public void getFriendRequests(){
         Query query = databaseReference
                 .child("Requests")
@@ -191,7 +192,7 @@ public class FirebaseMethods {
     // update notification token
     public void updateNotificationToken(String token){
         databaseReference
-                .child(context.getString(R.string.db_users))
+                .child("Users")
                 .child(userId)
                 .child(context.getString(R.string.db_users_notification_token))
                 .setValue(token);

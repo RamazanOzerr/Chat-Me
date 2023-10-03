@@ -1,4 +1,4 @@
-package com.example.basicchatapp.Activities.SignInAndSingUp;
+package com.example.basicchatapp.Activities.SignInAndSignUp;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,7 +9,6 @@ import android.provider.MediaStore;
 
 import com.example.basicchatapp.Activities.MainActivity.MainActivity;
 import com.example.basicchatapp.Activities.ProfileActivity.ProfileModel;
-import com.example.basicchatapp.Activities.SignInAndSingUp.LoginActivity;
 import com.example.basicchatapp.Utils.HelperMethods;
 import com.example.basicchatapp.Utils.RandomString;
 import com.example.basicchatapp.databinding.ActivitySetUpProfileBinding;

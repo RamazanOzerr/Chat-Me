@@ -7,10 +7,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.window.SplashScreen;
 
 import com.example.basicchatapp.Activities.MainActivity.MainActivity;
-import com.example.basicchatapp.Activities.SignInAndSingUp.LoginActivity;
+import com.example.basicchatapp.Activities.SignInAndSignUp.LoginActivity;
 import com.example.basicchatapp.R;
 import com.example.basicchatapp.databinding.ActivitySplashBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,12 +17,10 @@ import com.google.firebase.auth.FirebaseAuth;
 public class SplashActivity extends AppCompatActivity{
 
     private FirebaseAuth auth;
-    private ActivitySplashBinding binding;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivitySplashBinding.inflate(getLayoutInflater());
+        ActivitySplashBinding binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         auth = FirebaseAuth.getInstance();
