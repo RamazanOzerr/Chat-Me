@@ -24,26 +24,27 @@ public class StoriesRepository {
         StoriesModel storiesModel6 = new StoriesModel("empty", "no_photo");
 
 
-//        storiesModelList.add(storiesModel1);
-//        storiesModelList.add(storiesModel1);
-//        storiesModelList.add(storiesModel1);
-//        storiesModelList.add(storiesModel1);
-//        storiesModelList.add(storiesModel1);
-        storiesModelList.add(storiesModel2);
-        storiesModelList.add(storiesModel4);
-        storiesModelList.add(storiesModel5);
-        storiesModelList.add(storiesModel7);
         storiesModelList.add(storiesModel1);
-        storiesModelList.add(storiesModel2);
-        storiesModelList.add(storiesModel4);
-        storiesModelList.add(storiesModel5);
-        storiesModelList.add(storiesModel7);
         storiesModelList.add(storiesModel1);
-        storiesModelList.add(storiesModel2);
-        storiesModelList.add(storiesModel4);
-        storiesModelList.add(storiesModel5);
-        storiesModelList.add(storiesModel7);
-        storiesModelList.add(storiesModel6);
+        storiesModelList.add(storiesModel1);
+        storiesModelList.add(storiesModel1);
+        storiesModelList.add(storiesModel1);
+
+//        storiesModelList.add(storiesModel2);
+//        storiesModelList.add(storiesModel4);
+//        storiesModelList.add(storiesModel5);
+//        storiesModelList.add(storiesModel7);
+//        storiesModelList.add(storiesModel1);
+//        storiesModelList.add(storiesModel2);
+//        storiesModelList.add(storiesModel4);
+//        storiesModelList.add(storiesModel5);
+//        storiesModelList.add(storiesModel7);
+//        storiesModelList.add(storiesModel1);
+//        storiesModelList.add(storiesModel2);
+//        storiesModelList.add(storiesModel4);
+//        storiesModelList.add(storiesModel5);
+//        storiesModelList.add(storiesModel7);
+//        storiesModelList.add(storiesModel6);
 
         liveData.setValue(storiesModelList);
 

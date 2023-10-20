@@ -14,7 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.basicchatapp.Activities.MessageActivity.MessageActivity;
 import com.example.basicchatapp.R;
 import com.example.basicchatapp.Utils.Constants;
+import com.example.basicchatapp.Utils.FirebaseMethods;
 import com.google.android.material.textview.MaterialTextView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -26,10 +30,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     private View view;
     private List<ChatModel> chatModelList;
     private Activity activity;
+    private FirebaseMethods firebaseMethods;
 
     public ChatAdapter(List<ChatModel> chatModelList, Activity activity){
         this.chatModelList = chatModelList;
         this.activity = activity;
+        firebaseMethods = new FirebaseMethods(activity.getApplicationContext());
     }
 
     @NonNull
@@ -86,7 +92,20 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             intent.putExtra(Constants.USER_NAME, chatModelList.get(position).getUsername());
             intent.putExtra(Constants.ONLINE_STATUS, chatModelList.get(position).getStatus());
             intent.putExtra(Constants.PHOTO_URL, chatModelList.get(position).getPhoto_url());
-            activity.startActivity(intent);
+            firebaseMethods.getCurrUsername().addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String cUsername = snapshot.child("name").getValue().toString();
+                    intent.putExtra(Constants.CURR_USERNAME, cUsername);
+                    activity.startActivity(intent);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
         });
     }
 

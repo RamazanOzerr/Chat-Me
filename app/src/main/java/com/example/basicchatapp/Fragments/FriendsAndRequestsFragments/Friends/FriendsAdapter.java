@@ -1,5 +1,7 @@
 package com.example.basicchatapp.Fragments.FriendsAndRequestsFragments.Friends;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.basicchatapp.Activities.UserProfileActivity.UserProfileActivity;
 import com.example.basicchatapp.R;
+import com.example.basicchatapp.Utils.Constants;
 
 import java.util.List;
 
@@ -19,10 +23,12 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsV
 
     private List<FriendModel> friendModelList;
     private View view;
+    private Activity activity;
     private final String TAG = "FRIENDS REPOSITORY";
 
-    public FriendsAdapter(List<FriendModel> friendModelList) {
+    public FriendsAdapter(List<FriendModel> friendModelList, Activity activity) {
         this.friendModelList = friendModelList;
+        this.activity = activity;
     }
 
     @NonNull
@@ -54,6 +60,12 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsV
         } catch (Exception e){
             // do nothing
         }
+
+        holder.linear_friends_item.setOnClickListener(view1 -> {
+            Intent intent = new Intent();
+            intent.putExtra(Constants.TARGET_USER_ID, friendModelList.get(position).getUserKey());
+            activity.startActivity(intent);
+        });
     }
 
     @Override

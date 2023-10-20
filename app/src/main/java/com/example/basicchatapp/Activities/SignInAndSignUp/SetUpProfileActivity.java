@@ -56,7 +56,8 @@ public class SetUpProfileActivity extends AppCompatActivity {
     private void saveData(String name, @Nullable String photoUrl){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
-        ProfileModel profile = new ProfileModel(name, photoUrl);
+        ProfileModel profile = new ProfileModel(name, photoUrl
+                , "online", "Hey there! I am using chat me");
         reference.child("Users").child(user.getUid()).setValue(profile)
                 .addOnCompleteListener(task -> {
             if(task.isSuccessful()){

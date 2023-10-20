@@ -36,6 +36,9 @@ public class FirebaseMethods {
         }
     }
 
+    public Query getCurrUsername(){
+        return databaseReference.child("Users").child(userId);
+    }
 
     public void getFriendRequests(){
         Query query = databaseReference

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -51,11 +52,12 @@ public class MessageActivity extends AppCompatActivity {
     private String currUser, otherUser;
     private FirebaseUser firebaseUser;
     private final String TAG = "MESSAGE ACTIVITY";
+    private Context context;
 
     // notification
     private APIService apiService;
     private Boolean notify;
-    private String username;
+    private String username, currUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,10 +122,12 @@ public class MessageActivity extends AppCompatActivity {
         apiService = Client.getClient(url).create(APIService.class);
         notify = false;
 
+        context = MessageActivity.this;
 
         Intent intent = getIntent();
         otherUser = intent.getStringExtra(Constants.TARGET_USER_ID);
         username = intent.getStringExtra(Constants.USER_NAME);
+        currUsername = intent.getStringExtra(Constants.CURR_USERNAME);
         String online_status = intent.getStringExtra(Constants.ONLINE_STATUS);
         String photoUrl = intent.getStringExtra(Constants.PHOTO_URL);
         setUserInfo(username, online_status, photoUrl);
@@ -133,6 +137,7 @@ public class MessageActivity extends AppCompatActivity {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         if(firebaseUser != null){
             currUser = firebaseUser.getUid();
+
             Log.d(TAG, "init: currUser available");
         }else{
             //todo: user giriş yapmamış gibi gözüküyor, yeniden giriş yapmasının bir yolunu bul
@@ -163,8 +168,8 @@ public class MessageActivity extends AppCompatActivity {
                                     if(task1.isSuccessful()){
                                         binding.edittextMessageActivity.requestFocus();
                                         binding.edittextMessageActivity.setText("");
-                                        binding.recyclerViewMessageActivity
-                                                .smoothScrollToPosition(messageModelList.size());
+//                                        binding.recyclerViewMessageActivity
+//                                                .smoothScrollToPosition(messageModelList.size());
 
                                         // notification
                                         String text = message.getText();
@@ -214,7 +219,8 @@ public class MessageActivity extends AppCompatActivity {
                     jsonData.addProperty("userId", currUser);
 
                     JsonObject jsonNotificiation = new JsonObject();
-                    jsonNotificiation.addProperty("title", username);
+                    jsonNotificiation.addProperty("title", currUsername);
+                    HelperMethods.showShortToast(context, "curr username" + currUsername);
                     jsonNotificiation.addProperty("body", text);
 
                     JsonObject jsonObject = new JsonObject();
@@ -270,9 +276,9 @@ public class MessageActivity extends AppCompatActivity {
         viewModel.getNewMessages(currUser, otherUser).observe(this, messageModels -> {
             messageModelList.clear();
             messageModelList.addAll(messageModels);
-            for(int i = 0; i < messageModelList.size(); i++){
-//                Log.d(TAG, "getData: get new messages: " + messageModels.get(i).getText());
-            }
+//            for(int i = 0; i < messageModelList.size(); i++){
+////                Log.d(TAG, "getData: get new messages: " + messageModels.get(i).getText());
+//            }
 
             adapter = new MessageAdapter(messageModelList);
             binding.recyclerViewMessageActivity.setAdapter(adapter);

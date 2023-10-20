@@ -1,4 +1,8 @@
 package com.example.basicchatapp.Activities.StoryActivity;
 
-public class StoryViewModel {
+import androidx.lifecycle.ViewModel;
+
+public class StoryViewModel extends ViewModel {
+
+
 }

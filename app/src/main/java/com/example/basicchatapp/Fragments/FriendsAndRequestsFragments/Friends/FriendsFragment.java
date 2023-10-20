@@ -38,7 +38,7 @@ public class FriendsFragment extends Fragment {
         viewModel.getFriendsList().observe(getViewLifecycleOwner(), friendModels -> {
             friendModelList.clear();
             friendModelList.addAll(friendModels);
-            adapter = new FriendsAdapter(friendModelList);
+            adapter = new FriendsAdapter(friendModelList, getActivity());
             if(adapter.getItemCount() != 0){
                 binding.linearFragmentFriendsNoFriend.setVisibility(View.GONE);
                 binding.recyclerViewFragmentFriends.setAdapter(adapter);

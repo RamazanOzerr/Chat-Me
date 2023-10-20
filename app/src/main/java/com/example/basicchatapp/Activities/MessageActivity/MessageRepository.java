@@ -87,6 +87,7 @@ public class MessageRepository {
                     messageModelList.add(messageModel);
                 }
                 liveData.setValue(messageModelList);
+                
             }
 
             @Override

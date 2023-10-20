@@ -2,11 +2,13 @@ package com.example.basicchatapp.Activities.ProfileActivity;
 
 public class ProfileModel {
 
-    private String name, photoUrl, aboutMe, email, phoneNumber;
+    private String name, photoUrl, aboutMe, email, phoneNumber, status;
 
-    public ProfileModel(String name, String photoUrl) {
+    public ProfileModel(String name, String photoUrl, String status, String aboutMe) {
         this.name = name;
         this.photoUrl = photoUrl;
+        this.status = status;
+        this.aboutMe = aboutMe;
     }
 
     public ProfileModel(String name, String photoUrl, String aboutMe

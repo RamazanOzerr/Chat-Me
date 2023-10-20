@@ -103,7 +103,8 @@ public class FriendsRepository {
                                 FriendModel friendModel = new FriendModel(
                                         photoUrl
                                         , name
-                                        , status);
+                                        , status
+                                        , userKey);
 
 
                                 friendModelList.add(friendModel);

@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -113,6 +115,8 @@ public class FirebaseNotificationService extends FirebaseMessagingService {
         Log.d(TAG, "onMessageReceived: user: " + user);
 
         String title = remoteMessage.getNotification().getTitle();
+//        HelperMethods.showShortToast(getApplicationContext(), "username: " + title);
+        System.out.println("username title: " + title);
         String body = remoteMessage.getNotification().getBody();
 
         int j = 2;
@@ -125,7 +129,7 @@ public class FirebaseNotificationService extends FirebaseMessagingService {
         Log.d(TAG, "sendNotification: intent" + intent.getExtras().keySet());
         PendingIntent pendingIntent = PendingIntent.getActivity(this
                 , PENDING_INTENT_REQUEST_CODE,
-                intent, PendingIntent.FLAG_ONE_SHOT);
+                intent, PendingIntent.FLAG_MUTABLE);
 
         Uri defaultSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
