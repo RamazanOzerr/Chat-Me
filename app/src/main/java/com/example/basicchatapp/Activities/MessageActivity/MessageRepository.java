@@ -12,18 +12,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MessageRepository {
 
-    private MutableLiveData<List<MessageModel>> liveData;
-    private List<MessageModel> messageModelList;
-    private DatabaseReference databaseReference;
+    private final MutableLiveData<List<MessageModel>> liveData;
+    private final List<MessageModel> messageModelList;
+    private final DatabaseReference databaseReference;
     private final String TAG = "MESSAGE REPOSITORY";
 
     public MessageRepository(){
@@ -47,7 +45,8 @@ public class MessageRepository {
                         String text = dataSnapshot.child("text").getValue().toString();
                         String time = dataSnapshot.child("time").getValue().toString();
                         String timeStamp = dataSnapshot.child("timeStamp").getValue().toString();
-                        MessageModel messageModel = new MessageModel(false, sender, text, time, "text", timeStamp);
+                        long timeS = Long.parseLong(dataSnapshot.child("timeS").getValue().toString());
+                        MessageModel messageModel = new MessageModel(false, sender, text, time, "text", timeStamp, timeS);
                         messageModelList.add(messageModel);
                     }
                 }
@@ -73,6 +72,7 @@ public class MessageRepository {
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
                 Log.d(TAG, "onChildAdded:  " + snapshot.getValue());
                 try {
                     MessageModel messageModel = snapshot.getValue(MessageModel.class);
@@ -83,7 +83,9 @@ public class MessageRepository {
                     String text = snapshot.child("text").getValue().toString();
                     String time = snapshot.child("time").getValue().toString();
                     String timeStamp = snapshot.child("timeStamp").getValue().toString();
-                    MessageModel messageModel = new MessageModel(false, sender, text, time, "text", timeStamp);
+//                    long timeS = Long.parseLong(snapshot.child("timeS").getValue().toString());
+                    long timeS = 1;
+                    MessageModel messageModel = new MessageModel(false, sender, text, time, "text", timeStamp, timeS);
                     messageModelList.add(messageModel);
                 }
                 liveData.setValue(messageModelList);

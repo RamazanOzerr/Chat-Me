@@ -15,6 +15,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ChatRepository {
@@ -44,12 +46,13 @@ public class ChatRepository {
         Log.d(TAG, "getChats: ");
         Query query = reference.child("Messages")
                 .child(currUserId)
-                .orderByChild("time")
-                ;
+                .orderByChild("timeS");
 
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                chatModelList.clear();
                 Log.d(TAG, "onDataChange: snapshot: " + snapshot.getValue());
                 for(DataSnapshot dataSnapshot : snapshot.getChildren()){
                     String key = dataSnapshot.getKey();  // mesajın gönderildiği kişinin id si
@@ -80,6 +83,9 @@ public class ChatRepository {
                                     chatModelList.add(chatModel);
                                     Log.d(TAG, "onDataChange: chat model" + chatModel);
                                 } Log.d(TAG, "onDataChange: livedata: " + liveData.getValue());
+                                Log.d(TAG, "chatmodellist before: " + chatModelList.get(0).getTime());
+                                sortList();
+                                Log.d(TAG, "chatmodellist after: " + chatModelList.get(0).getTime());
                                 liveData.setValue(chatModelList);
                             }
 
@@ -98,6 +104,7 @@ public class ChatRepository {
 
             }
         });
+
 
 
 //        ChatModel chatModel1 = new ChatModel("fatih terim"
@@ -131,6 +138,16 @@ public class ChatRepository {
 //        liveData.setValue(chatModelList);
 
         return liveData;
+    }
+
+    private void sortList(){
+        Collections.sort(chatModelList, new Comparator<ChatModel>() {
+            @Override
+            public int compare(ChatModel chatModel1, ChatModel chatModel2) {
+                return chatModel2.getTime().compareTo(chatModel1.getTime());
+            }
+        });
+
     }
 
 }

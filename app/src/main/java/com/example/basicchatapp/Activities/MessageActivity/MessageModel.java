@@ -5,16 +5,26 @@ import java.util.Map;
 public class MessageModel {
 
     private String sender, text, time, type, timeStamp;
+    private Long timeS;  // bunu primitive olarak tanımladığımızda db ye gitmiyordu bu değer xD
     private boolean seen;
 
     public MessageModel(boolean seen, String sender, String text
-            , String time, String type, String timeStamp) {
+            , String time, String type, String timeStamp, Long timeS) {
         this.sender = sender;
         this.text = text;
         this.time = time;
         this.type = type;
         this.seen = seen;
         this.timeStamp = timeStamp;
+        this.timeS = timeS;
+    }
+
+    public Long getTimeS() {
+        return timeS;
+    }
+
+    public void setTimeS(Long timeS) {
+        this.timeS = timeS;
     }
 
     public String getTimeStamp() {

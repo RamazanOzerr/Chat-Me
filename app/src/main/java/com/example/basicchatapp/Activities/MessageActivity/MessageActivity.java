@@ -69,6 +69,7 @@ public class MessageActivity extends AppCompatActivity {
         getData();
         listeners();
 
+
 //        //todo: one signal olayını muhtemelen iptal etcez
 //        OneSignalAppID appID = new OneSignalAppID();
 //
@@ -220,7 +221,6 @@ public class MessageActivity extends AppCompatActivity {
 
                     JsonObject jsonNotificiation = new JsonObject();
                     jsonNotificiation.addProperty("title", currUsername);
-                    HelperMethods.showShortToast(context, "curr username" + currUsername);
                     jsonNotificiation.addProperty("body", text);
 
                     JsonObject jsonObject = new JsonObject();
@@ -309,14 +309,15 @@ public class MessageActivity extends AppCompatActivity {
         binding.imageMessageActivitySend.setOnClickListener(view -> {
             notify = true;  // notification
 //            Log.d(TAG, "listeners: text message" + binding.edittextMessageActivity.getText());
-            if(binding.edittextMessageActivity.getText() != null && !TextUtils.isEmpty(binding.edittextMessageActivity.getText())){
+            if(binding.edittextMessageActivity.getText() != null
+                    && !TextUtils.isEmpty(binding.edittextMessageActivity.getText())){
                 String text = binding.edittextMessageActivity.getText().toString();
                 String sender = currUser; //todo: bunu silcez, onun yerine
                 //todo: aşağıda sender yerine direkt currUser yazcaz
                 String time = getTime();
                 sendMessage(new MessageModel(false, sender, text, time, "text"
-                        , ServerValue.TIMESTAMP.toString()));
-
+                        , ServerValue.TIMESTAMP.toString(), System.currentTimeMillis()));
+//                HelperMethods.showShortToast(context, ": " + System.currentTimeMillis());
 
             }else{
                 HelperMethods.showShortToast(this,

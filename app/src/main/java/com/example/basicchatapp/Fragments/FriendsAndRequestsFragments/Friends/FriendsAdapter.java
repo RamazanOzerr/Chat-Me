@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.basicchatapp.Activities.MessageActivity.MessageActivity;
 import com.example.basicchatapp.Activities.UserProfileActivity.UserProfileActivity;
 import com.example.basicchatapp.R;
 import com.example.basicchatapp.Utils.Constants;
@@ -62,7 +63,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsV
         }
 
         holder.linear_friends_item.setOnClickListener(view1 -> {
-            Intent intent = new Intent();
+            Intent intent = new Intent(activity.getApplicationContext(), MessageActivity.class);
             intent.putExtra(Constants.TARGET_USER_ID, friendModelList.get(position).getUserKey());
             activity.startActivity(intent);
         });
