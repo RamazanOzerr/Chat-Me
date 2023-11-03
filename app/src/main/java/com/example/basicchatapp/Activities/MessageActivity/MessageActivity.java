@@ -16,6 +16,7 @@ import com.example.basicchatapp.Notifications.Client;
 import com.example.basicchatapp.Notifications.FCMResponse;
 import com.example.basicchatapp.Services.APIService;
 import com.example.basicchatapp.Utils.Constants;
+import com.example.basicchatapp.Utils.FirebaseMethods;
 import com.example.basicchatapp.Utils.HelperMethods;
 import com.example.basicchatapp.Utils.OneSignalAppID;
 import com.example.basicchatapp.databinding.ActivityMessageBinding;
@@ -100,10 +101,30 @@ public class MessageActivity extends AppCompatActivity {
 
             }
         });
-
-
-
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        trackUserStatus();
+    }
+
+    private void trackUserStatus(){
+        FirebaseMethods firebaseMethods = new FirebaseMethods(context);
+        firebaseMethods.trackOnlineStatus().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                binding.textMessageActivityStatus.setText(snapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
 
     private void setUserInfo(String username, String online_status, String photoUrl){
         binding.textMessageActivityUsername.setText(username);
@@ -125,6 +146,7 @@ public class MessageActivity extends AppCompatActivity {
 
         context = MessageActivity.this;
 
+        // get intent data
         Intent intent = getIntent();
         otherUser = intent.getStringExtra(Constants.TARGET_USER_ID);
         username = intent.getStringExtra(Constants.USER_NAME);
@@ -157,7 +179,6 @@ public class MessageActivity extends AppCompatActivity {
 
 
     }
-
     private void sendMessage(MessageModel message){
         // get a specific key for each message
         String messageId = databaseReference.child(currUser).child(otherUser).push().getKey();

@@ -21,10 +21,10 @@ import java.util.List;
 
 public class ChatRepository {
 
-    private MutableLiveData<List<ChatModel>> liveData;
-    private List<ChatModel> chatModelList;
-    private DatabaseReference reference;
-    private String currUserId;
+    private final MutableLiveData<List<ChatModel>> liveData;
+    private final List<ChatModel> chatModelList;
+    private final DatabaseReference reference;
+    private final String currUserId;
     private final String TAG = "CHAT REPOSITORY";
 
     public ChatRepository(){
@@ -54,46 +54,50 @@ public class ChatRepository {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 chatModelList.clear();
                 Log.d(TAG, "onDataChange: snapshot: " + snapshot.getValue());
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    String key = dataSnapshot.getKey();  // mesajın gönderildiği kişinin id si
-                                                        // listelerken bilgileri lazım, onları çekmek için kullancaz
-                    Log.d(TAG, "onDataChange: snapshot: " + dataSnapshot.getValue());
-                    String text, time;
-                    ChatModel chatModel = new ChatModel("name", "photoUrl"
-                            , "text", "status", "time", key);
-                    for(DataSnapshot ds : dataSnapshot.getChildren()){
-                        text = ds.child("text").getValue().toString();
-                        time = ds.child("time").getValue().toString();
-                        chatModel.setText(text);
-                        chatModel.setTime(time);
-                    }
+                if(snapshot.getValue() == null) liveData.setValue(new ArrayList<>());
+                else {
 
-                    if(key != null){
-                        Query query1 = reference.child("Users").child(key);
-                        query1.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.hasChildren()){
-                                    String name = snapshot.child("name").getValue().toString();
-                                    String photoUrl = snapshot.child("photoUrl").getValue().toString();
-                                    String status = snapshot.child("status").getValue().toString();
-                                    chatModel.setUsername(name);
-                                    chatModel.setPhoto_url(photoUrl);
-                                    chatModel.setStatus(status);
-                                    chatModelList.add(chatModel);
-                                    Log.d(TAG, "onDataChange: chat model" + chatModel);
-                                } Log.d(TAG, "onDataChange: livedata: " + liveData.getValue());
-                                Log.d(TAG, "chatmodellist before: " + chatModelList.get(0).getTime());
-                                sortList();
-                                Log.d(TAG, "chatmodellist after: " + chatModelList.get(0).getTime());
-                                liveData.setValue(chatModelList);
-                            }
+                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        String key = dataSnapshot.getKey();  // mesajın gönderildiği kişinin id si
+                        // listelerken bilgileri lazım, onları çekmek için kullancaz
+                        Log.d(TAG, "onDataChange: snapshot: " + dataSnapshot.getValue());
+                        String text, time;
+                        ChatModel chatModel = new ChatModel("name", "photoUrl"
+                                , "text", "status", "time", key);
+                        for(DataSnapshot ds : dataSnapshot.getChildren()){
+                            text = ds.child("text").getValue().toString();
+                            time = ds.child("time").getValue().toString();
+                            chatModel.setText(text);
+                            chatModel.setTime(time);
+                        }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                        if(key != null){
+                            Query query1 = reference.child("Users").child(key);
+                            query1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if(snapshot.hasChildren()){
+                                        String name = snapshot.child("name").getValue().toString();
+                                        String photoUrl = snapshot.child("photoUrl").getValue().toString();
+                                        String status = snapshot.child("status").getValue().toString();
+                                        chatModel.setUsername(name);
+                                        chatModel.setPhoto_url(photoUrl);
+                                        chatModel.setStatus(status);
+                                        chatModelList.add(chatModel);
+                                        Log.d(TAG, "onDataChange: chat model" + chatModel);
+                                    } Log.d(TAG, "onDataChange: livedata: " + liveData.getValue());
+                                    Log.d(TAG, "chatmodellist before: " + chatModelList.get(0).getTime());
+                                    sortList();
+                                    Log.d(TAG, "chatmodellist after: " + chatModelList.get(0).getTime());
+                                    liveData.setValue(chatModelList);
+                                }
 
-                            }
-                        });
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+                        }
                     }
                 }
 

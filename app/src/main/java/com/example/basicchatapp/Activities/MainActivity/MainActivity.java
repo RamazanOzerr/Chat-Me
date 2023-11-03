@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,7 +19,9 @@ import com.example.basicchatapp.Activities.SearchAndAddFriends.SearchActivity;
 import com.example.basicchatapp.Activities.SettingsActivity.SettingsActivity;
 import com.example.basicchatapp.BroadcastReceiver.BroadcastReceiverNetwork;
 import com.example.basicchatapp.R;
+import com.example.basicchatapp.Utils.Constants;
 import com.example.basicchatapp.Utils.FirebaseMethods;
+import com.example.basicchatapp.Utils.HelperMethods;
 import com.example.basicchatapp.databinding.ActivityMainBinding;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.tabs.TabLayout;
@@ -40,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver broadcastReceiver;
     private BroadcastReceiver br;
 
-    private FirebaseMethods firebaseMethods;
+    private final FirebaseMethods firebaseMethods = new FirebaseMethods(MainActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         broadcastReceiver = new BroadcastReceiverNetwork();
-        firebaseMethods = new FirebaseMethods(MainActivity.this);
         firebaseMethods.getNotificationToken();
+        firebaseMethods.updateOnlineStatus(Constants.STATUS_ONLINE);
 
         List<String> tabNames = new ArrayList<>();
         tabNames.add("Message");
@@ -135,13 +138,37 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+//        firebaseMethods.updateOnlineStatus(Constants.STATUS_OFFLINE);
+    }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         unregisterReceiver(br);
         unregisterReceiver(broadcastReceiver);
+        firebaseMethods.updateOnlineStatus(Constants.STATUS_OFFLINE);
+        HelperMethods.showShortToast(MainActivity.this, "works");
+        System.out.println("on destroy");
+        super.onDestroy();
     }
+
+    // update user's online-offline status
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        firebaseMethods.updateOnlineStatus(Constants.STATUS_ONLINE);
+    }
+
+    // update user's online-offline status
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // update online status
+        firebaseMethods.updateOnlineStatus(Constants.STATUS_OFFLINE);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -181,6 +208,4 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
 }

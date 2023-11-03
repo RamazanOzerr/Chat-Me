@@ -36,7 +36,7 @@ public class UserProfileRepository {
                     UserProfileModel profileModel = snapshot.getValue(UserProfileModel.class);
                     liveData.setValue(profileModel);
                 } catch (Exception e){
-                    String name, photoUrl, aboutMe;
+                    String name, photoUrl, aboutMe, status;
                     if(snapshot.hasChild("name")){
                         name = Objects.requireNonNull(snapshot.child("name").getValue()).toString();
                     } else {
@@ -54,8 +54,14 @@ public class UserProfileRepository {
                     } else {
                         aboutMe = "";
                     }
+                    if(snapshot.hasChild("status")){
+                        status = Objects.requireNonNull(snapshot.child("status").getValue()).toString();
+                    } else {
+                        status = "";
+                    }
 
-                    UserProfileModel profileModel = new UserProfileModel(name, photoUrl, aboutMe);
+                    UserProfileModel profileModel =
+                            new UserProfileModel(name, photoUrl, aboutMe, status);
                     liveData.setValue(profileModel);
                 }
             }

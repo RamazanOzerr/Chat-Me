@@ -1,5 +1,6 @@
 package com.example.basicchatapp.Activities.UserProfileActivity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -15,8 +16,12 @@ import com.example.basicchatapp.Activities.MessageActivity.MessageActivity;
 import com.example.basicchatapp.Activities.ProfileActivity.ProfileViewModel;
 import com.example.basicchatapp.R;
 import com.example.basicchatapp.Utils.Constants;
+import com.example.basicchatapp.Utils.FirebaseMethods;
 import com.example.basicchatapp.Utils.HelperMethods;
 import com.example.basicchatapp.databinding.ActivityUserProfileBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class UserProfileActivity extends AppCompatActivity {
@@ -24,7 +29,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private ActivityUserProfileBinding binding;
     private Context context;
     private final String TAG = "USER PROFILE ACTIVITY";
-    private String targetUserId;
+    private String targetUserId, username, currUsername, status, photoUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +69,23 @@ public class UserProfileActivity extends AppCompatActivity {
     private void getToMessageActivity(){
         Intent intent = new Intent(context, MessageActivity.class);
         intent.putExtra(Constants.TARGET_USER_ID, targetUserId);
-        startActivity(intent);
+        intent.putExtra(Constants.USER_NAME, username);
+        intent.putExtra(Constants.ONLINE_STATUS, status);
+        intent.putExtra(Constants.PHOTO_URL, photoUrl);
+        FirebaseMethods firebaseMethods = new FirebaseMethods(context);
+        firebaseMethods.getCurrUsername().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String cUsername = snapshot.child("name").getValue().toString();
+                intent.putExtra(Constants.CURR_USERNAME, cUsername);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     @SuppressLint("SetTextI18n")
@@ -89,7 +110,10 @@ public class UserProfileActivity extends AppCompatActivity {
             Log.d(TAG, "getData: name " + profileModel.getName());
             Log.d(TAG, "getData: photo url " + profileModel.getPhotoUrl());
             Log.d(TAG, "getData: about me " + profileModel.getAboutMe());
-            binding.toolbarUserProfile.setTitle(profileModel.getName());  // set name
+            username = profileModel.getName();
+            status = profileModel.getStatus();
+            photoUrl = profileModel.getPhotoUrl();
+            binding.toolbarUserProfile.setTitle(username);  // set name
             try{  // set photo
                 Picasso.get().load(profileModel.getPhotoUrl()).into(binding.imageUserProfilePp);
             } catch (Exception e){  // error loading photo

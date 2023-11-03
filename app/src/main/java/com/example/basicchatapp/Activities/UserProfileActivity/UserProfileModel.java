@@ -2,12 +2,21 @@ package com.example.basicchatapp.Activities.UserProfileActivity;
 
 public class UserProfileModel {
 
-    private String name, photoUrl, aboutMe;
+    private String name, photoUrl, aboutMe, status;
 
-    public UserProfileModel(String name, String photoUrl, String aboutMe) {
+    public UserProfileModel(String name, String photoUrl, String aboutMe, String status) {
         this.name = name;
         this.photoUrl = photoUrl;
         this.aboutMe = aboutMe;
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getName() {

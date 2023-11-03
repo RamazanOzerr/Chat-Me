@@ -5,6 +5,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import com.example.basicchatapp.R;
 import com.example.basicchatapp.Fragments.FriendsAndRequestsFragments.Requests.RequestModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -14,6 +16,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class FirebaseMethods {
 
@@ -34,6 +39,16 @@ public class FirebaseMethods {
         } else {
             userId = "";
         }
+    }
+
+    public Query trackOnlineStatus(){
+        return databaseReference.child("Users").child(userId).child("status");
+    }
+
+    public void updateOnlineStatus(String status){
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", status);
+        databaseReference.child("Users").child(userId).updateChildren(map);
     }
 
     public Query getCurrUsername(){

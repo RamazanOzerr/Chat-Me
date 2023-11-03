@@ -19,7 +19,7 @@
             android:id="@+id/toolbar_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="12dp"
             app:menu="@menu/main_menu"
             app:title="All Chat"
             android:theme="@style/Theme.BasicChatApp.SearchViewTheme"

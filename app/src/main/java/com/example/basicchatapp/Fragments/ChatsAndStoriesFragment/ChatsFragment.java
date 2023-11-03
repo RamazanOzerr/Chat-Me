@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class ChatsFragment extends Fragment {
     private List<ChatModel> chatModelList;
     private List<StoriesModel> storiesModelList;
     private Activity activity;
+    private final String TAG = "CHATS FRAGMENT";
 
 
     @Override
@@ -51,6 +53,8 @@ public class ChatsFragment extends Fragment {
             chatModelList.addAll(chatModels);
             adapter = new ChatAdapter(chatModelList, activity);
             binding.progressBarFragmentChats.setVisibility(View.GONE);
+            Log.d(TAG, "onCreateView: " + adapter.getItemCount());
+            Log.d(TAG, "onCreateView: " + chatModelList.size());
             if(adapter.getItemCount() != 0){
                 binding.linearFragmantChatsNoChat.setVisibility(View.GONE);
                 binding.recyclerViewChats.setVisibility(View.VISIBLE);

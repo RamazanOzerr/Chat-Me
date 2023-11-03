@@ -12,4 +12,7 @@ public class Constants {
     public static final String PHOTO_URL = "INTENT_PROFILE_PHOTO_URL";
     public static final String CURR_USERNAME = "INTENT_CURRENT_USERNAME";
 
+    public static final String STATUS_ONLINE = "online";
+    public static final String STATUS_OFFLINE = "offline";
+
 }

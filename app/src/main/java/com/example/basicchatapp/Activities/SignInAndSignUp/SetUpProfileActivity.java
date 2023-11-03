@@ -2,6 +2,8 @@ package com.example.basicchatapp.Activities.SignInAndSignUp;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,6 +30,7 @@ public class SetUpProfileActivity extends AppCompatActivity {
     private FirebaseUser user;
     private String photoUrl, email, password;
     private StorageReference storageReference;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,7 @@ public class SetUpProfileActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         photoUrl = "";
+        context = SetUpProfileActivity.this;
         email = getIntent().getStringExtra("email");
         password = getIntent().getStringExtra("password");
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -48,7 +52,12 @@ public class SetUpProfileActivity extends AppCompatActivity {
         binding.buttonSetupProfileNext.setOnClickListener(view -> {
             if(binding.edittextSetupProfileName.getText() != null){
                 String name = binding.edittextSetupProfileName.getText().toString();
-                saveData(name, photoUrl);
+                if(name.equals("")){
+                    HelperMethods.showShortToast(context, "please enter your name first");
+                } else {
+                    saveData(name, photoUrl);
+                }
+
             }
         });
     }
