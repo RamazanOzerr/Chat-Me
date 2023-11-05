@@ -57,73 +57,79 @@ public class FriendsRepository {
 
                 Log.d(TAG, "onDataChange: snapshot size" + snapshot.hasChildren());
 
-                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    // we need to photoUrl and username of the user
-                    Log.d(TAG, "onDataChange: key: " +  dataSnapshot.getKey()); // target user key
+                if(snapshot.getValue() == null) liveData.setValue(new ArrayList<>());
 
-                    String userKey = dataSnapshot.getKey();
-                    if(userKey != null){
-                        Query query1 = databaseReference  // get user info
-                                .child("Users")
-                                .child(userKey);
-                        query1.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                String name, photoUrl, status;
+                else {
+                    for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                        // we need to photoUrl and username of the user
+                        Log.d(TAG, "onDataChange: key: " +  dataSnapshot.getKey()); // target user key
 
-                                if(snapshot.child("status").exists()){
-                                    status = snapshot.child("status").getValue().toString();
-                                    Log.d(TAG, "onDataChange: status exists");
-                                } else {
-                                    status = "";
-                                    Log.d(TAG, "onDataChange: status not exists");
-                                }
+                        String userKey = dataSnapshot.getKey();
+                        if(userKey != null){
+                            Query query1 = databaseReference  // get user info
+                                    .child("Users")
+                                    .child(userKey);
+                            query1.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    String name, photoUrl, status;
 
-                                if(snapshot.child("name").exists()){
-                                    name = snapshot.child("name").getValue().toString();
-                                    Log.d(TAG, "onDataChange: name exists: " + name);
-                                } else {
-                                    name = "";
-                                    Log.d(TAG, "onDataChange: name not exists");
-                                }
+                                    if(snapshot.child("status").exists()){
+                                        status = snapshot.child("status").getValue().toString();
+                                        Log.d(TAG, "onDataChange: status exists");
+                                    } else {
+                                        status = "";
+                                        Log.d(TAG, "onDataChange: status not exists");
+                                    }
 
-                                if(snapshot.child("photoUrl").exists()){
-                                    photoUrl = snapshot.child("photoUrl").getValue().toString();
-                                    Log.d(TAG, "onDataChange: photoUrl exists: " + photoUrl);
-                                } else {
-                                    photoUrl = "";
-                                    Log.d(TAG, "onDataChange: photoUrl not exists");
-                                }
+                                    if(snapshot.child("name").exists()){
+                                        name = snapshot.child("name").getValue().toString();
+                                        Log.d(TAG, "onDataChange: name exists: " + name);
+                                    } else {
+                                        name = "";
+                                        Log.d(TAG, "onDataChange: name not exists");
+                                    }
+
+                                    if(snapshot.child("photoUrl").exists()){
+                                        photoUrl = snapshot.child("photoUrl").getValue().toString();
+                                        Log.d(TAG, "onDataChange: photoUrl exists: " + photoUrl);
+                                    } else {
+                                        photoUrl = "";
+                                        Log.d(TAG, "onDataChange: photoUrl not exists");
+                                    }
 
 //                                FriendModel friendModel = new FriendModel(
 //                                        snapshot.child("name").getValue().toString()
 //                                        , snapshot.child("photoUrl").getValue().toString()
 //                                        , status);
 
-                                FriendModel friendModel = new FriendModel(
-                                        photoUrl
-                                        , name
-                                        , status
-                                        , userKey);
+                                    FriendModel friendModel = new FriendModel(
+                                            photoUrl
+                                            , name
+                                            , status
+                                            , userKey);
 
 
-                                friendModelList.add(friendModel);
-                                Log.d(TAG, "onDataChange: new friend found");
+                                    friendModelList.add(friendModel);
+                                    Log.d(TAG, "onDataChange: new friend found");
 
-                                liveData.setValue(friendModelList);
-                                Log.d(TAG, "onDataChange: " + friendModelList.toString());
-                            }
+                                    liveData.setValue(friendModelList);
+                                    Log.d(TAG, "onDataChange: " + friendModelList.toString());
+                                }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
 
-                            }
-                        });
-                    } else {
-                        // there is no request
-                        Log.d(TAG, "onDataChange: no friends");
+                                }
+                            });
+                        } else {
+                            // there is no request
+                            Log.d(TAG, "onDataChange: no friends");
+                        }
                     }
                 }
+
+
             }
 
             @Override

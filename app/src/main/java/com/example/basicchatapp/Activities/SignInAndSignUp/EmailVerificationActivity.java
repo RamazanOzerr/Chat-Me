@@ -122,7 +122,7 @@ public class EmailVerificationActivity extends AppCompatActivity {
         assert user != null;
         if(user.isEmailVerified()){
             getToSetUpProfile();
-            HelperMethods.showShortToast(this,"evet verified oldu");
+//            HelperMethods.showShortToast(this,"evet verified oldu");
         } else{
             AuthCredential credential = EmailAuthProvider.getCredential(email, password);
             user.reauthenticate(credential)
@@ -135,11 +135,11 @@ public class EmailVerificationActivity extends AppCompatActivity {
                                 // User is now verified, continue with your logic
                             } else {
                                 // Email verification still not complete
-                                HelperMethods.showShortToast(this, "olmuyor aq");
+//                                HelperMethods.showShortToast(this, "olmuyor aq");
                             }
                         } else {
                             // Reauthentication failed
-                            HelperMethods.showShortToast(this,"reauth olmadı");
+//                            HelperMethods.showShortToast(this,"reauth olmadı");
                         }
                     });
         }
@@ -154,7 +154,7 @@ public class EmailVerificationActivity extends AppCompatActivity {
         assert user != null;
         if(user.isEmailVerified()){
             getToSetUpProfile();
-            HelperMethods.showShortToast(this,"evet verified oldu");
+//            HelperMethods.showShortToast(this,"evet verified oldu");
         } else{
             AuthCredential credential = EmailAuthProvider.getCredential(email, password);
             user.reauthenticate(credential)
@@ -167,11 +167,11 @@ public class EmailVerificationActivity extends AppCompatActivity {
                                 // User is now verified, continue with your logic
                             } else {
                                 // Email verification still not complete
-                                HelperMethods.showShortToast(this, "olmuyor aq");
+//                                HelperMethods.showShortToast(this, "olmuyor aq");
                             }
                         } else {
                             // Reauthentication failed
-                            HelperMethods.showShortToast(this,"reauth olmadı");
+//                            HelperMethods.showShortToast(this,"reauth olmadı");
                         }
                     });
         }

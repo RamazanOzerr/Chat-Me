@@ -34,8 +34,8 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void getTermsAndConditions(){
-        HelperMethods.showShortToast(SignUpActivity.this,
-                "terms and conditions are not available yet");
+//        HelperMethods.showShortToast(SignUpActivity.this,
+//                "terms and conditions are not available yet");
     }
 
     // sign up and create account

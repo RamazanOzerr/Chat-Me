@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.basicchatapp.R;
 import com.example.basicchatapp.Utils.HelperMethods;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -20,14 +21,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.RequestsViewHolder>{
 
-    private List<RequestModel> requestModelList;
+    private final List<RequestModel> requestModelList;
     private View view;
-    private HelperMethods helper;
+
     private final RequestsRepository repository;
 
     public RequestsAdapter(List<RequestModel> requestModelList) {
         this.requestModelList = requestModelList;
-        helper = new HelperMethods();
+
         repository = new RequestsRepository();
     }
 
@@ -43,7 +44,7 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Reques
     @Override
     public void onBindViewHolder(@NonNull RequestsViewHolder holder, int position) {
         try {
-            holder.image_request_item_pp.setImageResource(R.drawable.img);
+            Picasso.get().load(requestModelList.get(position).getPhotoUrl());
         } catch (Exception e){
             // do nothing
         }
@@ -55,14 +56,14 @@ public class RequestsAdapter extends RecyclerView.Adapter<RequestsAdapter.Reques
         }
 
         holder.button_request_item_accept.setOnClickListener(view1 -> {
-            helper.showShortToast(view.getContext(), "accepted");
+            HelperMethods.showShortToast(view.getContext(), "accepted");
             repository.acceptRequest(requestModelList.get(position).getUserId());
 //            requestModelList.remove(position);
 //            notifyItemRemoved(position);
         });
 
         holder.button_request_item_reject.setOnClickListener(view1 -> {
-            helper.showShortToast(view.getContext(), "rejected");
+            HelperMethods.showShortToast(view.getContext(), "rejected");
             repository.rejectRequest(requestModelList.get(position).getUserId());
         });
 

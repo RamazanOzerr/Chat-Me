@@ -1,30 +1,36 @@
 package com.example.basicchatapp.Activities.SettingsActivity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.CompoundButton;
 
 import com.example.basicchatapp.Activities.ProfileActivity.ProfileActivity;
 import com.example.basicchatapp.Activities.WelcomeActivity;
-import com.example.basicchatapp.R;
+import com.example.basicchatapp.Utils.FirebaseMethods;
 import com.example.basicchatapp.Utils.HelperMethods;
 import com.example.basicchatapp.databinding.ActivitySettingsBinding;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SettingsActivity extends AppCompatActivity {
 
     private ActivitySettingsBinding binding;
-    private HelperMethods helper;
     private TextWatcher textWatcher;
     private List<String> settingsList;
+    private Context context;
     private final String SHARED_PREFERENCES = "SETTINGS_SHARED_PREFERENCES";
     private final String SHARED_PREFERENCES_DARK_MODE = "SETTINGS_SHARED_PREFERENCES_DARK_MODE";
     private final String SHARED_PREFERENCES_PROFILE_LOCK = "SETTINGS_SHARED_PREFERENCES_PROFILE_LOCK";
@@ -51,9 +57,10 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void init(){
 
-        helper = new HelperMethods();
         settingsList = new ArrayList<>();
         addSettings();
+        context = SettingsActivity.this;
+        setUserName();
 
         getSettingPreferences();
 
@@ -93,7 +100,22 @@ public class SettingsActivity extends AppCompatActivity {
             }
         };
 
+    }
 
+    private void setUserName(){
+        FirebaseMethods firebaseMethods = new FirebaseMethods(context);
+        firebaseMethods.getCurrUsername().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String cUsername = snapshot.child("name").getValue().toString();
+                binding.tvSettingsUsername.setText(cUsername);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     // set all listeners in one method
@@ -110,14 +132,14 @@ public class SettingsActivity extends AppCompatActivity {
 
 
     private void getToNotificationSettings(){
-        helper.showShortToast(SettingsActivity.this, "this feature will be added soon");
+        HelperMethods.showShortToast(context, "this feature will be added soon");
     }
 
     private void getToPrivacy(){
-        helper.showShortToast(SettingsActivity.this, "this feature will be added soon");
+        HelperMethods.showShortToast(context, "this feature will be added soon");
     }
     private void getToProfile(){
-        startActivity(new Intent(SettingsActivity.this, ProfileActivity.class));
+        startActivity(new Intent(context, ProfileActivity.class));
     }
 
     @Override
@@ -152,8 +174,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void logOut(){
         FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(SettingsActivity.this, WelcomeActivity.class));
-        helper.showShortToast(SettingsActivity.this, "signed out successfully");
+        startActivity(new Intent(context, WelcomeActivity.class));
+        HelperMethods.showShortToast(context, "signed out successfully");
     }
 
     private void searchSetting(){
@@ -173,13 +195,13 @@ public class SettingsActivity extends AppCompatActivity {
         new MaterialAlertDialogBuilder(this).setTitle("Sign out")
                 .setMessage("Do you want to sign out? you will need to sign in again")
                 .setNegativeButton("no"
-                        , (dialogInterface, i) -> helper.showShortToast(
-                                SettingsActivity.this, "cancelled"))
+                        , (dialogInterface, i) -> HelperMethods.showShortToast(
+                                context, "cancelled"))
                 .setPositiveButton("yes"
                         , (dialogInterface, i) -> {
                             logOut();
-                            helper.showShortToast(
-                                    SettingsActivity.this, "signed out successfully");
+                            HelperMethods.showShortToast(
+                                    context, "signed out successfully");
                         }).show();
     }
 
@@ -188,13 +210,13 @@ public class SettingsActivity extends AppCompatActivity {
         new MaterialAlertDialogBuilder(this).setTitle("Delete account")
                 .setMessage("Do you want to delete your account permanently? you will lose all of your data")
                 .setNegativeButton("no"
-                        , (dialogInterface, i) -> helper.showShortToast(
-                                SettingsActivity.this, "cancelled"))
+                        , (dialogInterface, i) -> HelperMethods.showShortToast(
+                                context, "cancelled"))
                 .setPositiveButton("yes"
                         , (dialogInterface, i) -> {
                     deleteAccount();
-                    helper.showShortToast(
-                            SettingsActivity.this, "your account deleted successfully");
+                            HelperMethods.showShortToast(
+                            context, "your account deleted successfully");
                 }).show();
 
     }
