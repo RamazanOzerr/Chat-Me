@@ -24,10 +24,7 @@ this is an android chat application that user can add friends, can chat
 - Firebase Storage
 
 # Project video
-https://youtu.be/T9fWFNDZfZ0
-
-# APK
-https://drive.google.com/file/d/14YhGN71ijXBQvJKuoC7EKpXGoyXV6av5/view?usp=sharing
+https://youtu.be/LB1Zd2kbyhc?si=7A7YreO_X2P0Oc1s
 
 # Important!
 if you want to fork and improve this project, do not forget to add your own google-services.json file, I have deleted mine.
